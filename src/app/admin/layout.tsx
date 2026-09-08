@@ -5,7 +5,7 @@ import "./admin.css";
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
-  title: "CIT Admin",
+  title: "ITT Admin",
 };
 
 export const dynamic = "force-dynamic";

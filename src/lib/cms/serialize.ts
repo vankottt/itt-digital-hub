@@ -1,13 +1,4 @@
 import { insights } from "@/content/insights";
-import {
-  asaesisMethodIllustration,
-  campusPhotos,
-  constructionGameEditorial,
-  constructionGameInfographic,
-  socialSystemsIllustration,
-  testingInsteadIllustration,
-  testingModelIllustration,
-} from "@/content/media";
 import { people } from "@/content/people";
 import { projects } from "@/content/projects";
 import { site } from "@/content/site";
@@ -128,163 +119,11 @@ export function recordToInsight(record: InsightRecord): Insight {
 }
 
 export function seedMedia(): MediaRecord[] {
-  const ts = nowIso();
-  return [
-    {
-      id: "media-campus-facade",
-      publicUrl: campusPhotos.facade.src,
-      title: "UASG campus facade",
-      altBg: campusPhotos.facade.alt.bg,
-      altEn: campusPhotos.facade.alt.en,
-      source: "University of Architecture, Civil Engineering and Geodesy",
-      sourceUrl: "https://uacg.bg/",
-      usageNote: "Temporary institutional atmosphere. Does not depict CIT activity.",
-      temporary: true,
-      replacementRequired: true,
-      width: campusPhotos.facade.width,
-      height: campusPhotos.facade.height,
-      createdAt: ts,
-      updatedAt: ts,
-    },
-    {
-      id: "media-campus-hall",
-      publicUrl: campusPhotos.hall.src,
-      title: "UASG campus hall",
-      altBg: campusPhotos.hall.alt.bg,
-      altEn: campusPhotos.hall.alt.en,
-      source: "University of Architecture, Civil Engineering and Geodesy",
-      sourceUrl: "https://uacg.bg/",
-      usageNote: "Temporary institutional atmosphere. Does not depict CIT activity.",
-      temporary: true,
-      replacementRequired: true,
-      width: campusPhotos.hall.width,
-      height: campusPhotos.hall.height,
-      createdAt: ts,
-      updatedAt: ts,
-    },
-    {
-      id: constructionGameInfographic.id,
-      publicUrl: constructionGameInfographic.src,
-      title: "Bulgarian Construction Game infographic",
-      altBg: constructionGameInfographic.alt.bg,
-      altEn: constructionGameInfographic.alt.en,
-      source: "Infographic supplied for the UASG construction-game news article. Idea and concept: Dr Eng. Stanislav Darachev.",
-      usageNote: "In-body figure for the confirmed UASG news article. Does not depict CIT activity or results.",
-      copyrightNote: "© 2025. Idea and concept: Dr Eng. Stanislav Darachev.",
-      temporary: false,
-      replacementRequired: false,
-      mimeType: constructionGameInfographic.mimeType,
-      byteSize: constructionGameInfographic.byteSize,
-      width: constructionGameInfographic.width,
-      height: constructionGameInfographic.height,
-      createdAt: ts,
-      updatedAt: ts,
-    },
-    {
-      id: constructionGameEditorial.id,
-      publicUrl: constructionGameEditorial.src,
-      title: "Bulgarian Construction Game editorial photograph",
-      altBg: constructionGameEditorial.alt.bg,
-      altEn: constructionGameEditorial.alt.en,
-      source: "Generated editorial photograph supplied for the UASG construction-game news card. Does not depict the event or CIT activity.",
-      usageNote: "Card/hero for kogato-praktikata-vleze-v-universiteta. Generated image; not the event, CIT staff or results.",
-      temporary: false,
-      replacementRequired: false,
-      mimeType: constructionGameEditorial.mimeType,
-      byteSize: constructionGameEditorial.byteSize,
-      width: constructionGameEditorial.width,
-      height: constructionGameEditorial.height,
-      createdAt: ts,
-      updatedAt: ts,
-    },
-    {
-      id: socialSystemsIllustration.id,
-      publicUrl: socialSystemsIllustration.src,
-      title: "Social systems as algorithms illustration",
-      altBg: socialSystemsIllustration.alt.bg,
-      altEn: socialSystemsIllustration.alt.en,
-      source: "Generated editorial illustration supplied for the concept note. Does not depict CIT activity.",
-      usageNote: "Editorial figure for why-social-systems-behave-like-algorithms. Not CIT staff, laboratory or results.",
-      temporary: false,
-      replacementRequired: false,
-      mimeType: socialSystemsIllustration.mimeType,
-      byteSize: socialSystemsIllustration.byteSize,
-      width: socialSystemsIllustration.width,
-      height: socialSystemsIllustration.height,
-      createdAt: ts,
-      updatedAt: ts,
-    },
-    {
-      id: asaesisMethodIllustration.id,
-      publicUrl: asaesisMethodIllustration.src,
-      title: "ASAESIS method illustration",
-      altBg: asaesisMethodIllustration.alt.bg,
-      altEn: asaesisMethodIllustration.alt.en,
-      source: "Generated editorial illustration supplied for the concept note. Does not depict CIT activity.",
-      usageNote: "Editorial figure for asaesis-from-framework-to-method. Not CIT staff, laboratory or results.",
-      temporary: false,
-      replacementRequired: false,
-      mimeType: asaesisMethodIllustration.mimeType,
-      byteSize: asaesisMethodIllustration.byteSize,
-      width: asaesisMethodIllustration.width,
-      height: asaesisMethodIllustration.height,
-      createdAt: ts,
-      updatedAt: ts,
-    },
-    {
-      id: testingInsteadIllustration.id,
-      publicUrl: testingInsteadIllustration.src,
-      title: "Testing instead of assuming illustration",
-      altBg: testingInsteadIllustration.alt.bg,
-      altEn: testingInsteadIllustration.alt.en,
-      source: "Generated editorial illustration supplied for the concept note. Does not depict CIT activity.",
-      usageNote: "Editorial figure for testing-instead-of-assuming. Not CIT staff, laboratory or results.",
-      temporary: false,
-      replacementRequired: false,
-      mimeType: testingInsteadIllustration.mimeType,
-      byteSize: testingInsteadIllustration.byteSize,
-      width: testingInsteadIllustration.width,
-      height: testingInsteadIllustration.height,
-      createdAt: ts,
-      updatedAt: ts,
-    },
-    {
-      id: testingModelIllustration.id,
-      publicUrl: testingModelIllustration.src,
-      title: "Testing instead of assuming model illustration",
-      altBg: testingModelIllustration.alt.bg,
-      altEn: testingModelIllustration.alt.en,
-      source: "Generated editorial illustration supplied for the concept note. Does not depict CIT activity.",
-      usageNote: "In-body figure for testing-instead-of-assuming. Not a Center model, site or result.",
-      temporary: false,
-      replacementRequired: false,
-      mimeType: testingModelIllustration.mimeType,
-      byteSize: testingModelIllustration.byteSize,
-      width: testingModelIllustration.width,
-      height: testingModelIllustration.height,
-      createdAt: ts,
-      updatedAt: ts,
-    },
-  ];
+  return [];
 }
 
 export function seedPartners(): PartnerRecord[] {
-  const ts = nowIso();
-  return [
-    {
-      id: "partner-uasg",
-      slug: "uasg",
-      nameBg: site.anchor.bg,
-      nameEn: site.anchor.en,
-      relationship: "confirmed",
-      noteBg: "Институционална основа на Центъра.",
-      noteEn: "Institutional anchor of the Center.",
-      publicationState: "published",
-      createdAt: ts,
-      updatedAt: ts,
-      publishedAt: ts,
-    },
-  ];
+  return [];
 }
 
 export function seedPeopleRecords(): PersonRecord[] {
@@ -339,9 +178,9 @@ export function seedSettings(): SiteSettingsRecord {
       contactNoteBg: site.contactNote.bg,
       contactNoteEn: site.contactNote.en,
       featuredProjectSlug: projects.find((p) => p.featured)?.slug,
-      featuredInsightSlugs: insights.map((i) => i.slug),
-      heroMediaId: "media-campus-facade",
-      institutionalMediaId: "media-campus-hall",
+      featuredInsightSlugs: [],
+      heroMediaId: undefined,
+      institutionalMediaId: undefined,
       defaultSeo: {
         titleBg: site.name.bg,
         titleEn: site.name.en,
@@ -362,8 +201,8 @@ export function seedStore() {
     media: seedMedia(),
     settings: seedSettings(),
     staff: [
-      { userId: "staff-local-admin", email: "admin@cit.local", role: "admin" as const, displayName: "Local admin" },
-      { userId: "staff-local-editor", email: "editor@cit.local", role: "editor" as const, displayName: "Local editor" },
+      { userId: "staff-local-admin", email: "admin@itt.local", role: "admin" as const, displayName: "Local admin" },
+      { userId: "staff-local-editor", email: "editor@itt.local", role: "editor" as const, displayName: "Local editor" },
     ],
   };
 }

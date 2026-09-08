@@ -17,7 +17,7 @@ const baseProject = (): ProjectRecord => ({
   typeEn: "",
   domainBg: "",
   domainEn: "",
-  methodologyName: "ASAESIS",
+  methodologyName: "Understand · Design · Build",
   payload: {},
   seo: {},
   publicationState: "draft",
@@ -128,8 +128,8 @@ describe("truth controls", () => {
     const complete = {
       ...news,
       date: "2025-12-02",
-      sourceBg: "uacg.bg",
-      sourceEn: "uacg.bg",
+      sourceBg: "example.com",
+      sourceEn: "example.com",
     };
     expect(validateInsightPublish(complete).filter((i) => i.blocking)).toHaveLength(0);
     expect(validateInsightPublish(complete).some((i) => i.code === "news-hero")).toBe(false);

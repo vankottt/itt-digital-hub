@@ -1,6 +1,6 @@
 import { cn } from "@/lib/cn";
 
-/** CIT-native non-photographic card face when an article has no library media. */
+/** Non-photographic card face when an article has no library media. */
 export function NewsFallbackMedia({
   label,
   className,
@@ -25,7 +25,7 @@ export function NewsFallbackMedia({
         aria-hidden="true"
       />
       <p className="label">{label}</p>
-      <p className="font-serif text-h4 text-ink/55">ЦИТ</p>
+      <p className="font-serif text-h4 text-ink/55">ITT</p>
     </div>
   );
 }

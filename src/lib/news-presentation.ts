@@ -1,4 +1,3 @@
-import { constructionGameInfographic } from "@/content/media";
 import type { Insight } from "@/content/types";
 import type { Locale } from "@/lib/i18n";
 import type { MediaRecord } from "@/lib/cms/types";
@@ -44,7 +43,7 @@ export function resolveMediaById(id: string, media: MediaRecord[], locale: Local
     width: record.width,
     height: record.height,
     caption: caption || undefined,
-    contain: record.id === constructionGameInfographic.id,
+    contain: false,
   };
 }
 

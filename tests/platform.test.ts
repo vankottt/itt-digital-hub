@@ -23,19 +23,19 @@ describe("site URL resolution", () => {
     expect(
       siteUrl({
         VERCEL_ENV: "preview",
-        VERCEL_URL: "cit-preview.vercel.app",
-        VERCEL_PROJECT_PRODUCTION_URL: "cit.example.org",
+        VERCEL_URL: "itt-preview.vercel.app",
+        VERCEL_PROJECT_PRODUCTION_URL: "itt.example.org",
       }),
-    ).toBe("https://cit-preview.vercel.app");
+    ).toBe("https://itt-preview.vercel.app");
   });
 
   it("uses the production host only on production deployments", () => {
     expect(
       siteUrl({
         VERCEL_ENV: "production",
-        VERCEL_PROJECT_PRODUCTION_URL: "cit.example.org",
-        VERCEL_URL: "cit-website-abc.vercel.app",
+        VERCEL_PROJECT_PRODUCTION_URL: "itt.example.org",
+        VERCEL_URL: "itt-digital-hub-abc.vercel.app",
       }),
-    ).toBe("https://cit.example.org");
+    ).toBe("https://itt.example.org");
   });
 });

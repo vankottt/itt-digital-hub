@@ -82,8 +82,8 @@ describe("Blocks YouTube rendering", () => {
 
 describe("Blocks library media", () => {
   const sample: MediaRecord = {
-    id: "media-testing-instead-of-assuming-model",
-    publicUrl: "/images/insights/testing-instead-of-assuming-model.jpg",
+    id: "media-sample-figure",
+    publicUrl: "/images/team/ivan-todorov-portrait-v2.png",
     altBg: "Модел",
     altEn: "Model",
     captionBg: "Подпис",
@@ -95,10 +95,8 @@ describe("Blocks library media", () => {
   };
 
   it("accepts a whole-line media id and ignores sentences", () => {
-    expect(parseLibraryMediaBlock("media-testing-instead-of-assuming-model")).toBe(
-      "media-testing-instead-of-assuming-model",
-    );
-    expect(parseLibraryMediaBlock("See media-testing-instead-of-assuming-model")).toBeNull();
+    expect(parseLibraryMediaBlock("media-sample-figure")).toBe("media-sample-figure");
+    expect(parseLibraryMediaBlock("See media-sample-figure")).toBeNull();
     expect(parseLibraryMediaBlock("https://www.youtube.com/watch?v=abcdefghijk")).toBeNull();
   });
 
@@ -110,7 +108,7 @@ describe("Blocks library media", () => {
         blocks: ["Before.", sample.id, "After.", "media-does-not-exist"],
       }),
     );
-    expect(html).toContain("testing-instead-of-assuming-model.jpg");
+    expect(html).toContain("ivan-todorov-portrait-v2.png");
     expect(html).not.toContain("Caption");
     expect(html).not.toContain("<figcaption");
     expect(html).toContain("object-cover");

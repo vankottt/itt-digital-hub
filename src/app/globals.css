@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   CIT design tokens — "Drafting Editorial" (see docs/DESIGN_DECISIONS.md)
+   ITT design tokens — "Drafting Editorial"
    ------------------------------------------------------------------ */
 @theme {
   /* Surfaces */
@@ -27,7 +27,7 @@
   --color-spruce: #1e6b58;
   --color-spruce-2: #1a5b4b;
 
-  /* CIT accent */
+  /* Accent */
   --color-amber: #d98e2b;
   --color-amber-ink: #8a5514;
 

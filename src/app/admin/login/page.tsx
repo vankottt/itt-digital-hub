@@ -12,12 +12,12 @@ async function LoginForm({ searchParams }: { searchParams: Promise<{ error?: str
   return (
     <main className="admin-main" style={{ maxWidth: 28 * 16, margin: "10vh auto" }}>
       <Mark size={58} />
-      <h1 style={{ fontFamily: "var(--font-source-serif)", fontSize: "2rem", margin: "1rem 0 0.5rem" }}>CIT administration</h1>
+      <h1 style={{ fontFamily: "var(--font-source-serif)", fontSize: "2rem", margin: "1rem 0 0.5rem" }}>ITT administration</h1>
       <p className="admin-muted">Structured content only. The public design is not edited here.</p>
       {mode === "seed" ? (
         <p className="admin-card" style={{ marginTop: "1.5rem" }}>
           CMS credentials are not configured. For local editing set <code>CIT_ADMIN_DEV_PASSWORD</code> and restart. For hosted Auth
-          set <code>NEXT_PUBLIC_SUPABASE_URL</code> and <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code>. See docs/SUPABASE.md.
+          set <code>NEXT_PUBLIC_SUPABASE_URL</code> and <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code>.
         </p>
       ) : null}
       {hostedDemoStore() ? (
@@ -40,7 +40,7 @@ async function LoginForm({ searchParams }: { searchParams: Promise<{ error?: str
         </button>
         {mode === "local" ? (
           <p className="admin-muted">
-            Users: <code>admin@cit.local</code> (full access) or <code>editor@cit.local</code> (editor).{" "}
+            Users: <code>admin@itt.local</code> (full access) or <code>editor@itt.local</code> (editor).{" "}
             {hostedDemoStore() ? (
               <>
                 Password: <code>{process.env.CIT_ADMIN_DEV_PASSWORD}</code>

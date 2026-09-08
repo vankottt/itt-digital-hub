@@ -255,7 +255,7 @@ export const workPage = {
     problems: { bg: "Типични проблеми", en: "Typical problems" },
     modes: { bg: "Форми", en: "Forms" },
     partnerBrings: { bg: "Какво носите вие", en: "What you bring" },
-    citBrings: { bg: "Какво правим ние", en: "What we do" },
+    weBring: { bg: "Какво правим ние", en: "What we do" },
   },
   path: { label: { bg: "Как протича", en: "How it unfolds" }, heading: { bg: "От разговор до система", en: "From conversation to system" } },
   pathBody: {

@@ -25,7 +25,7 @@ export default async function ConsoleLayout({ children }: { children: ReactNode 
         <div style={{ padding: "0 0.5rem 1rem" }}>
           <Mark size={43} />
           <p className="admin-status" style={{ marginTop: "0.75rem" }}>
-            CIT · {cmsMode()}
+            ITT · {cmsMode()}
           </p>
         </div>
         <nav aria-label="Admin">

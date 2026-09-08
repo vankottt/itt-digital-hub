@@ -3,14 +3,10 @@ import {
   analysisInsights,
   isAnalysisInsightSlug,
 } from "@/content/analysis-insights";
-import { analysisInsightPhotos } from "@/content/media";
 import { insightToRecord } from "./serialize";
 import type { InsightRecord, MediaRecord } from "./types";
 
 const TIMESTAMP = "2026-09-07T12:00:00.000Z";
-
-const USAGE =
-  "Editorial Insights diagram. May be saved from /admin. Does not depict a measured Center result or a live CIT system.";
 
 export function analysisInsightRecords(): InsightRecord[] {
   return analysisInsights.map((insight) => {
@@ -28,26 +24,7 @@ export function analysisInsightRecords(): InsightRecord[] {
 }
 
 export function analysisInsightMediaRecords(): MediaRecord[] {
-  return Object.values(analysisInsightPhotos).map((photo) => ({
-    id: photo.id,
-    publicUrl: photo.src,
-    title: photo.src.split("/").pop(),
-    altBg: photo.alt.bg,
-    altEn: photo.alt.en,
-    source: "Editorial diagram supplied for Insights analyses.",
-    usageNote: USAGE,
-    copyrightNote: "Editorial diagram. Not a Center photograph or measured result.",
-    temporary: false,
-    replacementRequired: false,
-    mimeType: photo.mimeType,
-    byteSize: photo.byteSize,
-    width: photo.width,
-    height: photo.height,
-    createdAt: TIMESTAMP,
-    updatedAt: TIMESTAMP,
-    createdBy: "dev-fixture",
-    updatedBy: "dev-fixture",
-  }));
+  return [];
 }
 
 export function missingAnalysisInsights(data: { insights: InsightRecord[]; media: MediaRecord[] }): {

@@ -1,4 +1,4 @@
--- CIT V2 content platform
+-- ITT Digital Hub content platform
 -- Apply with: supabase db push / supabase migration up
 -- Roles live in public.staff (not auth.users user_metadata).
 
@@ -78,7 +78,7 @@ create table if not exists public.projects (
   type_en text not null default '',
   domain_bg text not null default '',
   domain_en text not null default '',
-  methodology_name text not null default 'ASAESIS',
+  methodology_name text not null default 'Understand · Design · Build',
   hero_media_id text references public.media (id) on delete set null,
   payload jsonb not null default '{}'::jsonb,
   seo jsonb not null default '{}'::jsonb,

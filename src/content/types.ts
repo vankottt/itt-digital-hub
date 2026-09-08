@@ -102,14 +102,14 @@ export interface Insight {
   author?: string;
   /** Media-library id when a card/hero image is chosen. Not required to publish. */
   heroMediaId?: string;
-  /** Internal marker for demonstration News samples. Never confirmed Center news. */
+  /** Internal marker for unused demonstration samples. */
   devFixture?: boolean;
 }
 
 export interface Person {
   slug: string;
   name: L;
-  /** Confirmed CIT role only. */
+  /** Confirmed public role only. */
   role?: L;
   affiliation?: L;
   expertise: L<string[]>;
@@ -142,7 +142,7 @@ export interface CollaborationRoute {
   problems: L<string[]>;
   modes: L<string[]>;
   partnerBrings: L<string[]>;
-  citBrings: L<string[]>;
+  weBring: L<string[]>;
 }
 
 export interface Pillar {

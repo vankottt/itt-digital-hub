@@ -3,14 +3,10 @@ import {
   devNewsFixtures,
   isDevNewsFixtureSlug,
 } from "@/content/dev-news-fixtures";
-import { devNewsFixturePhotos } from "@/content/media";
 import { insightToRecord } from "./serialize";
 import type { InsightRecord, MediaRecord } from "./types";
 
 const FIXTURE_TIMESTAMP = "2026-09-07T00:00:00.000Z";
-
-const FIXTURE_USAGE =
-  "Public demonstration editorial asset. Fictional example for the News UI. Does not depict CIT activity. May be saved from /admin; still labelled as a demonstration example unless the editor changes that.";
 
 export function devNewsFixtureInsightRecords(): InsightRecord[] {
   return devNewsFixtures.map((insight) => {
@@ -28,26 +24,7 @@ export function devNewsFixtureInsightRecords(): InsightRecord[] {
 }
 
 export function devNewsFixtureMediaRecords(): MediaRecord[] {
-  return Object.values(devNewsFixturePhotos).map((photo) => ({
-    id: photo.id,
-    publicUrl: photo.src,
-    title: `Development fixture: ${photo.src.split("/").pop()}`,
-    altBg: photo.alt.bg,
-    altEn: photo.alt.en,
-    source: "Generated development fixture. Not a CIT photograph.",
-    usageNote: FIXTURE_USAGE,
-    copyrightNote: "Generated demonstration image. Not a CIT photograph.",
-    temporary: true,
-    replacementRequired: true,
-    mimeType: photo.mimeType,
-    byteSize: photo.byteSize,
-    width: photo.width,
-    height: photo.height,
-    createdAt: FIXTURE_TIMESTAMP,
-    updatedAt: FIXTURE_TIMESTAMP,
-    createdBy: "dev-fixture",
-    updatedBy: "dev-fixture",
-  }));
+  return [];
 }
 
 export function missingDevNewsFixtures(data: { insights: InsightRecord[]; media: MediaRecord[] }): {

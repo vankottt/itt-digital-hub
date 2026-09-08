@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
-/* Shared SVG primitives for the CIT diagram grammar (docs/DESIGN_DECISIONS.md §2). */
+/* Shared SVG primitives for the drafting diagram grammar. */
 
 export type Tone = "ink" | "on-dark";
 

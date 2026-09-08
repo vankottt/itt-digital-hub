@@ -5,7 +5,7 @@ import type { InsightRecord, PersonRecord } from "../src/lib/cms/types";
 function insightFixture(): InsightRecord {
   return {
     id: "insight-news-1",
-    slug: "kogato-praktikata-vleze-v-universiteta",
+    slug: "sample-editorial-note",
     type: "news",
     titleBg: "Стара заглавие",
     titleEn: "Old title",
@@ -13,14 +13,14 @@ function insightFixture(): InsightRecord {
     summaryEn: "Summary",
     bodyBg: ["тяло"],
     bodyEn: ["body"],
-    topicsBg: ["УАСГ"],
-    topicsEn: ["UASG"],
-    relatedProjectSlugs: ["wine-sector-system-architecture"],
-    sourceBg: "uacg.bg",
-    sourceEn: "uacg.bg",
+    topicsBg: ["Системи"],
+    topicsEn: ["Systems"],
+    relatedProjectSlugs: ["local-ai-orchestration"],
+    sourceBg: "example.com",
+    sourceEn: "example.com",
     date: "2025-12-02",
-    author: "UASG newsroom",
-    heroMediaId: "media-campus-facade",
+    author: "Editor",
+    heroMediaId: "media-sample",
     seo: {
       titleBg: "SEO BG",
       titleEn: "SEO EN",
@@ -50,10 +50,10 @@ describe("insight form merge", () => {
     expect(record.titleBg).toBe("Ново заглавие");
     expect(record.titleEn).toBe("New title");
     expect(record.date).toBe("2025-12-02");
-    expect(record.author).toBe("UASG newsroom");
-    expect(record.sourceBg).toBe("uacg.bg");
-    expect(record.sourceEn).toBe("uacg.bg");
-    expect(record.heroMediaId).toBe("media-campus-facade");
+    expect(record.author).toBe("Editor");
+    expect(record.sourceBg).toBe("example.com");
+    expect(record.sourceEn).toBe("example.com");
+    expect(record.heroMediaId).toBe("media-sample");
     expect(record.seo).toEqual(existing.seo);
     expect(record.publicationState).toBe("published");
     expect(record.publishedAt).toBe(existing.publishedAt);
@@ -77,7 +77,7 @@ describe("insight form merge", () => {
     expect(record.author).toBeUndefined();
     expect(record.sourceBg).toBeUndefined();
     expect(record.heroMediaId).toBeUndefined();
-    expect(record.sourceEn).toBe("uacg.bg");
+    expect(record.sourceEn).toBe("example.com");
   });
 });
 
@@ -91,15 +91,15 @@ describe("person form merge", () => {
       nameEn: "Ivan",
       roleBg: "role",
       roleEn: "role",
-      affiliationBg: "UASG",
-      affiliationEn: "UASG",
+      affiliationBg: "ITT Digital Hub",
+      affiliationEn: "ITT Digital Hub",
       expertiseBg: ["systems"],
       expertiseEn: ["systems"],
       bioBg: ["био"],
       bioEn: ["bio"],
       photoMediaId: "media-portrait",
-      relatedProjectSlugs: ["wine-sector-system-architecture"],
-      relatedInsightSlugs: ["asaesis-from-framework-to-method"],
+      relatedProjectSlugs: ["local-ai-orchestration"],
+      relatedInsightSlugs: ["sample-editorial-note"],
       seo: { titleEn: "Ivan Todorov" },
       publicationState: "draft",
       createdAt: "2026-01-01T00:00:00.000Z",
@@ -115,8 +115,8 @@ describe("person form merge", () => {
     expect(record.nameBg).toBe("Иван Тодоров");
     expect(record.seo).toEqual({ titleEn: "Ivan Todorov" });
     expect(record.photoMediaId).toBe("media-portrait");
-    expect(record.affiliationBg).toBe("UASG");
-    expect(record.relatedProjectSlugs).toEqual(["wine-sector-system-architecture"]);
+    expect(record.affiliationBg).toBe("ITT Digital Hub");
+    expect(record.relatedProjectSlugs).toEqual(["local-ai-orchestration"]);
     expect(record.expertiseBg).toEqual(["systems"]);
     expect(record.bioEn).toEqual(["bio"]);
   });
