@@ -1,0 +1,158 @@
+/* Admin operational surface — not the public CIT editorial system. */
+.admin-root {
+  font-family: var(--font-plex-sans), "IBM Plex Sans", system-ui, sans-serif;
+  color: #1a1d21;
+  background: #f3f4f2;
+  min-height: 100svh;
+}
+
+.admin-root a {
+  text-decoration: none;
+}
+
+.admin-shell {
+  display: grid;
+  grid-template-columns: 14rem 1fr;
+  min-height: 100svh;
+}
+
+.admin-nav {
+  background: #102849;
+  color: #f4f4f0;
+  padding: 1.25rem 0.75rem;
+}
+
+.admin-nav a,
+.admin-nav p,
+.admin-nav button {
+  color: inherit;
+}
+
+.admin-main {
+  padding: 1.5rem 1.75rem 3rem;
+}
+
+.admin-card {
+  background: #fff;
+  border: 1px solid #dedfd8;
+  padding: 1rem 1.15rem;
+}
+
+.admin-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.admin-table th,
+.admin-table td {
+  text-align: left;
+  padding: 0.65rem 0.5rem;
+  border-bottom: 1px solid #dedfd8;
+  vertical-align: top;
+}
+
+.admin-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.admin-form label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.admin-form input,
+.admin-form textarea,
+.admin-form select {
+  font: inherit;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid #b9bbb2;
+  border-radius: 2px;
+  background: #fff;
+}
+
+.admin-form textarea {
+  min-height: 6rem;
+}
+
+.admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.admin-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  padding: 0 0.9rem;
+  border: 1px solid #102849;
+  background: #102849;
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.admin-btn.secondary {
+  background: #fff;
+  color: #102849;
+}
+
+.admin-btn.danger {
+  background: #fff;
+  color: #8a1c1c;
+  border-color: #8a1c1c;
+}
+
+.admin-muted {
+  color: #5f6873;
+  font-size: 0.875rem;
+}
+
+.admin-status {
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 800px) {
+  .admin-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.85rem 0.75rem;
+  }
+
+  .admin-nav nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.15rem;
+  }
+
+  .admin-main {
+    padding: 1.1rem 1rem 2.5rem;
+  }
+
+  .admin-table {
+    display: block;
+    overflow-x: auto;
+  }
+}

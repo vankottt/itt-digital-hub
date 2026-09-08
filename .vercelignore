@@ -1,0 +1,14 @@
+# Local agent/orchestration caches — not part of the site
+.ruflo/
+.cursor/
+
+# Source-resolution media; the site serves processed files from public/
+Video/
+Team Photos/
+Logo/
+
+# Local CMS, Next cache, QA
+.data/
+.next/
+qa/
+supabase/.temp/

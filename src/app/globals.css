@@ -1,0 +1,492 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   CIT design tokens — "Drafting Editorial" (see docs/DESIGN_DECISIONS.md)
+   ------------------------------------------------------------------ */
+@theme {
+  /* Surfaces */
+  --color-paper: #ffffff;
+  --color-paper-2: #f4f4f0;
+  --color-paper-3: #eaebe5;
+
+  /* Text */
+  --color-ink: #12161c;
+  --color-ink-2: #3d4650;
+  --color-ink-3: #5f6873;
+
+  /* Rules */
+  --color-line: #dedfd8;
+  --color-line-strong: #b9bbb2;
+
+  /* Institutional deep tone */
+  --color-marine: #102849;
+  --color-marine-2: #1a3a66;
+  --color-marine-tint: #e6ebf3;
+
+  /* Collaboration fill — teal-green sibling of marine, not a diagram accent */
+  --color-spruce: #1e6b58;
+  --color-spruce-2: #1a5b4b;
+
+  /* CIT accent */
+  --color-amber: #d98e2b;
+  --color-amber-ink: #8a5514;
+
+  /* On dark */
+  --color-on-dark: #f4f4f0;
+  --color-on-dark-muted: #b7c3d0;
+
+  /* Typography */
+  --font-serif: var(--font-source-serif), "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-plex-sans), "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-plex-mono), "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Type scale (fluid) */
+  --text-hero: clamp(2.25rem, 1.35rem + 2.2vw, 3.375rem);
+  --text-hero--line-height: 1.06;
+  --text-hero--letter-spacing: -0.02em;
+  --text-h1: clamp(2rem, 1.5rem + 1.9vw, 3.25rem);
+  --text-h1--line-height: 1.08;
+  --text-h1--letter-spacing: -0.02em;
+  --text-h2: clamp(1.875rem, 1.5rem + 1.2vw, 2.5rem);
+  --text-h2--line-height: 1.12;
+  --text-h2--letter-spacing: -0.015em;
+  --text-h3: clamp(1.375rem, 1.25rem + 0.4vw, 1.625rem);
+  --text-h3--line-height: 1.25;
+  --text-h3--letter-spacing: -0.01em;
+  --text-h4: 1.1875rem;
+  --text-h4--line-height: 1.35;
+  --text-lead: clamp(1.1875rem, 1.1rem + 0.35vw, 1.375rem);
+  --text-lead--line-height: 1.5;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.6;
+  --text-small: 0.9375rem;
+  --text-small--line-height: 1.55;
+  --text-meta: 0.8125rem;
+  --text-meta--line-height: 1.4;
+  --text-label: 0.875rem;
+  --text-label--line-height: 1.35;
+  --text-label--letter-spacing: 0.06em;
+
+  /* Layout */
+  --container-site: 80rem;
+  --spacing-gutter: clamp(1.25rem, 0.5rem + 2.6vw, 3rem);
+  --spacing-section: clamp(4rem, 2.5rem + 4vw, 6rem);
+  --spacing-section-sm: clamp(3rem, 2rem + 2.5vw, 4.5rem);
+
+  /* Radii */
+  --radius-ctrl: 2px;
+
+  /* Motion */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.25rem;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  body {
+    @apply bg-paper text-ink font-sans text-body antialiased;
+    font-feature-settings: "kern", "liga", "calt";
+  }
+
+  /* Keep standard Cyrillic forms in both families: Source Serif 4 ships Bulgarian
+     locl variants, IBM Plex Sans does not — mixing them reads as inconsistent. */
+  :lang(bg) {
+    font-feature-settings: "kern", "liga", "calt", "locl" 0;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-amber) 30%, transparent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-amber);
+    outline-offset: 2px;
+    /* Focus rings appear instantly even on elements that transition colours. */
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-serif font-medium text-ink;
+    text-wrap: pretty;
+    overflow-wrap: break-word;
+  }
+  :lang(bg) h1,
+  :lang(bg) h2,
+  :lang(bg) h3 {
+    hyphens: auto;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    @apply underline-offset-[3px];
+  }
+
+  strong {
+    font-weight: 600;
+  }
+
+  svg {
+    display: block;
+  }
+}
+
+@layer components {
+  /* Container */
+  .container-site {
+    width: 100%;
+    max-width: var(--container-site);
+    margin-inline: auto;
+    padding-inline: var(--spacing-gutter);
+  }
+
+  /* Ruled section opening */
+  .rule {
+    border-top: 1px solid var(--color-line);
+  }
+  .rule-dark {
+    border-top: 1px solid color-mix(in srgb, var(--color-on-dark) 18%, transparent);
+  }
+
+  /* Technical label */
+  .label {
+    @apply font-mono text-label uppercase text-ink-3;
+  }
+  .label-dark {
+    @apply font-mono text-label uppercase text-on-dark-muted;
+  }
+
+  /* Prose for long-form content */
+  .prose-cit {
+    @apply text-body text-ink-2;
+  }
+  .prose-cit > * + * {
+    margin-top: 1.1em;
+  }
+  .prose-cit h2 {
+    @apply text-h3 text-ink;
+    margin-top: 2.2em;
+  }
+  .prose-cit h3 {
+    @apply text-h4 text-ink font-serif;
+    margin-top: 1.8em;
+  }
+  .prose-cit ul {
+    padding-left: 1.25rem;
+    list-style: none;
+  }
+  .prose-cit ul > li {
+    position: relative;
+    padding-left: 0.25rem;
+  }
+  .prose-cit ul > li::before {
+    content: "";
+    position: absolute;
+    left: -1.1rem;
+    top: 0.72em;
+    width: 0.4rem;
+    height: 1px;
+    background: var(--color-line-strong);
+  }
+  .prose-cit ul > li + li {
+    margin-top: 0.4em;
+  }
+  .prose-cit ol {
+    padding-left: 1.5rem;
+    list-style: decimal;
+  }
+  .prose-cit a {
+    @apply text-ink underline decoration-line-strong hover:decoration-amber;
+  }
+  .prose-cit iframe {
+    display: block;
+  }
+  .prose-cit strong {
+    @apply text-ink;
+  }
+
+  /* Drafting grid (diagram areas only) */
+  .drafting-grid {
+    background-image: radial-gradient(circle, var(--color-line-strong) 0.8px, transparent 0.9px);
+    background-size: 24px 24px;
+    background-position: 0 0;
+  }
+  .drafting-grid-dark {
+    background-image: radial-gradient(circle, color-mix(in srgb, var(--color-on-dark) 22%, transparent) 0.8px, transparent 0.9px);
+    background-size: 24px 24px;
+  }
+
+  /* Text links */
+  .link-quiet {
+    @apply text-ink underline decoration-line-strong transition-colors duration-150 hover:decoration-amber;
+  }
+
+  .link-on-dark {
+    @apply text-on-dark underline decoration-on-dark/40 transition-colors duration-150 hover:decoration-amber;
+  }
+
+  /* Cutout portraits over a circular plate. Colour is the plate, never the person. */
+  .person-portrait {
+    --portrait-ratio: 1.12;
+    --portrait-lift: 4px;
+    position: relative;
+    aspect-ratio: 1 / var(--portrait-ratio);
+    overflow: visible;
+    cursor: default;
+  }
+  .person-portrait-plate {
+    position: absolute;
+    z-index: 0;
+    left: 0;
+    width: 100%;
+    bottom: 0;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--color-marine-tint);
+    transition: background-color 180ms var(--ease-out-soft);
+  }
+  /* One circular crop for the matched square source portraits. */
+  .person-portrait-clip {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 50%;
+  }
+  .person-portrait-photo-wrap {
+    position: absolute;
+    left: 5%;
+    right: 5%;
+    /* Keep the full lift plus 2% of the disk below its clipped bottom edge. */
+    top: calc(12% + var(--portrait-lift));
+    aspect-ratio: 1;
+    pointer-events: none;
+    transition: transform 220ms var(--ease-out-soft);
+  }
+  .person-portrait-photo {
+    object-fit: contain;
+    object-position: center bottom;
+    max-width: none;
+  }
+  .person-portrait-vacant .person-portrait-plate {
+    background: color-mix(in srgb, var(--color-marine-tint) 42%, var(--color-paper));
+  }
+  .person-portrait-plus {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    width: 100%;
+    bottom: 0;
+    aspect-ratio: 1;
+    pointer-events: none;
+  }
+  .person-portrait-plus::before,
+  .person-portrait-plus::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background: var(--color-line-strong);
+  }
+  .person-portrait-plus::before {
+    width: 1.15rem;
+    height: 1px;
+    transform: translate(-50%, -50%);
+  }
+  .person-portrait-plus::after {
+    width: 1px;
+    height: 1.15rem;
+    transform: translate(-50%, -50%);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .person-portrait:not(.person-portrait-vacant):hover .person-portrait-plate,
+    .person-tile:has(a:hover) .person-portrait-plate {
+      background: var(--color-marine);
+    }
+  }
+  .person-tile:focus-within .person-portrait-plate {
+    background: var(--color-marine);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    @media (hover: hover) and (pointer: fine) {
+      .person-portrait:not(.person-portrait-vacant):hover .person-portrait-photo-wrap,
+      .person-tile:has(a:hover) .person-portrait-photo-wrap {
+        transform: translateY(calc(-1 * var(--portrait-lift)));
+      }
+    }
+    .person-tile:focus-within .person-portrait-photo-wrap {
+      transform: translateY(calc(-1 * var(--portrait-lift)));
+    }
+  }
+  .img-mono {
+    filter: grayscale(1) contrast(1.12) brightness(1.05);
+  }
+
+  /* Poster fallback stays grayscale if the JPEG is still in colour. The
+     looping clip is a grayscale encode — do not filter <video> (compositor /
+     background-media pause). */
+  .hero-media-tone {
+    filter: grayscale(1);
+  }
+  .hero-video-cover {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translateZ(0);
+  }
+
+  /* Editorial news strip — native scroll-snap, no carousel library. */
+  .news-strip {
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .news-strip::-webkit-scrollbar {
+    display: none;
+  }
+  .news-strip-item {
+    flex: 0 0 88%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+  @media (min-width: 768px) {
+    .news-strip-item {
+      flex-basis: calc((100% - 1.5rem) / 2.12);
+    }
+  }
+  @media (min-width: 1024px) {
+    .news-strip-item {
+      flex-basis: calc((100% - 3rem) / 2.85);
+    }
+  }
+  .news-strip-single .news-strip-item {
+    flex-basis: min(38rem, 100%);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+  .hyphens-auto {
+    hyphens: auto;
+  }
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-copy-in {
+    animation: hero-copy-in 0.7s var(--ease-out-soft) both;
+  }
+  @keyframes hero-copy-in {
+    from {
+      transform: translateY(0.5rem);
+    }
+    to {
+      transform: none;
+    }
+  }
+
+  /* Hidden until InView adds .js-ready + .is-in-view. No-JS: no .js-ready, paths stay drawn. */
+  .js-ready .draw-path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  .js-ready.is-in-view .draw-path,
+  .js-ready .is-in-view .draw-path {
+    animation: draw-path 0.85s var(--ease-out-soft) var(--draw-delay, 0.15s) forwards;
+  }
+  @keyframes draw-path {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .js-ready .draw-fade {
+    opacity: 0;
+  }
+  .js-ready.is-in-view .draw-fade,
+  .js-ready .is-in-view .draw-fade {
+    animation: draw-fade 0.6s var(--ease-out-soft) var(--draw-delay, 0.4s) forwards;
+  }
+  @keyframes draw-fade {
+    to {
+      opacity: 1;
+    }
+  }
+
+  .js-ready .loop-segment {
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+  .js-ready .loop-segment-rtl {
+    transform-origin: right center;
+  }
+  .js-ready .loop-segment-y {
+    transform: translateX(-50%) scaleY(0);
+    transform-origin: top center;
+  }
+  .js-ready .loop-segment-y-up {
+    transform-origin: bottom center;
+  }
+  .js-ready.is-in-view .loop-segment,
+  .js-ready .is-in-view .loop-segment {
+    animation: loop-segment-x 0.4s var(--ease-out-soft) var(--seg-delay, 0s) forwards;
+  }
+  .js-ready.is-in-view .loop-segment-y,
+  .js-ready .is-in-view .loop-segment-y {
+    animation: loop-segment-y 0.4s var(--ease-out-soft) var(--seg-delay, 0s) forwards;
+  }
+  @keyframes loop-segment-x {
+    to {
+      transform: scaleX(1);
+    }
+  }
+  @keyframes loop-segment-y {
+    to {
+      transform: translateX(-50%) scaleY(1);
+    }
+  }
+}
