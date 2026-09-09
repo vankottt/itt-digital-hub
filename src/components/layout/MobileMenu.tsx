@@ -81,7 +81,7 @@ export function MobileMenu({
         onClick={() => setOpen((v) => !v)}
         className={cn(
           "inline-flex h-10 w-10 items-center justify-center rounded-full transition-colors duration-150",
-          overlay && !open ? "text-on-dark hover:bg-white/10" : "text-ink hover:bg-white/70",
+          overlay ? "text-on-dark hover:bg-white/10" : "text-ink hover:bg-white/70",
         )}
       >
         {open ? <CloseIcon /> : <MenuIcon />}
