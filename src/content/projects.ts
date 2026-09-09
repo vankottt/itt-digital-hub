@@ -13,7 +13,7 @@ export const projects: Project[] = [
     status: "in-development",
     type: { bg: "Операционна система", en: "Operational system" },
     domain: { bg: "Възобновяема енергия", en: "Renewable energy" },
-    methodologyName: approachName.en,
+    methodologyName: approachName,
     title: { bg: "AI-подпомогнати слънчеви операции", en: "AI-Assisted Solar Operations" },
     standfirst: {
       bg: "Приложен AI в реална оперативна среда около слънчева инфраструктура: наблюдение, оперативни решения и автоматизация там, където са проверени.",
@@ -42,7 +42,7 @@ export const projects: Project[] = [
       stages: approachStages,
     },
     dataEvidence: {
-      bg: ["TODO_ASSET — табло, оперативен UI, диаграма или работен поток."],
+      bg: ["TODO_ASSET — табло, оперативен интерфейс, диаграма или работен поток."],
       en: ["TODO_ASSET — dashboard, operational UI, diagram or workflow."],
     },
     statusNote: {
@@ -58,9 +58,9 @@ export const projects: Project[] = [
     slug: "local-ai-orchestration",
     featured: false,
     status: "internal-rd",
-    type: { bg: "Вътрешна R&D", en: "Internal R&D" },
+    type: { bg: "Вътрешна разработка", en: "Internal R&D" },
     domain: { bg: "Локален AI / оркестрация", en: "Local AI / orchestration" },
-    methodologyName: approachName.en,
+    methodologyName: approachName,
     title: { bg: "Локална AI оркестрация", en: "Local AI Orchestration" },
     standfirst: {
       bg: "Модулна архитектура за координация на специализирани локални AI модели, инструменти и услуги чрез слой за оркестрация.",
@@ -113,7 +113,7 @@ export const projects: Project[] = [
       en: ["TODO_ASSET — architecture diagram or real system UI."],
     },
     statusNote: {
-      bg: "Вътрешна R&D / прототип. Не е продукт за продажба.",
+      bg: "Вътрешна разработка / прототип. Не е продукт за продажба.",
       en: "Internal R&D / prototype. Not a product being sold.",
     },
     sourceNote: {
@@ -127,14 +127,14 @@ export const projects: Project[] = [
     status: "previous-professional",
     type: { bg: "Бизнес платформа", en: "Business platform" },
     domain: { bg: "Гаранции / следпродажбено обслужване", en: "Warranty / after-sales" },
-    methodologyName: approachName.en,
-    title: { bg: "ATN Warranty Portal", en: "ATN Warranty Portal" },
+    methodologyName: approachName,
+    title: { bg: "Гаранционен портал ATN", en: "ATN Warranty Portal" },
     standfirst: {
       bg: "Дигитална платформа за гаранционна регистрация и оперативен работен процес — пример за разбиране на бизнес процес и изграждане на реален софтуер, без AI да е центърът на историята.",
       en: "A digital platform for warranty registration and operator workflow — an example of understanding a business process and shipping real software, without forcing AI into the story.",
     },
     summary: {
-      bg: "Порталът покрива публична регистрация (сериен номер / продукт, касова бележка, данни за покупка) и вътрешни операторски опашки, включително преглед на случаи и търсене по RMA. Връзката с ITT Digital Hub: TODO_VERIFY. Не се твърди клиентска връзка, докато не бъде потвърдена.",
+      bg: "Порталът покрива публична регистрация (сериен номер / продукт, касова бележка, данни за покупка) и вътрешни операторски опашки, включително преглед на случаи и търсене по номер на рекламация. Връзката с ITT Digital Hub: TODO_VERIFY. Не се твърди клиентска връзка, докато не бъде потвърдена.",
       en: "The portal covers public registration (serial / product, receipt, purchase data) and internal operator queues, including case review and RMA lookup. Relationship to ITT Digital Hub: TODO_VERIFY. No client relationship is claimed until confirmed.",
     },
     systemProblem: {
@@ -162,15 +162,21 @@ export const projects: Project[] = [
       stages: approachStages,
     },
     dataEvidence: {
-      bg: ["TODO_ASSET / TODO_PERMISSION — екран или кратко демо след разрешение."],
-      en: ["TODO_ASSET / TODO_PERMISSION — screenshot or short demo once permission is confirmed."],
+      bg: [
+        "Публичният портал е на warranty.atneu.com: регистрация по сериен номер, интерфейс на шест езика и тристъпков процес.",
+        "Екраните по-долу са от живата система — без операторски опашки и без изфабрикувани данни.",
+      ],
+      en: [
+        "The public portal is at warranty.atneu.com: serial-number registration, a six-language interface and a three-step flow.",
+        "The screens below are from the live system — no operator queues and no fabricated data.",
+      ],
     },
     statusNote: {
-      bg: "Предишна професионална / продуктова работа. TODO_VERIFY за точен публичен статус и връзка с ITT.",
-      en: "Previous professional / production work. TODO_VERIFY for the exact public status and relationship to ITT.",
+      bg: "Завършен проект. TODO_VERIFY за точен публичен статус и връзка с ITT.",
+      en: "Completed project. TODO_VERIFY for the exact public status and relationship to ITT.",
     },
     sourceNote: {
-      bg: "Описанието следва проверена функционалност на портала. Без ROI, без брой потребители, без препоръки.",
+      bg: "Описанието следва проверена функционалност на портала. Без обявена възвръщаемост, без брой потребители, без препоръки.",
       en: "The description follows verified portal behaviour. No ROI, user counts or endorsements.",
     },
   },

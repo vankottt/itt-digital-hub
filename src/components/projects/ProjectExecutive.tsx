@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { Locale } from "@/lib/i18n";
 import type { Project } from "@/content/types";
+import { localizedApproachName } from "@/content/approach";
 import { t } from "@/content/messages";
 import { projectsPage as c } from "@/content/pages";
 import { StatusLabel } from "./ProjectMeta";
@@ -38,7 +39,7 @@ export function ProjectExecutive({ project, locale }: { project: Project; locale
         <Cell label={d.problem[locale]}>{project.systemProblem[locale][0]}</Cell>
         <Cell label={d.objective[locale]}>{project.objective[locale][0]}</Cell>
         {project.scope ? <Cell label={d.scope[locale]}>{project.scope.intro[locale]}</Cell> : null}
-        <Cell label={d.method[locale]}>{project.methodologyName}</Cell>
+        <Cell label={d.method[locale]}>{localizedApproachName(project.methodologyName, locale)}</Cell>
         {actors.length ? (
           <Cell label={d.actors[locale]}>
             <ul className="grid gap-1 sm:grid-cols-2">

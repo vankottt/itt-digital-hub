@@ -1,4 +1,4 @@
-import type { L } from "@/lib/i18n";
+import type { L, Locale } from "@/lib/i18n";
 import type { Stage } from "./types";
 
 /** Public working method. Not a consulting theatre of six stages. */
@@ -36,3 +36,15 @@ export const approachName = {
   bg: "Разбиране · Проектиране · Изграждане",
   en: "Understand · Design · Build",
 } satisfies L;
+
+/** CMS stores one string; never show the English phrase on `/bg`. */
+export function localizedApproachName(value: L | string | undefined, locale: Locale): string {
+  const bg = typeof value === "string" ? value : value?.bg ?? "";
+  const en = typeof value === "string" ? value : value?.en ?? "";
+  const blob = `${bg} ${en}`;
+  if (/understand/i.test(blob) || /разбиране/i.test(blob)) {
+    return approachName[locale];
+  }
+  const localized = typeof value === "string" ? value : value?.[locale];
+  return localized || approachName[locale];
+}

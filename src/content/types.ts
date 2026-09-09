@@ -39,7 +39,7 @@ export interface Project {
   status: ProjectStatus;
   type: L;
   domain: L;
-  methodologyName: string;
+  methodologyName: L;
   title: L;
   standfirst: L;
   summary: L;

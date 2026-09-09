@@ -1,10 +1,24 @@
+import { approachName } from "@/content/approach";
 import { insights } from "@/content/insights";
 import { people } from "@/content/people";
 import { projects } from "@/content/projects";
 import { site } from "@/content/site";
 import type { Insight, Person, Project } from "@/content/types";
+import type { L } from "@/lib/i18n";
 import { lifecycleFromStatus } from "./truth";
 import type { InsightRecord, MediaRecord, PartnerRecord, PersonRecord, ProjectRecord, SiteSettingsRecord } from "./types";
+
+function methodologyNameToRecord(name: L): string {
+  return name.en;
+}
+
+function methodologyNameFromRecord(value: string): L {
+  const compact = value.replace(/\s+/g, " ").trim();
+  if (compact === approachName.en || compact === approachName.bg || /understand/i.test(compact)) {
+    return approachName;
+  }
+  return { bg: value, en: value };
+}
 
 function nowIso(): string {
   return new Date().toISOString();
@@ -33,7 +47,7 @@ export function projectToRecord(project: Project): ProjectRecord {
     typeEn: type.en,
     domainBg: domain.bg,
     domainEn: domain.en,
-    methodologyName,
+    methodologyName: methodologyNameToRecord(methodologyName),
     payload: rest as unknown as Record<string, unknown>,
     seo: {
       titleBg: title.bg,
@@ -52,20 +66,23 @@ export function projectToRecord(project: Project): ProjectRecord {
 }
 
 export function recordToProject(record: ProjectRecord): Project {
-  const payload = record.payload as Omit<Project, "slug" | "featured" | "status" | "type" | "domain" | "methodologyName" | "title" | "standfirst" | "summary" | "related" | "relatedInsights">;
+  const payload = record.payload as Omit<Project, "slug" | "featured" | "status" | "type" | "domain" | "methodologyName" | "title" | "standfirst" | "summary" | "related" | "relatedInsights"> & {
+    methodologyName?: unknown;
+  };
+  const { methodologyName: _ignoredMethodologyName, ...payloadRest } = payload;
   return {
+    ...payloadRest,
     slug: record.slug,
     featured: record.featured,
     status: record.status as Project["status"],
     type: { bg: record.typeBg, en: record.typeEn },
     domain: { bg: record.domainBg, en: record.domainEn },
-    methodologyName: record.methodologyName,
+    methodologyName: methodologyNameFromRecord(record.methodologyName),
     title: { bg: record.titleBg, en: record.titleEn },
     standfirst: { bg: record.standfirstBg, en: record.standfirstEn },
     summary: { bg: record.summaryBg, en: record.summaryEn },
     related: record.relatedProjectSlugs,
     relatedInsights: record.relatedInsightSlugs,
-    ...payload,
   };
 }
 

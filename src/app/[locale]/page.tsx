@@ -6,13 +6,13 @@ import { home } from "@/content/pages";
 import { t } from "@/content/messages";
 import { projects } from "@/content/projects";
 import { people } from "@/content/people";
-import { engagements } from "@/content/engagements";
 import { problemClasses } from "@/content/problems";
 import { approachStages } from "@/content/approach";
 import { Hero } from "@/components/editorial/Hero";
 import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/editorial/SectionHeading";
-import { ProjectListItem } from "@/components/projects/ProjectListItem";
+import { StoriesCarousel } from "@/components/projects/StoriesCarousel";
+import { PartnersBand } from "@/components/partners/PartnersBand";
 import { FoundersPair } from "@/components/people/FoundersPair";
 import { ArrowLink } from "@/components/ui/ArrowLink";
 import { ContactForm } from "@/components/contact/ContactForm";
@@ -60,25 +60,7 @@ export default async function HomePage({ params }: Params) {
         }
       />
 
-      <Section id="experience" labelledBy="experience-heading" size="sm" rule={false}>
-        <SectionHeading
-          label={c.experience.label[locale]}
-          heading={c.experience.heading[locale]}
-          id="experience-heading"
-          lead={c.experience.lead[locale]}
-          align="split"
-        />
-        <ol className="mt-12 grid gap-4 md:grid-cols-3 md:gap-5">
-          {engagements.map((item) => (
-            <li key={item.id} className="surface-card">
-              <p className="label">{item.kindLabel[locale]}</p>
-              <h3 className="mt-3 text-h3 text-ink">{item.name[locale]}</h3>
-              <p className="mt-2 text-small text-ink-2">{item.sector[locale]}</p>
-              <p className="mt-1 text-small text-ink-3">{item.work[locale]}</p>
-            </li>
-          ))}
-        </ol>
-      </Section>
+      <PartnersBand locale={locale} />
 
       <Section id="work" labelledBy="work-heading" rule={false}>
         <SectionHeading
@@ -88,13 +70,11 @@ export default async function HomePage({ params }: Params) {
           lead={c.featured.lead[locale]}
           align="split"
         />
-        <ol className="mt-12 grid gap-4">
-          {projects.map((project) => (
-            <ProjectListItem key={project.slug} project={project} locale={locale} />
-          ))}
-        </ol>
+        <div className="mt-12">
+          <StoriesCarousel projects={projects} locale={locale} />
+        </div>
         <div className="mt-10">
-          <ArrowLink href={href(locale, "projects")}>{m.allProjects}</ArrowLink>
+          <ArrowLink href={href(locale, "projects")}>{m.viewMore}</ArrowLink>
         </div>
       </Section>
 
@@ -123,7 +103,6 @@ export default async function HomePage({ params }: Params) {
           label={c.judgement.label[locale]}
           heading={c.judgement.heading[locale]}
           id="judgement-heading"
-          headingClassName="text-on-dark italic"
           lead={c.judgement.lead[locale]}
           align="split"
         />

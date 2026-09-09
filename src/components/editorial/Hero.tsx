@@ -94,7 +94,7 @@ export function Hero({
           {label ? <p className={dark ? "label-dark" : "label"}>{label}</p> : null}
           <h1
             className={cn(
-              "text-hero text-balance hyphens-none font-sans font-normal italic",
+              "text-hero text-balance hyphens-none font-sans font-normal",
               dark ? "text-on-dark" : "text-ink",
               headline.includes("\n") ? "max-w-[18ch] whitespace-pre-line md:max-w-[22ch]" : "max-w-[18ch] md:max-w-[22ch]",
               label && "mt-5",

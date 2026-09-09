@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { isLocale, locales, type Locale } from "@/lib/i18n";
 import { href } from "@/lib/paths";
 import { pageMetadata } from "@/lib/metadata";
+import { localizedApproachName } from "@/content/approach";
 import { projectsPage as c } from "@/content/pages";
 import { t } from "@/content/messages";
 import { projects } from "@/content/projects";
@@ -17,6 +18,8 @@ import { ProjectExecutive } from "@/components/projects/ProjectExecutive";
 import { ProjectToc } from "@/components/projects/ProjectToc";
 import { Chain } from "@/components/systems/Chain";
 import { ArrowLink } from "@/components/ui/ArrowLink";
+import { projectScreens } from "@/content/stories";
+import { ProjectHeroShot, ProjectScreenGallery } from "@/components/projects/ProjectScreens";
 
 type Params = { params: Promise<{ locale: string; slug: string }> };
 
@@ -45,6 +48,7 @@ export default async function ProjectDetailPage({ params }: Params) {
   const [publishedProjects, publishedArticles] = await Promise.all([listPublishedProjects(), listPublishedArticles()]);
   const related = (project.related ?? []).map((relatedSlug) => publishedProjects.find((p) => p.slug === relatedSlug)).filter((p): p is NonNullable<typeof p> => Boolean(p));
   const relatedInsights = (project.relatedInsights ?? []).map((relatedSlug) => publishedArticles.find((i) => i.slug === relatedSlug)).filter((i): i is NonNullable<typeof i> => Boolean(i));
+  const screens = projectScreens[project.slug];
   const toc = [
     { id: "executive", label: d.glance[locale] },
     { id: "problem", label: d.problem[locale] },
@@ -84,6 +88,11 @@ export default async function ProjectDetailPage({ params }: Params) {
               <p className="mt-4 text-meta text-ink-3">{project.statusNote[locale]}</p>
             </aside>
           </div>
+          {screens ? (
+            <div className="mt-12 lg:mt-14">
+              <ProjectHeroShot screens={screens} locale={locale} />
+            </div>
+          ) : null}
         </Container>
       </header>
 
@@ -128,7 +137,7 @@ export default async function ProjectDetailPage({ params }: Params) {
           </ProjectSection>
         ) : null}
 
-        <ProjectSection id="methodology" heading={`${d.methodology[locale]} · ${project.methodologyName}`}>
+        <ProjectSection id="methodology" heading={`${d.methodology[locale]} · ${localizedApproachName(project.methodologyName, locale)}`}>
           <p className="text-body text-ink-2">{project.methodology.intro[locale]}</p>
           <ol className="mt-8 divide-y divide-line border-y border-line">
             {project.methodology.stages.map((st) => (
@@ -146,6 +155,11 @@ export default async function ProjectDetailPage({ params }: Params) {
         {project.dataEvidence ? (
           <ProjectSection id="data" heading={d.data[locale]}>
             <Paragraphs items={project.dataEvidence[locale]} />
+            {screens ? (
+              <div className="mt-8">
+                <ProjectScreenGallery screens={screens} locale={locale} />
+              </div>
+            ) : null}
           </ProjectSection>
         ) : null}
 

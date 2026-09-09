@@ -70,6 +70,11 @@ export interface Messages {
   newsCarousel: string;
   newsPrevious: string;
   newsNext: string;
+  viewMore: string;
+  storiesCarousel: string;
+  storiesPrevious: string;
+  storiesNext: string;
+  partnersMarquee: string;
   stageStructure: string;
   stageLoop: string;
   statuses: Record<ProjectStatus, string>;
@@ -143,6 +148,11 @@ const messages: Record<Locale, Messages> = {
     newsCarousel: "Новини",
     newsPrevious: "Предишна новина",
     newsNext: "Следваща новина",
+    viewMore: "Вижте повече",
+    storiesCarousel: "Нашите истории",
+    storiesPrevious: "Предишна история",
+    storiesNext: "Следваща история",
+    partnersMarquee: "Партньори",
     stageStructure: "Структура",
     stageLoop: "Цикъл",
     statuses: {
@@ -152,8 +162,8 @@ const messages: Record<Locale, Messages> = {
       "active-pilot": "Активен пилот",
       completed: "Завършен",
       production: "Продукция",
-      "internal-rd": "Вътрешна R&D",
-      "previous-professional": "Предишна професионална работа",
+      "internal-rd": "Вътрешна разработка",
+      "previous-professional": "Завършен проект",
       "client-project": "Клиентски проект",
     },
   },
@@ -224,6 +234,11 @@ const messages: Record<Locale, Messages> = {
     newsCarousel: "News",
     newsPrevious: "Previous news item",
     newsNext: "Next news item",
+    viewMore: "View more",
+    storiesCarousel: "Our stories",
+    storiesPrevious: "Previous story",
+    storiesNext: "Next story",
+    partnersMarquee: "Partners",
     stageStructure: "Structure",
     stageLoop: "Loop",
     statuses: {
@@ -234,7 +249,7 @@ const messages: Record<Locale, Messages> = {
       completed: "Completed",
       production: "Production",
       "internal-rd": "Internal R&D",
-      "previous-professional": "Previous professional work",
+      "previous-professional": "Completed project",
       "client-project": "Client project",
     },
   },

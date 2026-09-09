@@ -415,6 +415,40 @@
   .news-strip-single .news-strip-item {
     flex-basis: min(38rem, 100%);
   }
+
+  /* Single-row partners marquee. Two identical tracks make translateX(-50%) seamless. */
+  .partners-row {
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  }
+  .partners-track {
+    display: flex;
+    width: max-content;
+    animation: partners-marquee 42s linear infinite;
+  }
+  .partners-logo {
+    filter: grayscale(1) contrast(1.05);
+    opacity: 0.82;
+    transition: filter 180ms var(--ease-out-soft), opacity 180ms var(--ease-out-soft);
+  }
+  .partners-logo:hover,
+  .partners-logo:focus-visible {
+    filter: none;
+    opacity: 1;
+  }
+  .partners-marquee:hover .partners-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes partners-marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
 }
 
 @layer utilities {

@@ -20,22 +20,21 @@ export function SiteHeader({ locale }: { locale: Locale }) {
   const onHome = isHomePath(pathname);
   const spyKey = useHomeSectionSpy(onHome);
   useLocaleSwitchScrollToTop(locale);
-  const [onDark, setOnDark] = useState(onHome);
+  const [darkMix, setDarkMix] = useState(onHome ? 1 : 0);
 
   useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const update = () => {
       const header = document.querySelector("header");
       const band = header?.getBoundingClientRect().height ?? 80;
-      const darks = document.querySelectorAll("[data-surface='dark']");
-      let hit = false;
-      for (const el of darks) {
+      let mix = 0;
+      for (const el of document.querySelectorAll("[data-surface='dark']")) {
         const r = el.getBoundingClientRect();
-        if (r.top < band && r.bottom > 0) {
-          hit = true;
-          break;
-        }
+        const top = Math.max(0, r.top);
+        const bottom = Math.min(band, r.bottom);
+        if (bottom > top) mix = Math.max(mix, (bottom - top) / band);
       }
-      setOnDark(hit);
+      setDarkMix(reduced ? (mix > 0.5 ? 1 : 0) : mix);
     };
     update();
     window.addEventListener("scroll", update, { passive: true });
@@ -54,7 +53,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
   }));
   const contact = links.find((l) => l.emphasis);
   const contactHash = onHome && contact ? homeHashHref(locale, contact.navKey) : null;
-  const overlay = onDark;
+  const overlay = darkMix > 0.45;
 
   return (
     <>
@@ -63,7 +62,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           <Logo
             locale={locale}
             layout="compact"
-            tone={overlay ? "on-dark" : "ink"}
+            darkMix={darkMix}
             className="min-w-0 shrink xl:flex-none"
           />
           <div className="hidden items-center gap-2 rounded-full bg-white/90 px-2 py-1.5 shadow-[0_8px_32px_rgba(4,14,49,0.12)] backdrop-blur-md xl:flex">

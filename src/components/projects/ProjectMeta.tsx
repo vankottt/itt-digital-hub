@@ -1,5 +1,6 @@
 import type { Locale } from "@/lib/i18n";
 import type { Project } from "@/content/types";
+import { localizedApproachName } from "@/content/approach";
 import { t } from "@/content/messages";
 import { cn } from "@/lib/cn";
 
@@ -20,7 +21,7 @@ export function ProjectMeta({ project, locale, className, layout = "row" }: { pr
     [m.status, m.statuses[project.status]],
     [m.type, project.type[locale]],
     [m.domain, project.domain[locale]],
-    [m.methodology, project.methodologyName],
+    [m.methodology, localizedApproachName(project.methodologyName, locale)],
   ];
   return (
     <dl

@@ -39,6 +39,6 @@ export const engagements: Engagement[] = [
     sector: { bg: "Вътрешна разработка", en: "Internal R&D" },
     work: { bg: "Оркестрация · модели · инструменти", en: "Orchestration · models · tools" },
     kind: "internal-rd",
-    kindLabel: { bg: "Вътрешна R&D / прототип", en: "Internal R&D / prototype" },
+    kindLabel: { bg: "Вътрешна разработка / прототип", en: "Internal R&D / prototype" },
   },
 ];
