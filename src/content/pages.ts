@@ -86,6 +86,31 @@ export const home = {
   },
 } as const;
 
+export const contactForm = {
+  name: { bg: "Име", en: "Name" },
+  company: { bg: "Фирма", en: "Company" },
+  phone: { bg: "Телефон", en: "Phone" },
+  problem: { bg: "Кратко описание на проблем", en: "Short description of the problem" },
+  send: { bg: "Изпрати", en: "Send" },
+  sending: { bg: "Изпращане…", en: "Sending…" },
+  success: {
+    bg: "Благодарим. Съобщението е прието — ще се свържем.",
+    en: "Thank you. The message was received — we will be in touch.",
+  },
+  error: {
+    bg: "Не успяхме да изпратим съобщението. Опитайте отново.",
+    en: "We couldn’t send the message. Please try again.",
+  },
+  invalid: {
+    bg: "Попълнете име и кратко описание на проблема.",
+    en: "Please enter your name and a short description of the problem.",
+  },
+  privacy: {
+    bg: "Данните се използват само за отговор на запитването. Вижте",
+    en: "We use these details only to reply to the enquiry. See",
+  },
+} as const;
+
 export const about = {
   meta: {
     title: { bg: "Какво решаваме", en: "What we solve" },
@@ -240,8 +265,8 @@ export const workPage = {
   meta: {
     title: { bg: "Контакт", en: "Contact" },
     description: {
-      bg: "Продължете разговора с ITT Digital Hub — LinkedIn и директен контакт, без пакети и сложни форми.",
-      en: "Continue the conversation with ITT Digital Hub — LinkedIn and direct contact, without packages or complex forms.",
+      bg: "Продължете разговора с ITT Digital Hub — кратка форма за запитване, без пакети.",
+      en: "Continue the conversation with ITT Digital Hub — a short enquiry form, without packages.",
     },
   },
   heading: { bg: "Имате проблем, който си струва да се реши?", en: "Have a problem worth solving?" },
@@ -267,7 +292,7 @@ export const workPage = {
     bg: "Не предлагаме AI там, където по-добре работи обикновен софтуер, интеграция или промяна на процеса.",
     en: "We do not push AI where ordinary software, an integration or a process change is the better answer.",
   },
-  contact: { label: { bg: "Контакт", en: "Contact" }, heading: { bg: "Канали", en: "Channels" } },
+  contact: { label: { bg: "Контакт", en: "Contact" }, heading: { bg: "Запитване", en: "Enquiry" } },
 } as const;
 
 export const privacyPage = {
@@ -278,16 +303,18 @@ export const privacyPage = {
   heading: { bg: "Поверителност", en: "Privacy" },
   body: {
     bg: [
-      "Този уебсайт представя ITT Digital Hub и не изисква регистрация или въвеждане на лични данни във формуляр.",
+      "Този уебсайт представя ITT Digital Hub и не изисква регистрация.",
+      "Контактната форма събира име, фирма, телефон и кратко описание на проблем, за да отговорим на запитването. Не използваме тези данни за маркетинг.",
       "Сайтът може да използва Vercel Analytics – измерване без рекламни бисквитки и без идентификация на отделни посетители.",
       "Хостинг доставчикът може да обработва технически данни (например IP адрес и данни за заявката) в сървърни журнали за сигурност и стабилност, съгласно собствените си правила.",
-      "Имейл, vCard и график ще бъдат добавени след TODO_CONTENT. При промяна в обработването тази страница ще бъде актуализирана.",
+      "Имейл за доставка на формата и график: TODO_CONTENT. При промяна в обработването тази страница ще бъде актуализирана.",
     ],
     en: [
-      "This website presents ITT Digital Hub and does not require registration or a personal-data form.",
+      "This website presents ITT Digital Hub and does not require registration.",
+      "The contact form collects name, company, phone and a short description of the problem so we can reply to the enquiry. We do not use these details for marketing.",
       "The site may use Vercel Analytics — measurement without advertising cookies and without identifying individual visitors.",
       "The hosting provider may process technical data (such as IP address and request data) in server logs for security and stability, under its own policies.",
-      "Email, vCard and scheduling will be added after TODO_CONTENT. If data processing changes, this page will be updated.",
+      "Inbox for form delivery and scheduling: TODO_CONTENT. If data processing changes, this page will be updated.",
     ],
   },
 } as const;

@@ -16,12 +16,12 @@ export function FoundersPair({ people, locale }: { people: Person[]; locale: Loc
         const linkedIn = linkedInHref(person);
         const name = person.name[locale];
         return (
-          <li key={person.slug} className="border-t border-line pt-8">
+          <li key={person.slug} className="surface-card">
             <p className="label">{axes[index] ?? person.role?.[locale]}</p>
             <div className="mt-5 w-full max-w-[14.5rem]">
               {person.portrait ? <PersonPortrait src={person.portrait.src} alt={name} /> : <PersonPortraitPlate />}
             </div>
-            <h3 className="mt-5 font-serif text-h3 text-pretty text-ink">{name}</h3>
+            <h3 className="mt-5 text-h3 text-pretty text-ink">{name}</h3>
             {person.role ? <p className="mt-1 text-small text-ink-2">{person.role[locale]}</p> : null}
             <div className="mt-4 space-y-3 text-small text-ink-2">
               {person.bio[locale].map((paragraph) => (

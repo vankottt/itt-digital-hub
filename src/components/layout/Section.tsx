@@ -35,6 +35,7 @@ export function Section({
     <section
       id={id}
       aria-labelledby={labelledBy}
+      data-surface={tone === "dark" ? "dark" : undefined}
       className={cn(tones[tone], size === "default" ? "py-section" : "py-section-sm", className)}
     >
       <Container>

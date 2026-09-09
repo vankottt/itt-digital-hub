@@ -12,7 +12,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-marine text-on-dark">
+    <footer className="bg-marine text-on-dark" data-surface="dark">
       <Container className="py-14 md:py-16">
         <div className="grid gap-10 md:grid-cols-12">
           <div className="md:col-span-5">
@@ -42,7 +42,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           </div>
         </div>
 
-        <div className="rule-dark mt-12 flex flex-col gap-3 pt-6 font-mono text-[0.75rem] uppercase tracking-[0.06em] text-on-dark-muted sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-3 pt-6 font-sans text-[0.75rem] text-on-dark-muted sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {year} {site.name[locale]}
           </p>

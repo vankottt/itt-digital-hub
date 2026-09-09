@@ -82,7 +82,7 @@ export function LanguageSwitcher({
   const dark = tone === "on-dark";
 
   return (
-    <nav aria-label={label} className={cn("flex items-center font-mono text-[0.75rem] uppercase tracking-[0.06em]", className)}>
+    <nav aria-label={label} className={cn("flex items-center font-sans text-small", className)}>
       {locales.map((loc, i) => {
         const active = loc === current;
         return (

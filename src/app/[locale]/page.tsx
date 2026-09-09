@@ -15,8 +15,7 @@ import { SectionHeading } from "@/components/editorial/SectionHeading";
 import { ProjectListItem } from "@/components/projects/ProjectListItem";
 import { FoundersPair } from "@/components/people/FoundersPair";
 import { ArrowLink } from "@/components/ui/ArrowLink";
-import { ButtonLink } from "@/components/ui/ButtonLink";
-import { linkedInHref } from "@/content/people";
+import { ContactForm } from "@/components/contact/ContactForm";
 
 type Params = { params: Promise<{ locale: string }> };
 
@@ -40,18 +39,19 @@ export default async function HomePage({ params }: Params) {
     <>
       <Hero
         layout="editorial"
+        tone="dark"
         label={c.hero.label[locale]}
         headline={c.hero.headline[locale]}
         lead={c.hero.lead[locale]}
         primary={{ href: `/${locale}#work`, label: c.hero.primary[locale] }}
         secondary={{ href: `/${locale}#contact`, label: c.hero.secondary[locale] }}
         visual={
-          <div className="drafting-grid border border-line p-5 md:p-6">
+          <div className="surface-card shadow-[0_24px_80px_rgba(4,14,49,0.28)]">
             <p className="label">{c.hero.proofLabel[locale]}</p>
-            <ol className="mt-4 divide-y divide-line border-y border-line">
+            <ol className="mt-4 divide-y divide-line">
               {projects.map((project) => (
-                <li key={project.slug} className="py-3">
-                  <p className="font-serif text-h4 text-ink">{project.title[locale]}</p>
+                <li key={project.slug} className="py-3.5 first:pt-2 last:pb-0">
+                  <p className="font-sans text-h4 text-ink">{project.title[locale]}</p>
                   <p className="mt-1 text-meta text-ink-3">{project.domain[locale]}</p>
                 </li>
               ))}
@@ -60,7 +60,7 @@ export default async function HomePage({ params }: Params) {
         }
       />
 
-      <Section id="experience" labelledBy="experience-heading" size="sm">
+      <Section id="experience" labelledBy="experience-heading" size="sm" rule={false}>
         <SectionHeading
           label={c.experience.label[locale]}
           heading={c.experience.heading[locale]}
@@ -68,11 +68,11 @@ export default async function HomePage({ params }: Params) {
           lead={c.experience.lead[locale]}
           align="split"
         />
-        <ol className="mt-10 grid border-t border-line md:grid-cols-3">
+        <ol className="mt-12 grid gap-4 md:grid-cols-3 md:gap-5">
           {engagements.map((item) => (
-            <li key={item.id} className="border-b border-line py-6 md:border-b-0 md:border-r md:px-6 md:first:pl-0 md:last:border-r-0 md:last:pr-0">
+            <li key={item.id} className="surface-card">
               <p className="label">{item.kindLabel[locale]}</p>
-              <h3 className="mt-2 text-h3 text-ink">{item.name[locale]}</h3>
+              <h3 className="mt-3 text-h3 text-ink">{item.name[locale]}</h3>
               <p className="mt-2 text-small text-ink-2">{item.sector[locale]}</p>
               <p className="mt-1 text-small text-ink-3">{item.work[locale]}</p>
             </li>
@@ -80,7 +80,7 @@ export default async function HomePage({ params }: Params) {
         </ol>
       </Section>
 
-      <Section id="work" labelledBy="work-heading">
+      <Section id="work" labelledBy="work-heading" rule={false}>
         <SectionHeading
           label={c.featured.label[locale]}
           heading={c.featured.heading[locale]}
@@ -88,17 +88,17 @@ export default async function HomePage({ params }: Params) {
           lead={c.featured.lead[locale]}
           align="split"
         />
-        <ol className="mt-10">
+        <ol className="mt-12 grid gap-4">
           {projects.map((project) => (
             <ProjectListItem key={project.slug} project={project} locale={locale} />
           ))}
         </ol>
-        <div className="mt-8">
+        <div className="mt-10">
           <ArrowLink href={href(locale, "projects")}>{m.allProjects}</ArrowLink>
         </div>
       </Section>
 
-      <Section id="problems" tone="tint" labelledBy="problems-heading" size="sm">
+      <Section id="problems" tone="tint" labelledBy="problems-heading" size="sm" rule={false}>
         <SectionHeading
           label={c.problems.label[locale]}
           heading={c.problems.heading[locale]}
@@ -106,29 +106,30 @@ export default async function HomePage({ params }: Params) {
           lead={c.problems.lead[locale]}
           align="split"
         />
-        <ol className="mt-10 grid border-t border-line md:grid-cols-3">
+        <ol className="mt-12 grid gap-4 md:grid-cols-3 md:gap-5">
           {problemClasses.map((item) => (
-            <li key={item.code} className="border-b border-line py-6 md:border-b-0 md:border-r md:px-6 md:first:pl-0 md:last:border-r-0 md:last:pr-0">
+            <li key={item.code} className="surface-card">
               <p className="label">{item.code}</p>
-              <h3 className="mt-2 text-h3 text-ink">{item.title[locale]}</h3>
+              <h3 className="mt-3 text-h3 text-ink">{item.title[locale]}</h3>
               <p className="mt-2 text-small text-ink-2">{item.body[locale]}</p>
             </li>
           ))}
         </ol>
       </Section>
 
-      <Section id="judgement" tone="dark" labelledBy="judgement-heading" size="sm">
+      <Section id="judgement" tone="dark" labelledBy="judgement-heading" size="sm" rule={false}>
         <SectionHeading
           tone="on-dark"
           label={c.judgement.label[locale]}
           heading={c.judgement.heading[locale]}
           id="judgement-heading"
+          headingClassName="text-on-dark italic"
           lead={c.judgement.lead[locale]}
           align="split"
         />
       </Section>
 
-      <Section id="approach" labelledBy="approach-heading" size="sm">
+      <Section id="approach" labelledBy="approach-heading" size="sm" rule={false}>
         <SectionHeading
           label={c.approach.label[locale]}
           heading={c.approach.heading[locale]}
@@ -136,18 +137,18 @@ export default async function HomePage({ params }: Params) {
           lead={c.approach.lead[locale]}
           align="split"
         />
-        <ol className="mt-10 grid border-t border-line md:grid-cols-3">
+        <ol className="mt-12 grid gap-4 md:grid-cols-3 md:gap-5">
           {approachStages.map((stage) => (
-            <li key={stage.code} className="border-b border-line py-6 md:border-b-0 md:border-r md:px-6 md:first:pl-0 md:last:border-r-0 md:last:pr-0">
+            <li key={stage.code} className="surface-card">
               <p className="label">{stage.code}</p>
-              <h3 className="mt-2 text-h3 text-ink">{stage.title[locale]}</h3>
+              <h3 className="mt-3 text-h3 text-ink">{stage.title[locale]}</h3>
               <p className="mt-2 text-small text-ink-2">{stage.body[locale]}</p>
             </li>
           ))}
         </ol>
       </Section>
 
-      <Section id="people" labelledBy="people-heading">
+      <Section id="people" labelledBy="people-heading" rule={false}>
         <SectionHeading
           label={c.people.label[locale]}
           heading={c.people.heading[locale]}
@@ -158,12 +159,12 @@ export default async function HomePage({ params }: Params) {
         <div className="mt-12">
           <FoundersPair people={founders} locale={locale} />
         </div>
-        <div className="mt-8">
+        <div className="mt-10">
           <ArrowLink href={href(locale, "people")}>{m.toPeople}</ArrowLink>
         </div>
       </Section>
 
-      <Section id="contact" tone="tint" labelledBy="contact-heading" size="sm">
+      <Section id="contact" tone="tint" labelledBy="contact-heading" size="sm" rule={false}>
         <SectionHeading
           label={c.work.label[locale]}
           heading={c.work.heading[locale]}
@@ -171,30 +172,7 @@ export default async function HomePage({ params }: Params) {
           lead={c.work.body[locale]}
           align="split"
         />
-        <ul className="mt-10 divide-y divide-line border-y border-line">
-          {founders.map((person) => {
-            const linkedIn = linkedInHref(person);
-            return (
-              <li key={person.slug} className="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
-                <p className="text-small text-ink">{person.name[locale]}</p>
-                {linkedIn ? (
-                  <a href={linkedIn} className="link-quiet text-small" rel="noopener noreferrer" target="_blank">
-                    LinkedIn
-                  </a>
-                ) : (
-                  <p className="text-meta text-ink-3">LinkedIn: TODO_CONTENT</p>
-                )}
-              </li>
-            );
-          })}
-          <li className="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
-            <p className="text-small text-ink">Email</p>
-            <p className="text-meta text-ink-3">TODO_CONTENT</p>
-          </li>
-        </ul>
-        <div className="mt-8">
-          <ButtonLink href={href(locale, "work-with-us")}>{m.toWorkWithUs}</ButtonLink>
-        </div>
+        <ContactForm locale={locale} />
       </Section>
     </>
   );

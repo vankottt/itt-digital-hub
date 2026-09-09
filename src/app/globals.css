@@ -4,77 +4,81 @@
    ITT design tokens — "Drafting Editorial"
    ------------------------------------------------------------------ */
 @theme {
-  /* Surfaces */
-  --color-paper: #ffffff;
-  --color-paper-2: #f4f4f0;
-  --color-paper-3: #eaebe5;
+  /* Surfaces — cool ground in the same family as the lockup and digital consultancies */
+  --color-paper: #edf0fb;
+  --color-paper-2: #e1e7f6;
+  --color-paper-3: #d3dbed;
 
-  /* Text */
-  --color-ink: #12161c;
-  --color-ink-2: #3d4650;
-  --color-ink-3: #5f6873;
+  /* Text — navy from the light lockup */
+  --color-ink: #040e31;
+  --color-ink-2: #3a4660;
+  --color-ink-3: #5b6780;
 
   /* Rules */
-  --color-line: #dedfd8;
-  --color-line-strong: #b9bbb2;
+  --color-line: #dce2ee;
+  --color-line-strong: #b4bdc9;
 
-  /* Institutional deep tone */
-  --color-marine: #102849;
-  --color-marine-2: #1a3a66;
-  --color-marine-tint: #e6ebf3;
+  /* Institutional deep tone — dark-lockup ground */
+  --color-marine: #040e31;
+  --color-marine-2: #0a1850;
+  --color-marine-tint: #e8edff;
 
   /* Collaboration fill — teal-green sibling of marine, not a diagram accent */
   --color-spruce: #1e6b58;
   --color-spruce-2: #1a5b4b;
 
-  /* Accent */
-  --color-amber: #d98e2b;
-  --color-amber-ink: #8a5514;
+  /* Accent — electric blue from the official square / underline */
+  --color-signal: #002cff;
+  --color-signal-2: #1b3dff;
+  --color-signal-ink: #0018b0;
+  --color-amber: #002cff;
+  --color-amber-ink: #0018b0;
 
   /* On dark */
-  --color-on-dark: #f4f4f0;
-  --color-on-dark-muted: #b7c3d0;
+  --color-on-dark: #f7f8fd;
+  --color-on-dark-muted: #9aa8c4;
 
   /* Typography */
   --font-serif: var(--font-source-serif), "Source Serif 4", Georgia, "Times New Roman", serif;
   --font-sans: var(--font-plex-sans), "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: var(--font-plex-mono), "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* Type scale (fluid) */
-  --text-hero: clamp(2.25rem, 1.35rem + 2.2vw, 3.375rem);
-  --text-hero--line-height: 1.06;
-  --text-hero--letter-spacing: -0.02em;
-  --text-h1: clamp(2rem, 1.5rem + 1.9vw, 3.25rem);
-  --text-h1--line-height: 1.08;
-  --text-h1--letter-spacing: -0.02em;
-  --text-h2: clamp(1.875rem, 1.5rem + 1.2vw, 2.5rem);
-  --text-h2--line-height: 1.12;
-  --text-h2--letter-spacing: -0.015em;
-  --text-h3: clamp(1.375rem, 1.25rem + 0.4vw, 1.625rem);
-  --text-h3--line-height: 1.25;
-  --text-h3--letter-spacing: -0.01em;
-  --text-h4: 1.1875rem;
-  --text-h4--line-height: 1.35;
-  --text-lead: clamp(1.1875rem, 1.1rem + 0.35vw, 1.375rem);
-  --text-lead--line-height: 1.5;
+  /* Type scale (fluid) — larger, looser, closer to a digital-agency hero */
+  --text-hero: clamp(2.5rem, 1.15rem + 3.2vw, 4.1rem);
+  --text-hero--line-height: 1.08;
+  --text-hero--letter-spacing: 0.012em;
+  --text-h1: clamp(2rem, 1.4rem + 2vw, 3.25rem);
+  --text-h1--line-height: 1.1;
+  --text-h1--letter-spacing: 0.008em;
+  --text-h2: clamp(1.75rem, 1.35rem + 1.4vw, 2.75rem);
+  --text-h2--line-height: 1.14;
+  --text-h2--letter-spacing: 0.006em;
+  --text-h3: clamp(1.25rem, 1.15rem + 0.45vw, 1.5rem);
+  --text-h3--line-height: 1.28;
+  --text-h3--letter-spacing: 0;
+  --text-h4: 1.125rem;
+  --text-h4--line-height: 1.4;
+  --text-lead: clamp(1.125rem, 1.05rem + 0.35vw, 1.3125rem);
+  --text-lead--line-height: 1.55;
   --text-body: 1.0625rem;
   --text-body--line-height: 1.6;
   --text-small: 0.9375rem;
   --text-small--line-height: 1.55;
   --text-meta: 0.8125rem;
   --text-meta--line-height: 1.4;
-  --text-label: 0.875rem;
+  --text-label: 0.8125rem;
   --text-label--line-height: 1.35;
-  --text-label--letter-spacing: 0.06em;
+  --text-label--letter-spacing: 0.08em;
 
   /* Layout */
   --container-site: 80rem;
   --spacing-gutter: clamp(1.25rem, 0.5rem + 2.6vw, 3rem);
-  --spacing-section: clamp(4rem, 2.5rem + 4vw, 6rem);
-  --spacing-section-sm: clamp(3rem, 2rem + 2.5vw, 4.5rem);
+  --spacing-section: clamp(4.5rem, 3rem + 5vw, 7.5rem);
+  --spacing-section-sm: clamp(3.5rem, 2.5rem + 3vw, 5.5rem);
 
-  /* Radii */
-  --radius-ctrl: 2px;
+  /* Radii — pill controls, soft cards (diva-e experiment) */
+  --radius-ctrl: 999px;
+  --radius-card: 1.25rem;
 
   /* Motion */
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
@@ -83,7 +87,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5.25rem;
+    scroll-padding-top: 6rem;
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
   }
@@ -124,7 +128,7 @@
   }
 
   h1, h2, h3, h4 {
-    @apply font-serif font-medium text-ink;
+    @apply font-sans font-normal text-ink;
     text-wrap: pretty;
     overflow-wrap: break-word;
   }
@@ -173,10 +177,30 @@
 
   /* Technical label */
   .label {
-    @apply font-mono text-label uppercase text-ink-3;
+    @apply font-sans text-label font-medium uppercase tracking-[0.08em] text-ink-3;
   }
   .label-dark {
-    @apply font-mono text-label uppercase text-on-dark-muted;
+    @apply font-sans text-label font-medium uppercase tracking-[0.08em] text-on-dark-muted;
+  }
+
+  .surface-card {
+    border-radius: var(--radius-card);
+    background: #ffffff;
+    padding: 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .surface-card {
+      padding: 2rem;
+    }
+  }
+
+  /* Full-viewport hero atmosphere — ITT navy + signal, not a stock photo. */
+  .hero-atmosphere {
+    background-color: var(--color-marine);
+    background-image:
+      radial-gradient(ellipse 80% 70% at 78% 42%, color-mix(in srgb, var(--color-signal) 42%, transparent), transparent 58%),
+      radial-gradient(ellipse 55% 50% at 12% 88%, color-mix(in srgb, var(--color-marine-2) 80%, transparent), transparent 55%),
+      linear-gradient(165deg, #020617 0%, var(--color-marine) 46%, #071033 100%);
   }
 
   /* Prose for long-form content */

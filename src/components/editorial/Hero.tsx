@@ -9,7 +9,7 @@ export type HeroLayout = "split" | "stacked" | "editorial" | "overlay";
  * Editorial hero.
  *  - "split":     statement + lead + actions left, visual right.
  *  - "stacked":   statement across, then lead/actions beside visual.
- *  - "editorial": statement, then lead/actions beside a large photograph.
+ *  - "editorial": statement, then lead/actions beside a proof panel.
  *  - "overlay":   full-bleed media with marine scrim and copy on top.
  */
 export function Hero({
@@ -21,6 +21,7 @@ export function Hero({
   layout = "split",
   label,
   caption,
+  tone = "paper",
 }: {
   headline: string;
   lead: string;
@@ -30,15 +31,18 @@ export function Hero({
   layout?: HeroLayout;
   label?: string;
   caption?: ReactNode;
+  /** Editorial band only — dark uses official navy, not a photo overlay. */
+  tone?: "paper" | "dark";
 }) {
   const overlay = layout === "overlay";
+  const dark = tone === "dark";
   const actions = (
     <div className={cn("mt-9 flex flex-wrap gap-3", overlay && "mt-8")}>
       <ButtonLink href={primary.href} variant={overlay ? "on-dark-fill" : "primary"}>
         {primary.label}
       </ButtonLink>
       {secondary ? (
-        <ButtonLink href={secondary.href} variant={overlay ? "on-dark" : "secondary"} arrow={false}>
+        <ButtonLink href={secondary.href} variant={overlay || dark ? "on-dark" : "secondary"} arrow={false}>
           {secondary.label}
         </ButtonLink>
       ) : null}
@@ -47,7 +51,7 @@ export function Hero({
 
   if (overlay) {
     return (
-      <section className="bg-marine text-on-dark">
+      <section className="bg-marine text-on-dark" data-surface="dark">
         <div className="relative isolate min-h-[32rem] overflow-hidden md:min-h-[38rem] lg:min-h-[42rem]">
           {visual}
           <div
@@ -82,21 +86,25 @@ export function Hero({
 
   if (layout === "editorial") {
     return (
-      <section className="bg-paper">
-        <Container className="pt-14 pb-12 md:pt-20 md:pb-16">
-          {label ? <p className="label">{label}</p> : null}
+      <section
+        className={cn("relative isolate overflow-hidden", dark ? "hero-atmosphere text-on-dark" : "bg-paper")}
+        data-surface={dark ? "dark" : undefined}
+      >
+        <Container className={cn(dark ? "flex min-h-[100svh] flex-col justify-end pt-28 pb-16 md:justify-center md:pt-32 md:pb-24" : "pt-16 pb-14 md:pt-24 md:pb-20")}>
+          {label ? <p className={dark ? "label-dark" : "label"}>{label}</p> : null}
           <h1
             className={cn(
-              "text-hero text-pretty text-ink",
-              headline.includes("\n") ? "max-w-[36ch] whitespace-pre-line" : "max-w-[30ch]",
-              label && "mt-4",
+              "text-hero text-balance hyphens-none font-sans font-normal italic",
+              dark ? "text-on-dark" : "text-ink",
+              headline.includes("\n") ? "max-w-[18ch] whitespace-pre-line md:max-w-[22ch]" : "max-w-[18ch] md:max-w-[22ch]",
+              label && "mt-5",
             )}
           >
             {headline}
           </h1>
-          <div className="mt-10 grid items-end gap-10 lg:mt-12 lg:grid-cols-12 lg:gap-12">
+          <div className="mt-10 grid items-end gap-10 lg:mt-16 lg:grid-cols-12 lg:gap-14">
             <div className="lg:col-span-5">
-              <p className="max-w-[52ch] text-lead text-ink-2">{lead}</p>
+              <p className={cn("max-w-[44ch] text-lead font-light", dark ? "text-on-dark-muted" : "text-ink-2")}>{lead}</p>
               {actions}
             </div>
             {visual ? <div className="lg:col-span-7">{visual}</div> : null}

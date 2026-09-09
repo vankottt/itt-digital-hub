@@ -18,6 +18,7 @@ export function MobileMenu({
   pathname,
   onHome,
   spyKey,
+  overlay = false,
 }: {
   locale: Locale;
   links: NavLink[];
@@ -25,6 +26,7 @@ export function MobileMenu({
   pathname: string;
   onHome: boolean;
   spyKey: RouteKey | null;
+  overlay?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const panelId = useId();
@@ -77,7 +79,10 @@ export function MobileMenu({
         aria-controls={panelId}
         aria-label={open ? labels.close : labels.open}
         onClick={() => setOpen((v) => !v)}
-        className="inline-flex h-10 w-10 items-center justify-center rounded-ctrl text-ink transition-colors duration-150 hover:bg-paper-2"
+        className={cn(
+          "inline-flex h-10 w-10 items-center justify-center rounded-full transition-colors duration-150",
+          overlay && !open ? "text-on-dark hover:bg-white/10" : "text-ink hover:bg-white/70",
+        )}
       >
         {open ? <CloseIcon /> : <MenuIcon />}
       </button>
@@ -86,12 +91,12 @@ export function MobileMenu({
         id={panelId}
         hidden={!open}
         className={cn(
-          "fixed inset-x-0 top-[var(--header-h)] bottom-0 z-40 overflow-y-auto bg-paper",
+          "fixed inset-x-0 top-[4.75rem] bottom-0 z-40 overflow-y-auto bg-paper",
           open && "motion-safe:animate-[menu-in_180ms_var(--ease-out-soft)]",
         )}
       >
         <nav aria-label={labels.menu} className="container-site pt-4 pb-10">
-          <ul className="divide-y divide-line border-b border-line">
+          <ul className="grid gap-1 pt-2">
             {links.map((l, i) => {
               const hashHref = onHome ? homeHashHref(locale, l.navKey) : null;
               const href = hashHref ?? l.href;
@@ -110,12 +115,13 @@ export function MobileMenu({
                     setOpen(false);
                   }}
                   className={cn(
-                    "flex items-center justify-between py-4 font-serif text-[1.5rem] leading-tight tracking-[-0.01em] text-ink transition-colors duration-150 hover:text-marine",
-                    l.emphasis && "font-medium",
+                    "flex items-center justify-between rounded-full px-4 py-3 font-sans text-[1.5rem] font-light leading-tight text-ink transition-colors duration-150 hover:bg-white",
+                    l.emphasis && "font-normal",
+                    active && "bg-white",
                   )}
                 >
                   {l.label}
-                  <span aria-hidden="true" className={cn("h-1.5 w-1.5 rounded-full", active ? "bg-amber" : "bg-transparent")} />
+                  <span aria-hidden="true" className={cn("h-1.5 w-1.5 rounded-full", active ? "bg-signal" : "bg-transparent")} />
                 </Link>
               </li>
               );

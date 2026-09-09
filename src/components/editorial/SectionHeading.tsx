@@ -16,6 +16,7 @@ export function SectionHeading({
   tone = "ink",
   align = "start",
   className,
+  headingClassName,
   children,
 }: {
   label?: string;
@@ -26,6 +27,8 @@ export function SectionHeading({
   tone?: "ink" | "on-dark";
   align?: "start" | "split";
   className?: string;
+  /** Overrides the default ink / on-dark heading colour. */
+  headingClassName?: string;
   children?: ReactNode;
 }) {
   const Heading = (`h${level}` as const) satisfies "h1" | "h2" | "h3";
@@ -41,7 +44,7 @@ export function SectionHeading({
           </p>
         ) : null}
         {heading ? (
-          <Heading id={id} className={cn(headingSize, dark && "text-on-dark")}>
+          <Heading id={id} className={cn(headingSize, headingClassName ?? (dark && "text-on-dark"))}>
             {heading}
           </Heading>
         ) : null}

@@ -10,7 +10,8 @@ export const sourceSerif = Source_Serif_4({
 
 export const plexSans = IBM_Plex_Sans({
   subsets: ["latin", "cyrillic"],
-  weight: ["400", "500", "600"],
+  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
   display: "swap",
   variable: "--font-plex-sans",
 });

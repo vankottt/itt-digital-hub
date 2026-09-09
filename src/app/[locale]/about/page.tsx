@@ -52,6 +52,7 @@ export default async function AboutPage({ params }: Params) {
           label={home.judgement.label[locale]}
           heading={home.judgement.heading[locale]}
           id="judgement-heading"
+          headingClassName="text-on-dark border-b-2 border-signal pb-3"
           lead={home.judgement.lead[locale]}
           align="split"
         />

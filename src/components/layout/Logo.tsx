@@ -45,7 +45,7 @@ export function Logo({
   locale: Locale;
   tone?: "ink" | "on-dark";
   className?: string;
-  /** `compact` = sticky header (mark on phones, lockup without tagline from sm). `full` = footer lockup + tagline. `lockup` kept as compact alias. */
+  /** `compact` = sticky header (mark on phones, wordmark from sm). `full` = footer wordmark. `lockup` kept as compact alias. */
   layout?: "compact" | "lockup" | "full";
   /** Unused — height is driven by layout so the official artwork stays in proportion. */
   markSize?: number;
@@ -57,28 +57,54 @@ export function Logo({
     <Link
       href={href(locale, "home")}
       aria-label={site.name[locale]}
-      className={cn("group inline-flex min-w-0 items-center no-underline", className)}
+      className={cn("group inline-flex min-w-0 items-center overflow-visible no-underline outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal", className)}
     >
       {full ? (
-        <Image
-          src={dark ? lockupFullOnDark : lockupFull}
-          alt=""
-          priority
-          className="h-16 w-auto max-w-[min(100%,18rem)] object-contain object-left md:h-[4.75rem] md:max-w-[22rem]"
-        />
+        <>
+          <Image
+            src={lockupFull}
+            alt=""
+            priority
+            className={cn("h-12 w-auto max-w-[min(100%,20rem)] object-contain object-left md:h-14 md:max-w-[24rem]", dark && "hidden")}
+          />
+          <Image
+            src={lockupFullOnDark}
+            alt=""
+            priority
+            className={cn("h-12 w-auto max-w-[min(100%,20rem)] object-contain object-left md:h-14 md:max-w-[24rem]", !dark && "hidden")}
+          />
+        </>
       ) : (
         <>
           <Image
-            src={dark ? markOnDark : mark}
+            src={mark}
             alt=""
             priority
-            className="h-9 w-auto object-contain object-left sm:hidden"
+            className={cn("h-9 w-auto overflow-visible object-contain object-left sm:hidden", dark && "hidden")}
           />
           <Image
-            src={dark ? lockupCompactOnDark : lockupCompact}
+            src={markOnDark}
             alt=""
             priority
-            className="hidden h-9 w-auto max-w-[11.75rem] object-contain object-left sm:block md:h-10 md:max-w-[14rem]"
+            className={cn("h-9 w-auto overflow-visible object-contain object-left sm:hidden", !dark && "hidden")}
+          />
+          <Image
+            src={lockupCompact}
+            alt=""
+            priority
+            className={cn(
+              "h-9 w-auto max-w-[15.5rem] overflow-visible object-contain object-left md:h-11 md:max-w-[19rem]",
+              dark ? "hidden" : "hidden sm:block",
+            )}
+          />
+          <Image
+            src={lockupCompactOnDark}
+            alt=""
+            priority
+            className={cn(
+              "h-9 w-auto max-w-[15.5rem] overflow-visible object-contain object-left md:h-11 md:max-w-[19rem]",
+              dark ? "hidden sm:block" : "hidden",
+            )}
           />
         </>
       )}

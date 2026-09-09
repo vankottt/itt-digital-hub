@@ -37,23 +37,19 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ loc
           justifyContent: "space-between",
           padding: "64px 72px",
           background: "#ffffff",
-          color: "#12161c",
+          color: "#040e31",
           fontFamily: "Plex",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-          <img src={markSrc} width={280} height={58} alt="" />
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <div style={{ fontFamily: "Serif", fontSize: 40, lineHeight: 1.1 }}>{site.name[locale]}</div>
-            <div style={{ fontSize: 20, letterSpacing: 2, color: "#6a737d", marginTop: 10 }}>{site.anchorShort[locale].toUpperCase()}</div>
-          </div>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <img src={markSrc} width={420} height={91} alt="" />
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-          <div style={{ width: "100%", height: 1, background: "#dedfd8" }} />
+          <div style={{ width: "100%", height: 1, background: "#dce2ee" }} />
           <div style={{ fontFamily: "Serif", fontSize: 44, lineHeight: 1.15, maxWidth: 1000 }}>{site.descriptor[locale]}</div>
-          <div style={{ fontSize: 22, color: "#3d4650" }}>{site.anchor[locale]}</div>
+          <div style={{ fontSize: 22, color: "#3a4660" }}>{site.anchor[locale]}</div>
         </div>
-        <div style={{ position: "absolute", right: 72, bottom: 64, width: 14, height: 14, borderRadius: 7, background: "#d98e2b" }} />
+        <div style={{ position: "absolute", right: 72, bottom: 64, width: 14, height: 14, background: "#002cff" }} />
       </div>
     ),
     {

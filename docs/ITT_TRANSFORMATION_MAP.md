@@ -14,6 +14,6 @@ CIT was immutable source only. This table records how the copied implementation 
 | Institutional anchor / university photography | Experience across | NEW on existing grid | Textual engagements only. No invented clients or logos. |
 | News, Insights, campus photos, university mark | Academic-centre identity | REMOVE | Routes redirect home. Seed, overlays and unused assets deleted. |
 | `/admin`, CMS, Supabase adapters | Editorial platform | KEEP unused | Do not redesign. Public site is static-first. Internal env names may still use `CIT_*`. |
-| Collaboration four-route catalogue | Contact | REPLACE | LinkedIn / email / TODO scheduling. No packages or forms. |
-| Privacy page | Privacy | ADAPT | ITT wording; still no registration. |
+| Collaboration four-route catalogue | Contact | REPLACE | Short enquiry form (name, company, phone, problem). Inbox via env; no invented email. |
+| Privacy page | Privacy | ADAPT | ITT wording; contact-form fields disclosed. No registration. |
 | Vercel Analytics, indexing flag, robots | Independent deploy | ADAPT | New Vercel project only. `ITT_ALLOW_INDEXING`. |
