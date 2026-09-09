@@ -50,16 +50,20 @@ function LockupPair({
 }) {
   const height = 35;
   const width = Math.round((height * light.width) / light.height);
+  const imgClass =
+    "max-h-full w-auto max-w-full select-none object-contain object-left";
   return (
-    <span className={cn("relative inline-grid w-max max-w-full overflow-hidden leading-none", className)}>
+    // Height comes from `className`. Overflow stays visible so the underline
+    // and the “g” descender are not clipped when the img’s intrinsic box is taller.
+    <span className={cn("relative inline-flex max-w-full items-center overflow-visible leading-none", className)}>
       <Image
         src={light}
         alt=""
         priority
         width={width}
         height={height}
-        className="col-start-1 row-start-1 h-full w-auto max-h-full max-w-full select-none object-contain object-left"
-        style={{ opacity: 1 - mix, height: "100%", width: "auto" }}
+        className={cn("relative h-full", imgClass)}
+        style={{ opacity: 1 - mix, width: "auto", height: "auto", maxHeight: "100%" }}
       />
       <Image
         src={dark}
@@ -68,8 +72,8 @@ function LockupPair({
         width={width}
         height={height}
         aria-hidden="true"
-        className="col-start-1 row-start-1 h-full w-auto max-h-full max-w-full select-none object-contain object-left"
-        style={{ opacity: mix, height: "100%", width: "auto" }}
+        className={cn("pointer-events-none absolute top-0 left-0 h-full", imgClass)}
+        style={{ opacity: mix, width: "auto", height: "auto", maxHeight: "100%" }}
       />
     </span>
   );
@@ -113,7 +117,7 @@ export function Logo({
           light={lockup}
           dark={lockupOnDark}
           mix={mix}
-          className="h-[1.8rem] max-w-[min(100%,13.2rem)] md:h-9 md:max-w-[16.4rem]"
+          className="h-9 max-w-[min(100%,13.2rem)] shrink-0 md:max-w-[16.4rem]"
         />
       )}
     </Link>
