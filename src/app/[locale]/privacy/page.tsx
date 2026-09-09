@@ -5,6 +5,8 @@ import { privacyPage as c } from "@/content/pages";
 import { PageHeader } from "@/components/editorial/PageHeader";
 import { Container } from "@/components/layout/Container";
 import { Paragraphs } from "@/components/editorial/Blocks";
+import { BackLink } from "@/components/ui/BackLink";
+import { href } from "@/lib/paths";
 
 type Params = { params: Promise<{ locale: string }> };
 
@@ -19,7 +21,10 @@ export default async function PrivacyPage({ params }: Params) {
   const locale: Locale = isLocale(raw) ? raw : "bg";
   return (
     <>
-      <PageHeader heading={c.heading[locale]} />
+      <PageHeader
+        heading={c.heading[locale]}
+        back={<BackLink href={href(locale, "home")}>{c.back[locale]}</BackLink>}
+      />
       <Container className="pb-section">
         <div className="max-w-[68ch] border-t border-line pt-8">
           <Paragraphs items={c.body[locale]} />

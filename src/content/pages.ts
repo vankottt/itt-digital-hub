@@ -301,6 +301,7 @@ export const privacyPage = {
     description: { bg: "Информация за обработването на данни на този уебсайт.", en: "Information about data processing on this website." },
   },
   heading: { bg: "Поверителност", en: "Privacy" },
+  back: { bg: "Назад", en: "Back" },
   body: {
     bg: [
       "Този уебсайт представя ITT Digital Hub и не изисква регистрация.",
