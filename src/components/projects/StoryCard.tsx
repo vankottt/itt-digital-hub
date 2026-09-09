@@ -17,7 +17,7 @@ function Cover({ cover, locale }: { cover?: StoryCover; locale: Locale }) {
         alt={cover.alt[locale]}
         fill
         sizes="(min-width: 1024px) 38vw, (min-width: 768px) 55vw, 90vw"
-        className="object-cover transition-transform duration-500 ease-out-soft motion-safe:group-hover:scale-[1.04]"
+        className="object-cover object-center transition-transform duration-500 ease-out-soft motion-safe:group-hover:scale-[1.04]"
       />
     );
   }
@@ -43,7 +43,7 @@ export function StoryCard({
         href={url}
         className="story-card group flex h-full flex-col no-underline outline-offset-4"
       >
-        <div className="relative aspect-[4/3] overflow-hidden rounded-[1.25rem] bg-paper-2">
+        <div className="relative isolate aspect-[16/9] overflow-hidden rounded-[1.25rem] bg-paper-2">
           <Cover cover={cover} locale={locale} />
           <div
             className={cn(

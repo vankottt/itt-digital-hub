@@ -18,13 +18,31 @@ export type ProjectScreenSet = {
 
 /** Homepage “Our stories” covers — photographs only, no decorative icons. */
 export const storyCovers: Record<string, StoryCover> = {
+  "ai-assisted-solar-operations": {
+    kind: "photo",
+    src: "/stories/solar-operations-cover.webp",
+    overlay: "light",
+    alt: {
+      bg: "Инженер със защитна екипировка преглежда табло на таблет в соларен парк, с дрон и наземен робот за инспекция",
+      en: "Engineer in safety gear reviewing a tablet dashboard at a solar farm, with a drone and a ground inspection robot",
+    },
+  },
+  "local-ai-orchestration": {
+    kind: "photo",
+    src: "/stories/local-orchestration-cover.webp",
+    overlay: "light",
+    alt: {
+      bg: "Команден център с архитектурна схема за локална AI оркестрация на стената и монитори за маршрутизиране и системни ресурси",
+      en: "Command room with a local AI orchestration architecture diagram on the wall and monitors for routing and system resources",
+    },
+  },
   "atn-warranty-portal": {
     kind: "photo",
-    src: "/stories/atn-mars-cover.webp",
-    overlay: "heavy",
+    src: "/stories/atn-warranty-desk-cover.webp",
+    overlay: "light",
     alt: {
-      bg: "Интерфейс на термовизионен прицел ATN — прицел, увеличение и показания на дисплея",
-      en: "ATN thermal-scope interface — reticle, zoom and on-display readouts",
+      bg: "Ръце върху лаптоп с регистрация на продукт ATN, до термовизионен прицел и кутия",
+      en: "Hands at a laptop registering an ATN product, beside a thermal riflescope and its box",
     },
   },
 };

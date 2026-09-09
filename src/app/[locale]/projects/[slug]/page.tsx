@@ -18,7 +18,8 @@ import { ProjectExecutive } from "@/components/projects/ProjectExecutive";
 import { ProjectToc } from "@/components/projects/ProjectToc";
 import { Chain } from "@/components/systems/Chain";
 import { ArrowLink } from "@/components/ui/ArrowLink";
-import { projectScreens } from "@/content/stories";
+import { projectScreens, storyCovers } from "@/content/stories";
+import { EditorialFigure } from "@/components/editorial/EditorialFigure";
 import { ProjectHeroShot, ProjectScreenGallery } from "@/components/projects/ProjectScreens";
 
 type Params = { params: Promise<{ locale: string; slug: string }> };
@@ -49,6 +50,7 @@ export default async function ProjectDetailPage({ params }: Params) {
   const related = (project.related ?? []).map((relatedSlug) => publishedProjects.find((p) => p.slug === relatedSlug)).filter((p): p is NonNullable<typeof p> => Boolean(p));
   const relatedInsights = (project.relatedInsights ?? []).map((relatedSlug) => publishedArticles.find((i) => i.slug === relatedSlug)).filter((i): i is NonNullable<typeof i> => Boolean(i));
   const screens = projectScreens[project.slug];
+  const cover = storyCovers[project.slug];
   const toc = [
     { id: "executive", label: d.glance[locale] },
     { id: "problem", label: d.problem[locale] },
@@ -92,6 +94,16 @@ export default async function ProjectDetailPage({ params }: Params) {
             <div className="mt-12 lg:mt-14">
               <ProjectHeroShot screens={screens} locale={locale} />
             </div>
+          ) : cover?.kind === "photo" ? (
+            <EditorialFigure
+              src={cover.src}
+              alt={cover.alt[locale]}
+              ratio="aspect-[16/9]"
+              className="mt-12 overflow-hidden rounded-[1.25rem] border-0 lg:mt-14"
+              imageClassName="object-cover"
+              sizes="(min-width: 1024px) 1100px, 100vw"
+              priority
+            />
           ) : null}
         </Container>
       </header>
