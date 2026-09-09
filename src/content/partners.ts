@@ -46,4 +46,28 @@ export const partners: Partner[] = [
     width: 285,
     height: 123,
   },
+  {
+    id: "unwe",
+    name: { bg: "УНСС", en: "UNWE" },
+    href: "https://www.unwe.bg/",
+    logo: "/partners/unwe.png",
+    width: 223,
+    height: 100,
+  },
+  {
+    id: "mg-klima",
+    name: { bg: "МГ Клима", en: "MG Klima" },
+    href: "https://mgklima.bg/",
+    logo: "/partners/mg-klima.png",
+    width: 1024,
+    height: 354,
+  },
+  {
+    id: "nakra",
+    name: { bg: "Накра", en: "Nakra" },
+    href: "https://nakra.eu/",
+    logo: "/partners/nakra.png",
+    width: 464,
+    height: 90,
+  },
 ];

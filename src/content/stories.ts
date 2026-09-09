@@ -20,11 +20,11 @@ export type ProjectScreenSet = {
 export const storyCovers: Record<string, StoryCover> = {
   "atn-warranty-portal": {
     kind: "photo",
-    src: "/stories/atn-warranty-cover.webp",
-    overlay: "light",
+    src: "/stories/atn-mars-cover.webp",
+    overlay: "heavy",
     alt: {
-      bg: "Гаранционен портал на ATN Europe — регистрация по сериен номер",
-      en: "ATN Europe Warranty Portal — serial-number registration",
+      bg: "Интерфейс на термовизионен прицел ATN — прицел, увеличение и показания на дисплея",
+      en: "ATN thermal-scope interface — reticle, zoom and on-display readouts",
     },
   },
 };
