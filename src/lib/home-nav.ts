@@ -39,6 +39,12 @@ export function isHomePath(pathname: string): boolean {
   return /^\/(bg|en)\/?$/.test(pathname);
 }
 
+/** Fragment ids the landing page uses. A restored `#work` is not a fresh open. */
+export function isHomeSectionHash(hash: string): boolean {
+  const id = hash.replace(/^#/, "");
+  return (homeSpySectionIds as readonly string[]).includes(id);
+}
+
 export function navKeyForHomeSection(sectionId: string): Exclude<RouteKey, "home" | "privacy"> | null {
   return sectionToNav[sectionId as HomeSpySectionId] ?? null;
 }

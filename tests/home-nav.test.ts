@@ -8,6 +8,7 @@ import {
   homeSpySectionIds,
   isActivePath,
   isHomePath,
+  isHomeSectionHash,
   navKeyForHomeSection,
 } from "../src/lib/home-nav";
 
@@ -18,6 +19,13 @@ describe("home path", () => {
     expect(isHomePath("/en/")).toBe(true);
     expect(isHomePath("/bg/methodology")).toBe(false);
     expect(isHomePath("/bg/projects/x")).toBe(false);
+  });
+
+  it("recognises leftover landing hashes that would skip the hero", () => {
+    expect(isHomeSectionHash("#work")).toBe(true);
+    expect(isHomeSectionHash("work")).toBe(true);
+    expect(isHomeSectionHash("#contact")).toBe(true);
+    expect(isHomeSectionHash("#executive")).toBe(false);
   });
 });
 

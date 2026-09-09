@@ -1,7 +1,12 @@
+"use client";
+
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import type { Locale } from "@/lib/i18n";
 import { href } from "@/lib/paths";
+import { isHomePath } from "@/lib/home-nav";
+import { clearLocationHash, scrollToDocumentTop } from "@/lib/scroll-to-top";
 import { site } from "@/content/site";
 import { cn } from "@/lib/cn";
 import lockup from "../../../public/brand/itt-lockup-compact.png";
@@ -98,11 +103,18 @@ export function Logo({
 }) {
   const mix = darkMix ?? (tone === "on-dark" ? 1 : 0);
   const full = layout === "full";
+  const pathname = usePathname() ?? "";
 
   return (
     <Link
       href={href(locale, "home")}
       aria-label={site.name[locale]}
+      onClick={(event) => {
+        if (!isHomePath(pathname)) return;
+        event.preventDefault();
+        scrollToDocumentTop();
+        clearLocationHash();
+      }}
       className={cn("group inline-flex min-w-0 items-center overflow-visible no-underline outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal", className)}
     >
       {full ? (

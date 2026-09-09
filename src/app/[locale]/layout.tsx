@@ -9,6 +9,7 @@ import { site } from "@/content/site";
 import { t } from "@/content/messages";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
+import { ResetWindowScroll } from "@/components/layout/ResetWindowScroll";
 import { OrganizationJsonLd } from "@/components/layout/OrganizationJsonLd";
 import { allowPublicIndexing, robotsDirective } from "@/lib/indexing";
 import { Analytics } from "@vercel/analytics/next";
@@ -46,6 +47,7 @@ export default async function LocaleLayout({
   return (
     <html lang={localeLabels[locale].htmlLang} className={fontClassName}>
       <body className="flex min-h-svh flex-col">
+        <ResetWindowScroll />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-full focus:bg-marine focus:px-4 focus:py-2 focus:text-on-dark"

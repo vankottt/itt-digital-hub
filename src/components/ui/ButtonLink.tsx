@@ -1,7 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import { ArrowRight } from "./Icons";
+import { scrollToHomeHash } from "@/components/layout/useHomeSectionSpy";
 
 type Variant = "primary" | "secondary" | "on-dark" | "on-dark-fill";
 
@@ -49,7 +52,13 @@ export function ButtonLink({
   arrow?: boolean;
 }) {
   return (
-    <Link href={href} className={cn(base, variants[variant], className)}>
+    <Link
+      href={href}
+      onClick={(event) => {
+        if (href.includes("#") && scrollToHomeHash(href)) event.preventDefault();
+      }}
+      className={cn(base, variants[variant], className)}
+    >
       <span>{children}</span>
       {arrow ? <ArrowRight className="shrink-0" /> : null}
     </Link>

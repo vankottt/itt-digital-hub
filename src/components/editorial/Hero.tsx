@@ -90,7 +90,7 @@ export function Hero({
         className={cn("relative isolate overflow-hidden", dark ? "hero-atmosphere text-on-dark" : "bg-paper")}
         data-surface={dark ? "dark" : undefined}
       >
-        <Container className={cn(dark ? "flex min-h-[100svh] flex-col justify-end pt-28 pb-16 md:justify-center md:pt-32 md:pb-24" : "pt-16 pb-14 md:pt-24 md:pb-20")}>
+        <Container className={cn(dark ? "flex min-h-[100svh] flex-col justify-start pt-28 pb-16 md:justify-center md:pt-32 md:pb-24" : "pt-16 pb-14 md:pt-24 md:pb-20")}>
           {label ? <p className={dark ? "label-dark" : "label"}>{label}</p> : null}
           <h1
             className={cn(
