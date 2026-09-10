@@ -1,33 +1,28 @@
 import Image from "next/image";
 import { cn } from "@/lib/cn";
 
-/**
- * Matched square portrait over a circular plate. The torso continues
- * beyond the disk and is cropped by its edge.
- */
+/** Colour photograph cropped to a circle. Background stays in the frame. */
 export function PersonPortrait({
   src,
   alt,
   className,
+  objectPosition,
 }: {
   src: string;
   alt: string;
   className?: string;
+  objectPosition?: string;
 }) {
   return (
     <div className={cn("person-portrait", className)}>
-      <span className="person-portrait-plate" aria-hidden="true" />
-      <div className="person-portrait-clip">
-        <div className="person-portrait-photo-wrap">
-          <Image
-            src={src}
-            alt={alt}
-            fill
-            sizes="(min-width: 1280px) 240px, (min-width: 768px) 28vw, 30vw"
-            className="person-portrait-photo"
-          />
-        </div>
-      </div>
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="(min-width: 1280px) 240px, (min-width: 768px) 28vw, 30vw"
+        className="person-portrait-photo"
+        style={objectPosition ? { objectPosition } : undefined}
+      />
     </div>
   );
 }

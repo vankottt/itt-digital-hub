@@ -24,7 +24,7 @@ describe("news carousel presentation", () => {
     const media: MediaRecord[] = [
       {
         id: "media-sample",
-        publicUrl: "/images/team/ivan-todorov-portrait-v2.png",
+        publicUrl: "/images/team/ivan-todorov-portrait.jpg",
         title: "Sample",
         altBg: "Портрет",
         altEn: "Portrait",
@@ -35,7 +35,7 @@ describe("news carousel presentation", () => {
       },
     ];
     const resolved = resolveNewsMedia(insight, media, "en");
-    expect(resolved?.src).toBe("/images/team/ivan-todorov-portrait-v2.png");
+    expect(resolved?.src).toBe("/images/team/ivan-todorov-portrait.jpg");
     expect(resolved?.alt).toBe("Portrait");
   });
 });

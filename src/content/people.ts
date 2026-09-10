@@ -39,9 +39,9 @@ const confirmedPeople: Person[] = [
       ],
     },
     portrait: {
-      src: "/images/team/ivan-todorov-portrait-v2.png",
-      width: 1254,
-      height: 1254,
+      src: "/images/team/ivan-todorov-portrait.jpg",
+      width: 819,
+      height: 1024,
     },
     links: [{ label: "LinkedIn", url: "https://www.linkedin.com/in/ivan-todorov-30152428/" }],
     projects: ["atn-warranty-portal"],
@@ -60,12 +60,18 @@ const confirmedPeople: Person[] = [
     bio: {
       bg: [
         "Проектира и изгражда сложен софтуер и AI системи, с фокус върху локален AI, оркестрация, интеграции и оперативни приложения.",
-        "TODO_CONTENT — потвърдени факти за компанията за слънчеви паркове, образование и точен технологичен стек. LinkedIn: TODO_CONTENT. Портрет: TODO_ASSET.",
+        "TODO_CONTENT — потвърдени факти за компанията за слънчеви паркове, образование и точен технологичен стек. LinkedIn: TODO_CONTENT.",
       ],
       en: [
         "Designs and builds complex software and AI systems, with a focus on local AI, orchestration, integrations and operational applications.",
-        "TODO_CONTENT — confirmed facts on the solar-park company, education and exact technology stack. LinkedIn: TODO_CONTENT. Portrait: TODO_ASSET.",
+        "TODO_CONTENT — confirmed facts on the solar-park company, education and exact technology stack. LinkedIn: TODO_CONTENT.",
       ],
+    },
+    portrait: {
+      src: "/images/team/ivan-tomchev-portrait.jpg",
+      width: 819,
+      height: 1024,
+      objectPosition: "center top",
     },
     projects: ["ai-assisted-solar-operations", "local-ai-orchestration"],
   },

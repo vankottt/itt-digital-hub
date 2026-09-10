@@ -83,7 +83,7 @@ describe("Blocks YouTube rendering", () => {
 describe("Blocks library media", () => {
   const sample: MediaRecord = {
     id: "media-sample-figure",
-    publicUrl: "/images/team/ivan-todorov-portrait-v2.png",
+    publicUrl: "/images/team/ivan-todorov-portrait.jpg",
     altBg: "Модел",
     altEn: "Model",
     captionBg: "Подпис",
@@ -108,7 +108,7 @@ describe("Blocks library media", () => {
         blocks: ["Before.", sample.id, "After.", "media-does-not-exist"],
       }),
     );
-    expect(html).toContain("ivan-todorov-portrait-v2.png");
+    expect(html).toContain("ivan-todorov-portrait.jpg");
     expect(html).not.toContain("Caption");
     expect(html).not.toContain("<figcaption");
     expect(html).toContain("object-cover");

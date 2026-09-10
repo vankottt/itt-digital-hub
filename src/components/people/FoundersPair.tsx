@@ -19,7 +19,15 @@ export function FoundersPair({ people, locale }: { people: Person[]; locale: Loc
           <li key={person.slug} className="surface-card">
             <p className="label">{axes[index] ?? person.role?.[locale]}</p>
             <div className="mt-5 w-full max-w-[14.5rem]">
-              {person.portrait ? <PersonPortrait src={person.portrait.src} alt={name} /> : <PersonPortraitPlate />}
+              {person.portrait ? (
+                <PersonPortrait
+                  src={person.portrait.src}
+                  alt={name}
+                  objectPosition={person.portrait.objectPosition}
+                />
+              ) : (
+                <PersonPortraitPlate />
+              )}
             </div>
             <h3 className="mt-5 text-h3 text-pretty text-ink">{name}</h3>
             {person.role ? <p className="mt-1 text-small text-ink-2">{person.role[locale]}</p> : null}

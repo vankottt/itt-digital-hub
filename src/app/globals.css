@@ -272,62 +272,31 @@
     @apply text-on-dark underline decoration-on-dark/40 transition-colors duration-150 hover:decoration-amber;
   }
 
-  /* Cutout portraits over a circular plate. Colour is the plate, never the person. */
+  /* Colour photographs cropped to a circle. Empty slots keep a tinted plate. */
   .person-portrait {
-    --portrait-ratio: 1.12;
-    --portrait-lift: 4px;
     position: relative;
-    aspect-ratio: 1 / var(--portrait-ratio);
-    overflow: visible;
-    cursor: default;
-  }
-  .person-portrait-plate {
-    position: absolute;
-    z-index: 0;
-    left: 0;
-    width: 100%;
-    bottom: 0;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: var(--color-marine-tint);
-    transition: background-color 180ms var(--ease-out-soft);
-  }
-  /* One circular crop for the matched square source portraits. */
-  .person-portrait-clip {
-    position: absolute;
-    z-index: 1;
-    left: 0;
-    right: 0;
-    bottom: 0;
     aspect-ratio: 1;
     overflow: hidden;
     border-radius: 50%;
-  }
-  .person-portrait-photo-wrap {
-    position: absolute;
-    left: 5%;
-    right: 5%;
-    /* Keep the full lift plus 2% of the disk below its clipped bottom edge. */
-    top: calc(12% + var(--portrait-lift));
-    aspect-ratio: 1;
-    pointer-events: none;
-    transition: transform 220ms var(--ease-out-soft);
+    cursor: default;
   }
   .person-portrait-photo {
-    object-fit: contain;
-    object-position: center bottom;
-    max-width: none;
+    object-fit: cover;
+    object-position: center 18%;
+  }
+  .person-portrait-plate {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--color-marine-tint);
+    transition: background-color 180ms var(--ease-out-soft);
   }
   .person-portrait-vacant .person-portrait-plate {
     background: color-mix(in srgb, var(--color-marine-tint) 42%, var(--color-paper));
   }
   .person-portrait-plus {
     position: absolute;
-    z-index: 1;
-    left: 0;
-    width: 100%;
-    bottom: 0;
-    aspect-ratio: 1;
+    inset: 0;
     pointer-events: none;
   }
   .person-portrait-plus::before,
@@ -349,24 +318,12 @@
     transform: translate(-50%, -50%);
   }
   @media (hover: hover) and (pointer: fine) {
-    .person-portrait:not(.person-portrait-vacant):hover .person-portrait-plate,
     .person-tile:has(a:hover) .person-portrait-plate {
       background: var(--color-marine);
     }
   }
   .person-tile:focus-within .person-portrait-plate {
     background: var(--color-marine);
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    @media (hover: hover) and (pointer: fine) {
-      .person-portrait:not(.person-portrait-vacant):hover .person-portrait-photo-wrap,
-      .person-tile:has(a:hover) .person-portrait-photo-wrap {
-        transform: translateY(calc(-1 * var(--portrait-lift)));
-      }
-    }
-    .person-tile:focus-within .person-portrait-photo-wrap {
-      transform: translateY(calc(-1 * var(--portrait-lift)));
-    }
   }
   .img-mono {
     filter: grayscale(1) contrast(1.12) brightness(1.05);

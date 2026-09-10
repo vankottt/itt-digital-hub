@@ -8,7 +8,7 @@ import { cn } from "@/lib/cn";
 import { LinkedInIcon } from "@/components/ui/Icons";
 import { PersonPortrait, PersonPortraitVacant } from "./PersonPortrait";
 
-/** Uncarded portrait grid — cutout, optional LinkedIn, confirmed role only. */
+/** Uncarded portrait grid — circular photo, optional LinkedIn, confirmed role only. */
 export function TeamGrid({
   people,
   locale,
@@ -50,7 +50,11 @@ export function TeamGrid({
             ) : (
               <>
                 {person.portrait ? (
-                  <PersonPortrait src={person.portrait.src} alt={name} />
+                  <PersonPortrait
+                    src={person.portrait.src}
+                    alt={name}
+                    objectPosition={person.portrait.objectPosition}
+                  />
                 ) : (
                   <PersonPortraitVacant />
                 )}

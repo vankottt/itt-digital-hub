@@ -117,12 +117,12 @@ export interface Person {
   projects?: string[];
   /** Verified external profile URLs only. LinkedIn is rendered as an icon in the team grid. */
   links?: Array<{ label: string; url: string }>;
-  /** Grayscale cutout PNG; circular plate colour is CSS. */
+  /** Colour photograph; cropped to a circle in CSS. */
   portrait?: {
     src: string;
     width: number;
     height: number;
-    /** CSS object-position — unused for composed cutouts. */
+    /** CSS object-position for the circular crop. */
     objectPosition?: string;
   };
 }
