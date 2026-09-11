@@ -324,7 +324,7 @@ export const projects: Project[] = [
         bg: "От разпокъсано управление към структурирана интелигентност за създатели на съдържание.",
         en: "From fragmented creator management to structured creator and social intelligence.",
       },
-      image: "/stories/creator-studio-cover.jpg",
+      image: "/stories/creator-content-library.jpg",
     },
   },
   {
@@ -468,43 +468,41 @@ export const projects: Project[] = [
     slug: "local-ai-orchestration",
     featured: false,
     status: "internal-rd",
-    type: { bg: "Вътрешна разработка", en: "Internal R&D" },
-    domain: { bg: "ИИ архитектура", en: "AI architecture" },
+    type: { bg: "Архитектура за изпълнение", en: "Execution architecture" },
+    domain: { bg: "ИИ системи", en: "AI systems" },
     methodologyName: approachName,
     title: {
-      bg: "Локална ИИ оркестрация с интелигентно използване на облака",
-      en: "Local-First AI Orchestration with Selective Cloud Escalation",
+      bg: "Локално ориентирана ИИ оркестрация",
+      en: "Local-First AI Orchestration",
     },
     standfirst: {
-      bg: "Хибридна ИИ архитектура, която разпределя задачите между локални модели, инструменти и облачни услуги според сложността, чувствителността на данните и необходимото качество на резултата.",
-      en: "A hybrid AI architecture that routes work across local models, tools and cloud services according to task complexity, data sensitivity and required output quality.",
+      bg: "Архитектура за контролирано ИИ изпълнение, която извършва основната част от работата локално, управлява сложни многостъпкови задачи и използва облачни модели само когато те действително добавят стойност.",
+      en: "A controlled AI execution architecture that keeps most work local, coordinates complex multi-step tasks and uses cloud intelligence only when it genuinely adds value.",
     },
     summary: {
-      bg: "Локалните модели вършат работата по подразбиране. Облакът се използва само когато добавя реална стойност.",
-      en: "Local models handle the work by default. The cloud is used only when it adds real value.",
+      bg: "Локално ориентирано ИИ изпълнение, което координира сложна работа, проверява резултата и използва облака само когато добавя стойност.",
+      en: "Local-first AI execution that coordinates complex work, verifies completion and uses the cloud only when it adds value.",
     },
     tags: {
-      bg: ["Локални модели", "Оркестрация", "MCP", "Защита на данните", "Динамично маршрутизиране"],
-      en: ["Local models", "Orchestration", "MCP", "Data protection", "Dynamic routing"],
-    },
-    proofPoint: {
-      bg: "При вътрешни натоварвания архитектурата намалява използването на облачни токени с около 60-80% при сравнимо качество на крайния резултат.",
-      en: "Across internal workloads, the architecture reduces cloud token usage by around 60-80% while maintaining comparable output quality.",
+      bg: ["Локални модели", "Оркестрация", "MCP", "Защита на данните", "Устойчиво изпълнение"],
+      en: ["Local models", "Orchestration", "MCP", "Data protection", "Durable execution"],
     },
     cta: discussProject,
     proposition: {
-      bg: "Не използваме най-големия модел за всяка задача. Използваме правилната интелигентност за правилната работа.",
-      en: "We do not use the largest model for every task. We use the right intelligence for the right work.",
+      bg: "Не използваме най-големия модел за всяка задача. Използваме правилния начин на изпълнение за правилната работа.",
+      en: "We do not use the largest model for every task. We use the right execution path for the right work.",
     },
     story: {
       challenge: {
         heading: { bg: "Предизвикателството", en: "The challenge" },
         body: {
           bg: [
-            "Не всяка задача изисква най-големия и най-скъп облачен модел. Изпращането на всяко натоварване към големи външни модели увеличава потреблението на облачни токени, извежда повече данни извън локалната инфраструктура, създава зависимост от конкретни доставчици и харчи скъп капацитет за задачи, които могат да се решат локално.",
+            "Не всяка ИИ задача изисква най-големия и най-скъп облачен модел. Изпращането на всяка задача към голям външен модел увеличава използването на облака, извежда повече проектен контекст извън локалната среда и прави процесите зависими от конкретни доставчици.",
+            "Скъпият капацитет за разсъждение се харчи за работа, която може да се свърши локално. Надеждната ИИ работа се нуждае и от оркестрация, възстановяване, достъп до инструменти, проектно знание, проверка и ясен краен резултат. Само изборът на модел не решава това.",
           ],
           en: [
-            "Not every task requires the largest and most expensive cloud model. Sending every workload to large external models increases cloud token consumption, sends more data outside local infrastructure, creates dependency on specific vendors and wastes expensive model capacity on tasks that can be handled locally.",
+            "Not every AI task requires the largest and most expensive cloud model. Sending every task to a large external model increases cloud usage, moves more project context outside the local environment and makes workflows dependent on specific providers.",
+            "Expensive reasoning capacity is then spent on work that can be handled locally. Reliable AI work also needs orchestration, recovery, tool access, project knowledge, verification and a clear final result. A model router alone does not solve this.",
           ],
         },
       },
@@ -512,54 +510,117 @@ export const projects: Project[] = [
         heading: { bg: "Какво изградихме", en: "What we built" },
         body: {
           bg: [
-            "Изградихме вътрешна хибридна архитектура, която по подразбиране изпълнява работата с локални модели и прехвърля към облака само когато това носи реална стойност.",
-            "Оркестрационният слой управлява анализ на задачата, разбиване, избор на модел, паралелно изпълнение, междинна оценка, повторни опити, пренасочване и ескалация. MCP не е оркестраторът. MCP дава стандартизиран достъп до инструменти, файлове, данни, услуги и външни системи.",
+            "Изградихме локално ориентиран слой за ИИ изпълнение и оркестрация, който координира клиентски заявки, инструменти, локални работници, модели и контролирано използване на облачни услуги.",
+            "Оркестрационният слой анализира задачата, прилага политика за изпълнение, разбива работата, разпределя локални работници, оценява междинни резултати, повтаря опитите при нужда и възстановява изпълнението след прекъсване.",
+            "Многостъпковата работа запазва състояние, така че вече завършените части не се рестартират безразборно. MCP осигурява контролиран достъп до инструменти, файлове, данни и външни услуги. Оркестрационният слой остава отговорен за изпълнението.",
           ],
           en: [
-            "We built an internal hybrid architecture that runs work on local models by default and moves to the cloud only when that adds real value.",
-            "The orchestration layer manages task analysis, decomposition, model selection, parallel execution, intermediate evaluation, retries, rerouting and escalation. MCP is not the orchestrator. MCP provides standardised access to tools, files, data, services and external systems.",
-          ],
-        },
-      },
-      howItWorks: {
-        heading: { bg: "Локално по подразбиране", en: "Local-first by default" },
-        body: {
-          bg: [
-            "Локалните модели вършат работата по подразбиране. Облакът се използва само когато добавя реална стойност. Това не е позиция срещу облака. Архитектурата съчетава локална и облачна интелигентност осмислено.",
-            "Слоят за защита на данните и маршрутизиране може да задържи чувствителния контекст изцяло в локалната инфраструктура. Когато е нужен външен модел, системата може да ограничи каква информация напуска локалната среда. Където доставчиците го поддържат, се използват и принципи на нулево съхранение. Поверителността е част от архитектурата за маршрутизиране, а не разчитане само на политика на доставчика.",
-            "Пулът от локални и облачни модели се променя непрекъснато. Модели могат да се добавят, заменят или премахват според качество, производителност, цена и пригодност към задачата. Системата не е заключена към един ИИ доставчик.",
-          ],
-          en: [
-            "Local models handle the work by default. The cloud is used only when it adds real value. This is not an anti-cloud position. The architecture combines local and cloud intelligence deliberately.",
-            "A data protection and routing layer can keep sensitive context entirely within local infrastructure. When an external model is required, the system can restrict what information is allowed to leave the local environment. Where supported by providers, zero-retention principles are also used. Privacy is part of the routing architecture, not a claim that zero retention alone keeps sensitive data from leaving the system.",
-            "The local and cloud model pool changes continuously. Models can be added, replaced or removed according to quality, performance, cost and task suitability. The system is not locked to one AI provider.",
-          ],
-        },
-      },
-      value: {
-        heading: { bg: "Къде се прилага", en: "Where it is applied" },
-        body: {
-          bg: [
-            "Архитектурата се използва при вътрешни натоварвания като софтуерно инженерство и анализ на код, изследователска и знаниева работа, анализ на документи и данни, както и автономни бизнес процеси с множество инструменти и стъпки на изпълнение.",
-            "При вътрешни натоварвания наблюдаваме около 60-80% по-ниско използване на облачни токени спрямо подход, който разчита основно на големи облачни модели. Това е наблюдение върху потреблението на облачни токени, а не твърдение за същото намаление на общите разходи.",
-          ],
-          en: [
-            "The architecture is used on internal workloads such as software engineering and code analysis, research and knowledge work, document and data analysis, and autonomous business workflows that use multiple tools and execution steps.",
-            "Across internal workloads, we observe around 60-80% lower cloud token usage compared with an approach that relies primarily on large cloud models. This is a token-usage observation, not a claim of the same reduction in total cost.",
+            "We built a local-first AI execution and orchestration layer that coordinates clients, tools, local workers, model runtimes and approved cloud escalation.",
+            "The orchestration layer analyses the task, applies an execution policy, decomposes work, dispatches local workers, evaluates intermediate results, retries where needed and recovers after interruption.",
+            "Multi-step work keeps durable state, so already completed units are not blindly restarted. MCP provides controlled access to tools, files, data and external services. The orchestration layer remains responsible for execution.",
           ],
         },
         items: {
           bg: [
-            "Софтуерно инженерство и анализ на код",
-            "Изследователска и знаниева работа",
+            "Анализ на задачата и политика за изпълнение",
+            "Устойчива многостъпкова работа",
+            "Разпределение към локални работници",
+            "Крайна проверка",
+            "Избирателно използване на облака",
+          ],
+          en: [
+            "Task analysis and execution policy",
+            "Durable multi-step work",
+            "Local worker dispatch",
+            "Final verification",
+            "Selective cloud use",
+          ],
+        },
+        quote: {
+          bg: "MCP осигурява достъп. Оркестрацията управлява изпълнението.",
+          en: "MCP provides access. The orchestration layer owns execution.",
+        },
+      },
+      howItWorks: {
+        heading: { bg: "Как работи", en: "How it works" },
+        body: {
+          bg: [
+            "Локалното изпълнение е предпочитаният път. Облачни модели се използват само когато добавят реална стойност и политиката за изпълнение го позволява.",
+            "Многостъпковата работа може да спре и да продължи. Системата запазва състоянието на задачата, така че прекъсване или рестарт не връща вече свършената работа в началото.",
+            "Системата е проектирана да проверява дали работата действително е изпълнена, вместо да приема отговора на модела като достатъчно доказателство. Работниците получават нужния проектен контекст: структура, инструкции, умения и текущо състояние на работното пространство.",
+          ],
+          en: [
+            "Local execution is the default. Cloud intelligence is used only when it adds real value and when policy permits it.",
+            "Multi-step work can pause and resume. The system preserves task state, so a disconnect or restart does not send already completed work back to the beginning.",
+            "The system is designed to verify that work actually completed, rather than treating model output alone as proof of success. Workers receive the project context they need: structure, instructions, skills and current workspace state.",
+          ],
+        },
+        quote: {
+          bg: "Локалното изпълнение е предпочитаният път. Облачни модели се използват само когато добавят реална стойност.",
+          en: "Local execution is the default. Cloud intelligence is used only when it adds real value.",
+        },
+      },
+      extras: [
+        {
+          heading: { bg: "Повече от избор на модел", en: "More than model routing" },
+          body: {
+            bg: [
+              "Простата система за маршрутизиране избира модел и връща отговор. Тази архитектура управлява пътя на изпълнение: политика, оркестрация, локални работници, инструменти, оценка, проверка и резултат.",
+              "Чувствителният контекст може да остане локален. Външните модели получават само необходимия контекст. Достъпът до работното пространство е ограничен, а използването на облака се определя от политика.",
+              "Моделите и средите за изпълнение могат да се сменят според качество, производителност, цена и пригодност към задачата. Клиентите и процесите не трябва да се препроектират при всеки нов доставчик.",
+            ],
+            en: [
+              "A simple routing system chooses a model and returns an answer. This architecture owns the execution path: policy, orchestration, local workers, tools, evaluation, verification and a result.",
+              "Sensitive context can remain local. External models receive only the context that is necessary. Workspace access is scoped, and cloud use is policy-controlled.",
+              "Models and runtimes can change according to quality, performance, cost and task suitability. Clients and workflows do not need to be redesigned around every new provider.",
+            ],
+          },
+          items: {
+            bg: [
+              "По-малко излишно използване на облака",
+              "Повече чувствителен контекст остава локален",
+              "Сложните задачи могат да продължат след прекъсване",
+              "Работата се проверява, а не се приема на доверие",
+              "Различни модели без зависимост от един доставчик",
+              "Проектното знание може да се използва повторно",
+              "Локална и облачна интелигентност се комбинират съзнателно",
+            ],
+            en: [
+              "Less unnecessary cloud usage",
+              "More sensitive context stays local",
+              "Complex tasks can continue after interruptions",
+              "Work is verified instead of blindly trusted",
+              "Different models can be used without vendor lock-in",
+              "Project knowledge can be reused",
+              "Local and cloud intelligence can be combined intentionally",
+            ],
+          },
+        },
+      ],
+      value: {
+        heading: { bg: "Къде се използва", en: "Where it is used" },
+        body: {
+          bg: [
+            "Архитектурата се прилага върху вътрешни натоварвания в четири области.",
+            "При измерени вътрешни натоварвания локално ориентираното изпълнение може значително да намали използването на облачни токени на ниво задача спрямо подходи, които разчитат основно на големи облачни модели. Това не е твърдение за същото намаление на общите оперативни разходи.",
+          ],
+          en: [
+            "The architecture is applied to internal workloads in four areas.",
+            "In measured internal workloads, local-first execution can substantially reduce task-level cloud-token usage compared with approaches that rely primarily on large cloud models. This is not a claim of the same reduction in total operating cost.",
+          ],
+        },
+        items: {
+          bg: [
+            "Разработка и анализ на софтуер",
+            "Проучване и работа със знания",
             "Анализ на документи и данни",
-            "Автономни бизнес процеси с множество инструменти",
+            "Автономни многостъпкови бизнес процеси",
           ],
           en: [
             "Software engineering and code analysis",
             "Research and knowledge work",
             "Document and data analysis",
-            "Autonomous business workflows with multiple tools",
+            "Multi-step autonomous business workflows",
           ],
         },
       },
@@ -567,30 +628,34 @@ export const projects: Project[] = [
         heading: { bg: "Резултат", en: "Outcome" },
         body: {
           bg: [
-            "Не използваме най-големия модел за всяка задача. Използваме правилната интелигентност за правилната работа.",
+            "Резултатът не е просто по-малко използване на облачни модели. Получаваме по-контролиран начин за ИИ изпълнение, който е локално ориентиран, възстановим, наблюдаем, независим от доставчик, работи с проектен контекст и проверява дали задачата действително е изпълнена.",
+            "Не използваме най-големия модел за всяка задача. Използваме правилния начин на изпълнение за правилната работа.",
+            "Могат ли вашите ИИ процеси да работят по-ефективно? Проектираме архитектури, които комбинират локални модели, облачна интелигентност, проектен контекст, инструменти и автоматизация според реалните бизнес изисквания.",
           ],
           en: [
-            "We do not use the largest model for every task. We use the right intelligence for the right work.",
+            "The result is not simply lower cloud usage. It is a more controlled AI execution model that is local-first, recoverable, observable, provider-independent, context-aware and designed to verify that work actually completed.",
+            "We do not use the largest model for every task. We use the right execution path for the right work.",
+            "Could your AI workflows operate more efficiently? We design architectures that combine local models, cloud intelligence, project context, tools and automation around real business requirements.",
           ],
         },
       },
     },
     seo: {
       documentTitle: {
-        bg: "Локална ИИ оркестрация с интелигентно използване на облака | ITT Digital Hub",
-        en: "Local-First AI Orchestration with Selective Cloud Escalation | ITT Digital Hub",
+        bg: "Локално ориентирана ИИ оркестрация | ITT Digital Hub",
+        en: "Local-First AI Orchestration | ITT Digital Hub",
       },
       description: {
-        bg: "Хибридна ИИ архитектура, която по подразбиране работи локално и използва облака избирателно. Около 60-80% по-ниско използване на облачни токени при вътрешни натоварвания.",
-        en: "A hybrid AI architecture that runs locally by default and uses the cloud selectively. Around 60-80% lower cloud token usage across internal workloads.",
+        bg: "Архитектура за контролирано ИИ изпълнение, която работи локално по подразбиране, управлява сложни задачи и използва облака само когато добавя реална стойност.",
+        en: "A controlled AI execution architecture that works locally by default, coordinates complex tasks and uses the cloud only when it adds real value.",
       },
       ogTitle: {
-        bg: "Локална ИИ оркестрация с интелигентно използване на облака",
-        en: "Local-First AI Orchestration with Selective Cloud Escalation",
+        bg: "Локално ориентирана ИИ оркестрация",
+        en: "Local-First AI Orchestration",
       },
       ogDescription: {
-        bg: "Локалните модели вършат работата по подразбиране. Облакът се използва само когато добавя реална стойност.",
-        en: "Local models handle the work by default. The cloud is used only when it adds real value.",
+        bg: "Локално ориентирано изпълнение, устойчива оркестрация и облачна интелигентност само когато добавя стойност.",
+        en: "Local-first execution, durable orchestration and cloud intelligence only when it adds value.",
       },
       image: "/stories/local-orchestration-cover.webp",
     },

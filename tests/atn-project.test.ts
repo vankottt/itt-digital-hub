@@ -51,6 +51,16 @@ describe("public project stories", () => {
       if (project.story.howItWorks) {
         expect(project.story.howItWorks.body.bg).toHaveLength(project.story.howItWorks.body.en.length);
       }
+      if (project.story.value) {
+        expect(project.story.value.body.bg).toHaveLength(project.story.value.body.en.length);
+        if (project.story.value.items) {
+          expect(project.story.value.items.bg).toHaveLength(project.story.value.items.en.length);
+        }
+      }
+      for (const extra of project.story.extras ?? []) {
+        expect(extra.body.bg).toHaveLength(extra.body.en.length);
+        if (extra.items) expect(extra.items.bg).toHaveLength(extra.items.en.length);
+      }
     }
   });
 
@@ -70,12 +80,37 @@ describe("public project stories", () => {
     const solar = projects.find((item) => item.slug === "ai-assisted-solar-operations");
     const orchestration = projects.find((item) => item.slug === "local-ai-orchestration");
     expect(solar?.proofPoint?.en).toMatch(/more than 30 solar parks/i);
-    expect(orchestration?.proofPoint?.en).toMatch(/60-80%/);
-    expect(orchestration?.proofPoint?.en).not.toMatch(/total cost/i);
+    expect(orchestration?.proofPoint).toBeUndefined();
+    expect(collectCopy(orchestration).join("\n")).not.toMatch(/60-80%/);
     for (const project of projects) {
       expect(project.measuredResults).toBeUndefined();
       expect(validateProjectPublish(projectToRecord(project)).filter((issue) => issue.blocking)).toHaveLength(0);
     }
+  });
+
+  it("tells the local-first orchestration story without internal names or model-router framing", () => {
+    const orchestration = projects.find((item) => item.slug === "local-ai-orchestration");
+    expect(orchestration).toBeDefined();
+    const blob = collectCopy(orchestration).join("\n");
+    expect(orchestration?.title.en).toBe("Local-First AI Orchestration");
+    expect(orchestration?.title.bg).toBe("Локално ориентирана ИИ оркестрация");
+    expect(orchestration?.seo?.documentTitle.en).toBe("Local-First AI Orchestration | ITT Digital Hub");
+    expect(orchestration?.seo?.documentTitle.bg).toBe("Локално ориентирана ИИ оркестрация | ITT Digital Hub");
+    expect(orchestration?.tags.en).toEqual(["Local models", "Orchestration", "MCP", "Data protection", "Durable execution"]);
+    expect(blob).not.toMatch(/tCode/i);
+    expect(blob).not.toMatch(/Task Captain/i);
+    expect(blob).not.toMatch(/AI harness/i);
+    expect(blob).not.toMatch(/prototype/i);
+    expect(blob).not.toMatch(/Internal R&D/);
+    expect(blob).not.toMatch(/TODO_/);
+    expect(blob).toMatch(/MCP provides controlled access/);
+    expect(blob).toMatch(/MCP осигурява контролиран достъп/);
+    expect(blob).toMatch(/orchestration layer remains responsible for execution/i);
+    expect(blob).toMatch(/Оркестрационният слой остава отговорен за изпълнението/);
+    expect(blob).toMatch(/A model router alone does not solve this/);
+    expect(blob).toMatch(/task-level cloud-token usage/);
+    expect(blob).not.toMatch(/MCP is the orchestrat/i);
+    expect(blob).not.toMatch(/MCP оркестрира/i);
   });
 
   it("uses non-confidential cover assets", () => {
@@ -91,7 +126,10 @@ describe("public project stories", () => {
       "/stories/warranty-verification.jpg",
       "/stories/warranty-exceptions.jpg",
       "/stories/warranty-intelligence.jpg",
-      "/stories/creator-studio-cover.jpg",
+      "/stories/creator-content-library.jpg",
+      "/stories/creator-profile.jpg",
+      "/stories/creator-content-performance.jpg",
+      "/stories/creator-analytics.jpg",
       "/stories/solar-batteries-cover.jpg",
       "/stories/local-orchestration-cover.webp",
     ];
@@ -105,7 +143,13 @@ describe("public project stories", () => {
     expect(warrantyVisuals?.value?.src).toBe("/stories/warranty-intelligence.jpg");
     expect(warrantyVisuals?.value?.caption?.en).toMatch(/sample data/i);
     expect(warrantyVisuals?.value?.caption?.bg).toMatch(/примерни данни/i);
-    expect(projects[1]?.seo?.image).toBe("/stories/creator-studio-cover.jpg");
+    const creatorVisuals = projectStoryVisuals["atn-creator-social-intelligence"];
+    expect(projects[1]?.seo?.image).toBe("/stories/creator-content-library.jpg");
+    expect(projectHeroVisuals["atn-creator-social-intelligence"]?.src).toBe("/stories/creator-profile.jpg");
+    expect(creatorVisuals?.built?.src).toBe("/stories/creator-content-performance.jpg");
+    expect(creatorVisuals?.value?.src).toBe("/stories/creator-analytics.jpg");
+    expect(creatorVisuals?.value?.caption?.en).toMatch(/sample data/i);
+    expect(creatorVisuals?.value?.caption?.bg).toMatch(/примерни данни/i);
     expect(projects[2]?.seo?.image).toBe("/stories/solar-batteries-cover.jpg");
     expect(projects[3]?.seo?.image).toBe("/stories/local-orchestration-cover.webp");
   });

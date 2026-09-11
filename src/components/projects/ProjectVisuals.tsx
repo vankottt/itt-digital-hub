@@ -118,11 +118,11 @@ export function WarrantyCardDiagram({ locale }: { locale: Locale }) {
 }
 
 export function OrchestrationCardDiagram({ locale }: { locale: Locale }) {
-  const steps = locale === "bg" ? ["Задача", "Анализ", "Маршрутизиране", "Оценка"] : ["Task", "Analysis", "Routing", "Evaluation"];
+  const steps = locale === "bg" ? ["Задача", "Политика", "Оркестрация", "Резултат"] : ["Task", "Policy", "Orchestration", "Result"];
   const cells = [
-    { title: locale === "bg" ? "Локални модели" : "Local models", note: locale === "bg" ? "По подразбиране" : "By default" },
-    { title: locale === "bg" ? "MCP" : "MCP", note: locale === "bg" ? "Достъп до инструменти" : "Tool access" },
-    { title: locale === "bg" ? "Облак" : "Cloud", note: locale === "bg" ? "Само при нужда" : "Only when needed" },
+    { title: locale === "bg" ? "Локално" : "Local first", note: locale === "bg" ? "Предпочитаният път" : "The default path" },
+    { title: locale === "bg" ? "MCP" : "MCP", note: locale === "bg" ? "Достъп, не оркестрация" : "Access, not orchestration" },
+    { title: locale === "bg" ? "Облак" : "Cloud", note: locale === "bg" ? "Само при нужда" : "Only when justified" },
   ];
 
   return (
@@ -446,40 +446,56 @@ export function SolarMarketVisual({ locale }: { locale: Locale }) {
   );
 }
 
+function FlowArrow() {
+  return (
+    <span className="flex h-6 items-center px-3" aria-hidden="true">
+      <ArrowRight className="rotate-90 text-ink-3" />
+    </span>
+  );
+}
+
 export function OrchestrationArchitectureVisual({ locale }: { locale: Locale }) {
-  const local = locale === "bg" ? "Локални модели" : "Local models";
-  const cloud = locale === "bg" ? "Облак само при нужда" : "Cloud only when justified";
-  const mcp = locale === "bg" ? "Инструменти и данни чрез MCP" : "Tools and data through MCP";
-  const steps =
-    locale === "bg"
-      ? ["Задача", "Управляващ слой", "Анализ", "Разбиване", "Маршрутизиране", "Оценка"]
-      : ["Task", "AI harness", "Analysis", "Decomposition", "Routing", "Evaluation"];
+  const isBg = locale === "bg";
+  const task = isBg ? "Задача" : "Task";
+  const policy = isBg ? "Политика за изпълнение" : "Execution policy";
+  const orch = isBg ? "Оркестрация" : "Orchestration";
+  const workers = isBg ? "Локални работници" : "Local workers";
+  const verify = isBg ? "Оценка и проверка" : "Evaluation and verification";
+  const result = isBg ? "Резултат" : "Result";
+  const mcp = isBg ? "MCP: инструменти, данни и проектен контекст" : "MCP: tools, data and project context";
+  const mcpNote = isBg
+    ? "MCP осигурява достъп. Оркестрацията управлява изпълнението."
+    : "MCP provides access. The orchestration layer owns execution.";
+  const cloud = isBg ? "Избирателна облачна интелигентност" : "Selective cloud intelligence";
+  const cloudNote = isBg ? "Само когато е оправдано" : "Only when justified";
 
   return (
-    <div className="overflow-hidden rounded-[1.25rem] bg-marine p-5 text-on-dark md:p-8">
-      <ol className="flex flex-wrap items-center gap-y-3">
-        {steps.map((item, index) => (
-          <li key={item} className="flex items-center">
-            <span className="inline-flex min-h-10 items-center rounded-ctrl border border-on-dark/30 px-3 py-1.5 text-small">
-              {item}
-            </span>
-            {index < steps.length - 1 ? <ArrowRight className="mx-1.5 shrink-0 text-on-dark-muted" aria-hidden="true" /> : null}
-          </li>
-        ))}
-      </ol>
-      <div className="mt-8 grid gap-3 md:grid-cols-3">
-        <div className="rounded-[1rem] bg-white/8 px-4 py-4">
-          <p className="text-small text-on-dark">{local}</p>
-          <p className="mt-2 text-meta text-on-dark-muted">{locale === "bg" ? "По подразбиране" : "By default"}</p>
+    <div className="overflow-hidden rounded-[1.25rem] border border-line bg-white p-5 md:p-7">
+      <div className="flex max-w-3xl flex-col items-start">
+        <Pill>{task}</Pill>
+        <FlowArrow />
+        <Pill>{policy}</Pill>
+        <FlowArrow />
+        <div className="grid w-full gap-3 md:grid-cols-[auto_minmax(0,1fr)] md:items-center">
+          <Pill>{orch}</Pill>
+          <div className="rounded-[1rem] border border-signal/40 bg-signal/10 px-4 py-3">
+            <p className="text-small font-medium text-ink">{cloud}</p>
+            <p className="mt-1 text-meta text-ink-3">{cloudNote}</p>
+          </div>
         </div>
-        <div className="rounded-[1rem] bg-white/8 px-4 py-4">
-          <p className="text-small text-on-dark">{mcp}</p>
-          <p className="mt-2 text-meta text-on-dark-muted">{locale === "bg" ? "Достъп, не оркестрация" : "Access, not orchestration"}</p>
+        <FlowArrow />
+        <Pill>{workers}</Pill>
+        <p className="px-3 py-2 text-meta text-ink-3" aria-hidden="true">
+          ↕
+        </p>
+        <div className="w-full rounded-[1rem] bg-paper px-4 py-4">
+          <p className="text-small font-medium text-ink">{mcp}</p>
+          <p className="mt-2 text-meta text-ink-3">{mcpNote}</p>
         </div>
-        <div className="rounded-[1rem] border border-signal/50 bg-signal/20 px-4 py-4">
-          <p className="text-small text-on-dark">{cloud}</p>
-          <p className="mt-2 text-meta text-on-dark-muted">{locale === "bg" ? "Избирателна ескалация" : "Selective escalation"}</p>
-        </div>
+        <FlowArrow />
+        <Pill>{verify}</Pill>
+        <FlowArrow />
+        <Pill tone="signal">{result}</Pill>
       </div>
     </div>
   );

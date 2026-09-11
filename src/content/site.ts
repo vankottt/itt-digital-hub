@@ -27,9 +27,10 @@ export const site = {
     en: "ITT Digital Hub combines business process expertise and hands-on software engineering to design and build AI solutions around real operations, existing systems and data.",
   } satisfies L,
   contactNote: {
-    bg: "Директен контакт: LinkedIn. Имейл и график: TODO_CONTENT.",
-    en: "Direct contact: LinkedIn. Email and scheduling: TODO_CONTENT.",
+    bg: "Директен контакт: LinkedIn. Телефон:",
+    en: "Direct contact: LinkedIn. Phone:",
   } satisfies L,
+  phone: "+359 895 581 911",
 };
 
 export interface NavItem {

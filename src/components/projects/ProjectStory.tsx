@@ -8,7 +8,7 @@ import { Paragraphs } from "@/components/editorial/Blocks";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { href } from "@/lib/paths";
 import { ProjectSection } from "./ProjectSection";
-import { CapabilityList, CreatorAnalyticsVisual, ProcessFlow, PullQuote, SolarMarketVisual } from "./ProjectVisuals";
+import { CapabilityList, OrchestrationArchitectureVisual, ProcessFlow, PullQuote, SolarMarketVisual } from "./ProjectVisuals";
 
 function StoryBlock({
   id,
@@ -49,8 +49,8 @@ function StoryPhoto({ visual, locale }: { visual: ProjectVisual; locale: Locale 
 function StoryVisuals({ slug, locale, slot }: { slug: string; locale: Locale; slot: "built" | "how" | "value" }) {
   const photo = projectStoryVisuals[slug]?.[slot];
   if (photo) return <StoryPhoto visual={photo} locale={locale} />;
-  if (slug === "atn-creator-social-intelligence" && slot === "value") return <CreatorAnalyticsVisual locale={locale} />;
   if (slug === "ai-assisted-solar-operations" && slot === "how") return <SolarMarketVisual locale={locale} />;
+  if (slug === "local-ai-orchestration" && slot === "how") return <OrchestrationArchitectureVisual locale={locale} />;
   return null;
 }
 
@@ -65,6 +65,9 @@ export function ProjectStory({ project, locale }: { project: Project; locale: Lo
       {story.howItWorks ? (
         <StoryBlock id="how" section={story.howItWorks} locale={locale} visual={<StoryVisuals slug={project.slug} locale={locale} slot="how" />} />
       ) : null}
+      {story.extras?.map((section, index) => (
+        <StoryBlock key={section.heading.en} id={`extra-${index}`} section={section} locale={locale} />
+      ))}
       {story.value ? (
         <StoryBlock id="value" section={story.value} locale={locale} visual={<StoryVisuals slug={project.slug} locale={locale} slot="value" />} />
       ) : null}

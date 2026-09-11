@@ -44,6 +44,8 @@ export interface ProjectStory {
   challenge: StorySection;
   built: StorySection;
   howItWorks?: StorySection;
+  /** Optional extra story blocks. Unused sections stay omitted. */
+  extras?: StorySection[];
   value?: StorySection;
   outcome: StorySection;
 }

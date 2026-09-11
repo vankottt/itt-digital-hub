@@ -49,12 +49,12 @@ export const storyCovers: Record<string, StoryCover> = {
   },
   "atn-creator-social-intelligence": {
     kind: "photo",
-    src: "/stories/creator-studio-cover.jpg",
+    src: "/stories/creator-content-library.jpg",
     overlay: "light",
-    objectPosition: "center 40%",
+    objectPosition: "center 38%",
     alt: {
-      bg: "Студио за съдържание с камера, лаптоп и контактни листове",
-      en: "Content studio desk with a camera, laptop and contact sheets",
+      bg: "Илюстративен екран с библиотека със съдържание, тенденции и представяне",
+      en: "Illustrative screen with a content library, trends and performance",
     },
   },
   "ai-assisted-solar-operations": {
@@ -71,13 +71,25 @@ export const storyCovers: Record<string, StoryCover> = {
     kind: "diagram",
     diagram: "orchestration",
     alt: {
-      bg: "Архитектурна схема: локални модели по подразбиране, инструменти чрез MCP и облак само при нужда",
-      en: "Architecture diagram: local models by default, tools through MCP and cloud only when justified",
+      bg: "Схема на изпълнение: задача, политика, оркестрация, локални работници, проверка и резултат, с облак само при нужда",
+      en: "Execution diagram: task, policy, orchestration, local workers, verification and result, with cloud only when justified",
     },
   },
 };
 
 export const projectHeroVisuals: Record<string, ProjectVisual> = {
+  "atn-creator-social-intelligence": {
+    src: "/stories/creator-profile.jpg",
+    alt: {
+      bg: "Илюстративен профил на създател със сътрудничество, доставки и публикувано съдържание",
+      en: "Illustrative creator profile with a collaboration, deliverables and published content",
+    },
+    caption: {
+      bg: "Илюстративен профил на създател. Примерни данни.",
+      en: "Illustrative creator profile. Sample data.",
+    },
+    objectPosition: "center",
+  },
   "atn-warranty-portal": {
     src: "/stories/warranty-relationship.jpg",
     alt: {
@@ -129,6 +141,30 @@ export const projectStoryVisuals: Record<string, Partial<Record<"built" | "how" 
       caption: {
         bg: "Илюстративно управленско табло. Примерни данни.",
         en: "Illustrative management dashboard. Sample data.",
+      },
+    },
+  },
+  "atn-creator-social-intelligence": {
+    built: {
+      src: "/stories/creator-content-performance.jpg",
+      alt: {
+        bg: "Илюстративен екран за представяне на съдържание, свързано със създатели и публикации",
+        en: "Illustrative content performance screen linking posts to creators and results",
+      },
+      caption: {
+        bg: "Илюстративно представяне на съдържание. Примерни данни.",
+        en: "Illustrative content performance. Sample data.",
+      },
+    },
+    value: {
+      src: "/stories/creator-analytics.jpg",
+      alt: {
+        bg: "Илюстративен анализ с тенденции, типове съдържание и сравнение между създатели",
+        en: "Illustrative analytics with trends, content types and creator comparison",
+      },
+      caption: {
+        bg: "Илюстративен анализ на представянето. Примерни данни.",
+        en: "Illustrative performance analytics. Sample data.",
       },
     },
   },

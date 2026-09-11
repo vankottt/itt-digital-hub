@@ -15,7 +15,6 @@ import { ProjectTags } from "@/components/projects/StoryCard";
 import { ArrowLink } from "@/components/ui/ArrowLink";
 import { projectHeroVisuals, storyCovers } from "@/content/stories";
 import { EditorialFigure } from "@/components/editorial/EditorialFigure";
-import { CreatorWorkspaceVisual, OrchestrationArchitectureVisual } from "@/components/projects/ProjectVisuals";
 
 type Params = { params: Promise<{ locale: string; slug: string }> };
 
@@ -83,15 +82,7 @@ export default async function ProjectDetailPage({ params }: Params) {
               <p className="mt-8 max-w-[46ch] border-l-2 border-signal pl-5 font-sans text-h4 text-ink">{project.proofPoint[locale]}</p>
             ) : null}
           </div>
-          {project.slug === "atn-creator-social-intelligence" ? (
-            <div className="mt-12 lg:mt-14">
-              <CreatorWorkspaceVisual locale={locale} />
-            </div>
-          ) : project.slug === "local-ai-orchestration" ? (
-            <div className="mt-12 lg:mt-14">
-              <OrchestrationArchitectureVisual locale={locale} />
-            </div>
-          ) : heroVisual ? (
+          {heroVisual ? (
             <EditorialFigure
               src={heroVisual.src}
               alt={heroVisual.alt[locale]}
