@@ -36,8 +36,8 @@ export function ProjectExecutive({ project, locale }: { project: Project; locale
           <StatusLabel status={project.status} locale={locale} />
         </Cell>
         <Cell label={d.proposition[locale]}>{project.proposition?.[locale] ?? project.standfirst[locale]}</Cell>
-        <Cell label={d.problem[locale]}>{project.systemProblem[locale][0]}</Cell>
-        <Cell label={d.objective[locale]}>{project.objective[locale][0]}</Cell>
+        <Cell label={d.problem[locale]}>{project.systemProblem?.[locale][0] ?? project.story?.challenge.body[locale][0]}</Cell>
+        <Cell label={d.objective[locale]}>{project.objective?.[locale][0] ?? project.story?.built.body[locale][0]}</Cell>
         {project.scope ? <Cell label={d.scope[locale]}>{project.scope.intro[locale]}</Cell> : null}
         <Cell label={d.method[locale]}>{localizedApproachName(project.methodologyName, locale)}</Cell>
         {actors.length ? (
@@ -74,7 +74,7 @@ export function ProjectExecutive({ project, locale }: { project: Project; locale
             : d.measuredEmpty[locale]}
         </Cell>
       </dl>
-      <p className="border-t border-line px-5 py-4 text-meta text-ink-3 md:px-8">{project.statusNote[locale]}</p>
+      <p className="border-t border-line px-5 py-4 text-meta text-ink-3 md:px-8">{project.statusNote?.[locale]}</p>
     </section>
   );
 }

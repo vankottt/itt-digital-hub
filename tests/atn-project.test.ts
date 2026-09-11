@@ -2,69 +2,100 @@ import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { projects } from "../src/content/projects";
-import { projectHeroVisuals, projectSectionVisuals, storyCovers } from "../src/content/stories";
+import { home, projectsPage } from "../src/content/pages";
+import { storyCovers } from "../src/content/stories";
 import { projectToRecord } from "../src/lib/cms/serialize";
 import { validateProjectPublish } from "../src/lib/cms/truth";
 
-const slug = "atn-creator-social-intelligence";
-const prototypeClaims = [
-  "124K",
-  "1.2M",
-  "3.4M",
-  "248K",
-  "Sofia Marinova",
-  "Jordan Kim",
-  "€1,500",
-];
+const dashPattern = /[\u2013\u2014]/;
+const draftPattern =
+  /TODO_VERIFY|TODO_ASSET|TODO_CONTENT|No fabricated results|Missing facts|Measured results|Status note|Conceptual prototype|in development|future roadmap/i;
 
-describe("ATN Creator & Social Intelligence project", () => {
-  const project = projects.find((item) => item.slug === slug);
+function collectCopy(value: unknown): string[] {
+  if (typeof value === "string") return [value];
+  if (Array.isArray(value)) return value.flatMap(collectCopy);
+  if (value && typeof value === "object") return Object.values(value).flatMap(collectCopy);
+  return [];
+}
 
-  it("is added without replacing existing stories", () => {
+describe("public project stories", () => {
+  it("uses the client-facing order without replacing slugs", () => {
     expect(projects.map((item) => item.slug)).toEqual([
+      "atn-warranty-portal",
+      "atn-creator-social-intelligence",
       "ai-assisted-solar-operations",
       "local-ai-orchestration",
-      "atn-warranty-portal",
-      slug,
     ]);
   });
 
-  it("stays an in-development story with no measured results", () => {
-    expect(project).toBeDefined();
-    expect(project?.status).toBe("in-development");
-    expect(project?.measuredResults).toBeUndefined();
-    const issues = validateProjectPublish(projectToRecord(project!));
-    expect(issues.filter((issue) => issue.blocking)).toHaveLength(0);
+  it("removes ATN from public titles and metadata", () => {
+    for (const project of projects) {
+      const blob = collectCopy({
+        title: project.title,
+        seo: project.seo,
+        standfirst: project.standfirst,
+        summary: project.summary,
+      }).join("\n");
+      expect(blob).not.toMatch(/\bATN\b/);
+    }
+    expect(projects[0]?.title.en).toBe("Manufacturer-to-Customer Warranty Platform");
+    expect(projects[1]?.title.en).toBe("Creator & Social Intelligence");
   });
 
-  it("keeps EN and BG copy structurally aligned", () => {
-    expect(project?.title.en).toBe("ATN Creator & Social Intelligence Platform");
-    expect(project?.title.bg).toBeTruthy();
-    expect(project?.standfirst.bg).toBeTruthy();
-    expect(project?.summary.bg).toBeTruthy();
-    expect(project?.systemProblem.bg).toHaveLength(project!.systemProblem.en.length);
-    expect(project?.objective.bg).toHaveLength(project!.objective.en.length);
-    expect(project?.followUp?.bg).toHaveLength(project!.followUp!.en.length);
-    expect(project?.seo?.documentTitle.en).toBe("ATN Creator & Social Intelligence Platform | ITT Digital Hub");
-  });
-
-  it("does not quote prototype UI data as project results", () => {
-    const blob = JSON.stringify(project);
-    for (const claim of prototypeClaims) {
-      expect(blob).not.toContain(claim);
+  it("keeps EN and BG story structure aligned", () => {
+    for (const project of projects) {
+      expect(project.tags.bg).toHaveLength(project.tags.en.length);
+      expect(project.story.challenge.body.bg).toHaveLength(project.story.challenge.body.en.length);
+      expect(project.story.built.body.bg).toHaveLength(project.story.built.body.en.length);
+      expect(project.story.outcome.body.bg).toHaveLength(project.story.outcome.body.en.length);
+      if (project.story.howItWorks) {
+        expect(project.story.howItWorks.body.bg).toHaveLength(project.story.howItWorks.body.en.length);
+      }
     }
   });
 
-  it("uses the two conceptual prototype images with captions", () => {
-    const cover = storyCovers[slug];
-    const hero = projectHeroVisuals[slug];
-    const intelligence = projectSectionVisuals[slug]?.intelligence;
-    expect(cover?.src).toBe("/stories/atn-creator-collaboration-workspace.png");
-    expect(hero?.src).toBe("/stories/atn-creator-collaboration-workspace.png");
-    expect(intelligence?.src).toBe("/stories/atn-creator-content-intelligence.png");
-    expect(hero?.caption.en).toMatch(/Conceptual product prototype/);
-    expect(intelligence?.caption.bg).toMatch(/Концептуален продуктов прототип/);
-    expect(existsSync(resolve("public/stories/atn-creator-collaboration-workspace.png"))).toBe(true);
-    expect(existsSync(resolve("public/stories/atn-creator-content-intelligence.png"))).toBe(true);
+  it("omits drafting language, empty measured-results copy and long dashes", () => {
+    const publicCopy = [
+      ...projects.flatMap((project) => collectCopy(project)),
+      ...collectCopy(home.featured),
+      ...collectCopy({ meta: projectsPage.meta, heading: projectsPage.heading, lead: projectsPage.lead }),
+    ];
+    for (const text of publicCopy) {
+      expect(text).not.toMatch(dashPattern);
+      expect(text).not.toMatch(draftPattern);
+    }
+  });
+
+  it("keeps the confirmed proof points without inventing extra metrics", () => {
+    const solar = projects.find((item) => item.slug === "ai-assisted-solar-operations");
+    const orchestration = projects.find((item) => item.slug === "local-ai-orchestration");
+    expect(solar?.proofPoint?.en).toMatch(/more than 30 solar parks/i);
+    expect(orchestration?.proofPoint?.en).toMatch(/60-80%/);
+    expect(orchestration?.proofPoint?.en).not.toMatch(/total cost/i);
+    for (const project of projects) {
+      expect(project.measuredResults).toBeUndefined();
+      expect(validateProjectPublish(projectToRecord(project)).filter((issue) => issue.blocking)).toHaveLength(0);
+    }
+  });
+
+  it("uses non-confidential cover assets", () => {
+    expect(storyCovers["atn-warranty-portal"]?.kind).toBe("diagram");
+    expect(storyCovers["local-ai-orchestration"]?.kind).toBe("diagram");
+    expect(storyCovers["atn-creator-social-intelligence"]?.kind).toBe("photo");
+    expect(storyCovers["ai-assisted-solar-operations"]?.kind).toBe("photo");
+
+    const files = [
+      "/stories/warranty-relation-cover.png",
+      "/stories/creator-studio-cover.jpg",
+      "/stories/solar-batteries-cover.jpg",
+      "/stories/local-orchestration-cover.webp",
+    ];
+    for (const src of files) {
+      expect(existsSync(resolve(`public${src}`))).toBe(true);
+    }
+    expect(projects[0]?.seo?.image).toBe("/stories/warranty-relation-cover.png");
+    expect(projects[1]?.seo?.image).toBe("/stories/creator-studio-cover.jpg");
+    expect(projects[2]?.seo?.image).toBe("/stories/solar-batteries-cover.jpg");
+    expect(projects[3]?.seo?.image).toBe("/stories/local-orchestration-cover.webp");
   });
 });

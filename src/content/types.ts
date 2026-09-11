@@ -5,7 +5,6 @@ import type { L } from "@/lib/i18n";
    localized with L<T>; ids/slugs are shared across locales.
    ------------------------------------------------------------------ */
 
-/** Public status vocabulary. Unknown facts stay on TODO markers, not in these labels. */
 export type ProjectStatus =
   | "pilot-concept"
   | "proposed-mandate"
@@ -33,6 +32,22 @@ export interface Deliverable {
   body: L;
 }
 
+export interface StorySection {
+  heading: L;
+  body: L<string[]>;
+  items?: L<string[]>;
+  steps?: L<string[]>;
+  quote?: L;
+}
+
+export interface ProjectStory {
+  challenge: StorySection;
+  built: StorySection;
+  howItWorks?: StorySection;
+  value?: StorySection;
+  outcome: StorySection;
+}
+
 export interface Project {
   slug: string;
   featured?: boolean;
@@ -43,13 +58,15 @@ export interface Project {
   title: L;
   standfirst: L;
   summary: L;
-  /** System problem and context — paragraphs. */
-  systemProblem: L<string[]>;
-  /** Observable symptoms / factors listed in the source. */
+  tags: L<string[]>;
+  proofPoint?: L;
+  cta: L;
+  story: ProjectStory;
+  /** Retained for CMS records; not rendered on public story pages. */
+  systemProblem?: L<string[]>;
   symptoms?: L<string[]>;
-  /** Central question the project must answer. */
   question?: L;
-  objective: L<string[]>;
+  objective?: L<string[]>;
   objectiveItems?: L<string[]>;
   scope?: {
     intro: L;
@@ -57,35 +74,27 @@ export interface Project {
     items: L<string[]>;
     note?: L;
   };
-  methodology: {
+  methodology?: {
     intro: L;
     stages: Stage[];
   };
   dataEvidence?: L<string[]>;
-  /** Stakeholder groups analysed by the project (not partners). */
   stakeholders?: { intro: L; groups: L<string[]> };
   targetArchitecture?: { intro: L; relation?: L<string[]>; components: L<string[]> };
-  /** Intended deliverables. */
   outputs?: { intro: L; items: Deliverable[] };
-  /** Expected outcomes — never measured results. */
   expectedOutcomes?: L<string[]>;
-  /** Measured results — empty in V1 by definition. */
   measuredResults?: L<string[]>;
   validation?: { intro: L; loop: L<string[]>; indicators?: L<string[]> };
   successCriteria?: L<string[]>;
   variants?: Array<{ title: L; body: L; duration: L }>;
   followUp?: L<string[]>;
-  /** Who the work is proposed to — an addressee, not a confirmed partner. */
   proposedTo?: L;
-  statusNote: L;
-  sourceNote: L;
+  statusNote?: L;
+  sourceNote?: L;
   related?: string[];
   relatedInsights?: string[];
-  /** Executive-layer proposition; falls back to standfirst. */
   proposition?: L;
-  /** Later product-direction narrative, rendered after methodology when present. */
   intelligence?: { body: L<string[]> };
-  /** Future measurement areas — never current performance claims. */
   measuredAreas?: { intro: L; items: L<string[]>; note: L };
   seo?: {
     documentTitle: L;

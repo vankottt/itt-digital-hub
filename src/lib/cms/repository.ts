@@ -148,7 +148,11 @@ export async function loadAllRecords(): Promise<{
 
 export async function listPublishedProjects(): Promise<Project[]> {
   const { projects } = await loadAllRecords();
-  return projects.filter((p) => isPublished(p.publicationState)).map(recordToProject);
+  const order = new Map(seedProjects.map((project, index) => [project.slug, index]));
+  return projects
+    .filter((p) => isPublished(p.publicationState))
+    .map(recordToProject)
+    .sort((a, b) => (order.get(a.slug) ?? 99) - (order.get(b.slug) ?? 99));
 }
 
 export async function listPublishedArticles(): Promise<Insight[]> {

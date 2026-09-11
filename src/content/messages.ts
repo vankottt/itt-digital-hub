@@ -71,6 +71,7 @@ export interface Messages {
   newsPrevious: string;
   newsNext: string;
   viewMore: string;
+  viewProject: string;
   storiesCarousel: string;
   storiesPrevious: string;
   storiesNext: string;
@@ -149,6 +150,7 @@ const messages: Record<Locale, Messages> = {
     newsPrevious: "Предишна новина",
     newsNext: "Следваща новина",
     viewMore: "Вижте повече",
+    viewProject: "Вижте проекта",
     storiesCarousel: "Нашите истории",
     storiesPrevious: "Предишна история",
     storiesNext: "Следваща история",
@@ -235,6 +237,7 @@ const messages: Record<Locale, Messages> = {
     newsPrevious: "Previous news item",
     newsNext: "Next news item",
     viewMore: "View more",
+    viewProject: "View project",
     storiesCarousel: "Our stories",
     storiesPrevious: "Previous story",
     storiesNext: "Next story",

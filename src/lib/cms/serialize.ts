@@ -100,8 +100,9 @@ export function recordToProject(record: ProjectRecord): Project {
     seo?: unknown;
   };
   const { methodologyName: _ignoredMethodologyName, ...payloadRest } = payload;
+  const rest = payloadRest as Partial<Project>;
   return {
-    ...payloadRest,
+    ...rest,
     slug: record.slug,
     featured: record.featured,
     status: record.status as Project["status"],
@@ -111,6 +112,13 @@ export function recordToProject(record: ProjectRecord): Project {
     title: { bg: record.titleBg, en: record.titleEn },
     standfirst: { bg: record.standfirstBg, en: record.standfirstEn },
     summary: { bg: record.summaryBg, en: record.summaryEn },
+    tags: rest.tags ?? { bg: [], en: [] },
+    cta: rest.cta ?? { bg: "Обсъдете проекта си", en: "Discuss your project" },
+    story: rest.story ?? {
+      challenge: { heading: { bg: "Предизвикателството", en: "The challenge" }, body: { bg: [record.standfirstBg], en: [record.standfirstEn] } },
+      built: { heading: { bg: "Какво изградихме", en: "What we built" }, body: { bg: [record.summaryBg], en: [record.summaryEn] } },
+      outcome: { heading: { bg: "Резултат", en: "Outcome" }, body: { bg: [record.summaryBg], en: [record.summaryEn] } },
+    },
     related: record.relatedProjectSlugs,
     relatedInsights: record.relatedInsightSlugs,
     seo: projectSeoFromRecord(record),

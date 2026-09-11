@@ -4,10 +4,10 @@ import { href } from "@/lib/paths";
 import { pageMetadata } from "@/lib/metadata";
 import { home } from "@/content/pages";
 import { t } from "@/content/messages";
-import { projects } from "@/content/projects";
 import { people } from "@/content/people";
 import { problemClasses } from "@/content/problems";
 import { approachStages } from "@/content/approach";
+import { listPublishedProjects } from "@/lib/cms/repository";
 import { Hero } from "@/components/editorial/Hero";
 import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/editorial/SectionHeading";
@@ -34,6 +34,7 @@ export default async function HomePage({ params }: Params) {
   const m = t(locale);
   const c = home;
   const founders = people.filter((person) => person.slug === "ivan-todorov" || person.slug === "ivan-tomchev");
+  const projects = await listPublishedProjects();
 
   return (
     <>
@@ -51,7 +52,7 @@ export default async function HomePage({ params }: Params) {
             <ol className="mt-4 divide-y divide-line">
               {projects.map((project) => (
                 <li key={project.slug} className="py-3.5 first:pt-2 last:pb-0">
-                  <p className="font-sans text-h4 text-ink">{project.title[locale]}</p>
+                  <p className="font-sans text-h4 text-pretty text-ink">{project.title[locale]}</p>
                   <p className="mt-1 text-meta text-ink-3">{project.domain[locale]}</p>
                 </li>
               ))}

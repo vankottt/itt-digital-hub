@@ -16,6 +16,15 @@ next-env.d.ts
 .env*
 !.env.example
 
+# Conference kit: diva-e copies and derivative templates stay local
+/conference-kit/01-selected-sources/
+/conference-kit/02-itt-branded/powerpoint/ITT_Digital_Hub_Master.potx
+/conference-kit/02-itt-branded/powerpoint/ITT_Digital_Hub_Master.pptx
+/conference-kit/02-itt-branded/powerpoint/ITT_Icon_Collection.potx
+/conference-kit/02-itt-branded/powerpoint/ITT_Poster_*.potx
+/conference-kit/02-itt-branded/letter/
+/conference-kit/02-itt-branded/icons/
+
 # debug
 npm-debug.log*
 yarn-debug.log*

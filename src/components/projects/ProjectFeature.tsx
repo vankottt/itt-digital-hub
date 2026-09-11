@@ -17,7 +17,7 @@ export function ProjectFeature({ project, locale, label, chainTitle }: { project
         <SectionHeading label={`${label} · ${m.statuses[project.status]}`} heading={project.title[locale]} id="featured-heading" />
         <p className="mt-5 max-w-2xl text-lead text-ink-2">{project.standfirst[locale]}</p>
         <ProjectMeta project={project} locale={locale} className="mt-8 max-w-2xl" />
-        <p className="mt-4 max-w-2xl text-meta text-ink-3">{project.statusNote[locale]}</p>
+        {project.statusNote ? <p className="mt-4 max-w-2xl text-meta text-ink-3">{project.statusNote[locale]}</p> : null}
         <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3">
           <ArrowLink href={url}>{m.toProject}</ArrowLink>
           <ArrowLink href={href(locale, "methodology")}>{m.toMethodology}</ArrowLink>

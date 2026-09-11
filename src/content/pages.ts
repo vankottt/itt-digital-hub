@@ -31,10 +31,10 @@ export const home = {
   },
   featured: {
     label: { bg: "Работа", en: "Work" },
-    heading: { bg: "Нашите истории", en: "Our stories" },
+    heading: { bg: "Избрана работа", en: "Selected work" },
     lead: {
-      bg: "Кратки истории за системи, които сме изграждали. Липсващите факти са маркирани, не са дописани.",
-      en: "Short stories about systems we have built. Missing facts are marked, not invented.",
+      bg: "Реални системи, приложен ИИ, оперативна автоматизация и напреднало ИИ инженерство.",
+      en: "Real systems, applied AI, operational automation and advanced AI engineering.",
     },
     chainTitle: { bg: "Оперативен поток", en: "Operational flow" },
   },
@@ -144,35 +144,14 @@ export const projectsPage = {
   meta: {
     title: { bg: "Работа", en: "Work" },
     description: {
-      bg: "Избрана работа на ITT Digital Hub: оперативни системи, локален AI и бизнес платформи — с честен статус.",
-      en: "Selected work from ITT Digital Hub: operational systems, local AI and business platforms — with honest status.",
+      bg: "Избрана работа на ITT Digital Hub: оперативни системи, приложен ИИ и бизнес платформи.",
+      en: "Selected work from ITT Digital Hub: operational systems, applied AI and business platforms.",
     },
   },
   heading: { bg: "Избрана работа", en: "Selected work" },
   lead: {
-    bg: "Примери за способност, не продукти в каталог. Без изфабрикувани резултати.",
-    en: "Examples of capability, not a product catalogue. No fabricated results.",
-  },
-  statusVocabTitle: { bg: "Речник на статусите", en: "Status vocabulary" },
-  statusVocabNote: {
-    bg: "Работен речник. Непотвърденото остава като TODO.",
-    en: "Working vocabulary. Unconfirmed facts stay as TODO.",
-  },
-  statusVocab: {
-    bg: [
-      ["Продукция", "Работи в реална среда."],
-      ["В разработка", "Изгражда се; обхватът може още да се уточнява."],
-      ["Вътрешна разработка", "Вътрешна разработка или прототип, не оферта."],
-      ["Завършен проект", "Изградена система; връзката с ITT се потвърждава отделно."],
-      ["Клиентски проект", "Само при потвърдена клиентска връзка."],
-    ],
-    en: [
-      ["Production", "Running in a real environment."],
-      ["In development", "Being built; scope may still be confirmed."],
-      ["Internal R&D", "Internal work or a prototype, not an offering."],
-      ["Completed project", "A built system; the ITT relationship is confirmed separately."],
-      ["Client project", "Only when a client relationship is confirmed."],
-    ],
+    bg: "Реални системи, приложен ИИ, оперативна автоматизация и напреднало ИИ инженерство.",
+    en: "Real systems, applied AI, operational automation and advanced AI engineering.",
   },
   detail: {
     problem: { bg: "Проблемът", en: "The problem" },
@@ -209,6 +188,7 @@ export const projectsPage = {
     contents: { bg: "Съдържание", en: "Contents" },
     intelligence: { bg: "Съдържание и интелигентност за представянето", en: "Content & performance intelligence" },
     measuredAreas: { bg: "Възможни бъдещи области за измерване", en: "Potential future measurement areas" },
+    next: { bg: "Следваща стъпка", en: "Next step" },
   },
 } as const;
 
