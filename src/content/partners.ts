@@ -58,7 +58,7 @@ export const partners: Partner[] = [
     id: "mg-klima",
     name: { bg: "МГ Клима", en: "MG Klima" },
     href: "https://mgklima.bg/",
-    logo: "/partners/mg-klima.png",
+    logo: "/partners/mg-klima-v2.png",
     width: 1024,
     height: 354,
   },
