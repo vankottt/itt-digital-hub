@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     metadataBase: new URL(siteUrl()),
     title: {
       default: site.name[locale],
-      template: `%s – ${site.short[locale]}`,
+      template: `%s · ${site.short[locale]}`,
     },
     description: site.description[locale],
     applicationName: site.name[locale],

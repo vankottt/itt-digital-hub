@@ -13,7 +13,7 @@ export default function LocaleNotFound() {
   const en = t("en");
   return (
     <Container className="py-section">
-      <title>{`${bg.notFoundTitle} · ${en.notFoundTitle} – ${site.short.bg}`}</title>
+      <title>{`${bg.notFoundTitle} · ${en.notFoundTitle} · ${site.short.bg}`}</title>
       <div className="rule pt-10">
         <p className="label">404</p>
         <div className="mt-6 grid gap-10 md:grid-cols-2">

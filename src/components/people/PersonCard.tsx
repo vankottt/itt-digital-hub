@@ -1,11 +1,13 @@
 import type { Locale } from "@/lib/i18n";
 import type { Person } from "@/content/types";
+import { publicProfileLinks } from "@/content/people";
 
 /**
  * Profile row for confirmed people. Renders only fields that exist:
- * name, confirmed role, affiliation, expertise, short bio, verified links.
+ * name, confirmed role, affiliation, expertise, short bio, verified non-LinkedIn links.
  */
 export function PersonCard({ person, locale, expertiseLabel }: { person: Person; locale: Locale; expertiseLabel: string }) {
+  const links = publicProfileLinks(person);
   return (
     <li className="grid gap-4 border-b border-line py-6 md:grid-cols-12 md:gap-8">
       <div className="md:col-span-4">
@@ -32,9 +34,9 @@ export function PersonCard({ person, locale, expertiseLabel }: { person: Person;
             </ul>
           </div>
         ) : null}
-        {person.links?.length ? (
+        {links.length ? (
           <ul className="mt-4 flex flex-wrap gap-x-5 text-small">
-            {person.links.map((l) => (
+            {links.map((l) => (
               <li key={l.url}>
                 <a href={l.url} className="link-quiet" rel="noopener noreferrer" target="_blank">
                   {l.label}

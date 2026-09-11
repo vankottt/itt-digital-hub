@@ -16,6 +16,7 @@ import { PartnersBand } from "@/components/partners/PartnersBand";
 import { FoundersPair } from "@/components/people/FoundersPair";
 import { ArrowLink } from "@/components/ui/ArrowLink";
 import { ContactForm } from "@/components/contact/ContactForm";
+import { ContactLead } from "@/components/contact/ContactEmailLink";
 
 type Params = { params: Promise<{ locale: string }> };
 
@@ -133,11 +134,11 @@ export default async function HomePage({ params }: Params) {
           label={c.people.label[locale]}
           heading={c.people.heading[locale]}
           id="people-heading"
-          lead={`${c.people.subheading[locale]} ${c.people.lead[locale]}`}
+          lead={c.people.lead[locale]}
           align="split"
         />
         <div className="mt-12">
-          <FoundersPair people={founders} locale={locale} />
+          <FoundersPair people={founders} locale={locale} variant="card" />
         </div>
         <div className="mt-10">
           <ArrowLink href={href(locale, "people")}>{m.toPeople}</ArrowLink>
@@ -149,7 +150,7 @@ export default async function HomePage({ params }: Params) {
           label={c.work.label[locale]}
           heading={c.work.heading[locale]}
           id="contact-heading"
-          lead={c.work.body[locale]}
+          lead={<ContactLead after={c.work.body[locale]} />}
           align="split"
         />
         <ContactForm locale={locale} />

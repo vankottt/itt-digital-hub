@@ -23,7 +23,7 @@ export const engagements: Engagement[] = [
     sector: { bg: "Гаранционни и следпродажбени операции", en: "Warranty / after-sales operations" },
     work: { bg: "Бизнес системи · дигитализация на процеси", en: "Business systems · workflow digitisation" },
     kind: "unverified",
-    kindLabel: { bg: "TODO_VERIFY — връзка с ITT", en: "TODO_VERIFY — relationship to ITT" },
+    kindLabel: { bg: "Оперативен контекст", en: "Operational context" },
   },
   {
     id: "solar",
@@ -31,7 +31,7 @@ export const engagements: Engagement[] = [
     sector: { bg: "Възобновяема енергия", en: "Renewable energy" },
     work: { bg: "Операции · софтуер · приложен AI", en: "Operations · software · applied AI" },
     kind: "founder-owned",
-    kindLabel: { bg: "Свързана оперативна среда (TODO_CONTENT — име на компанията)", en: "Related operational environment (TODO_CONTENT — company name)" },
+    kindLabel: { bg: "Свързана оперативна среда", en: "Related operational environment" },
   },
   {
     id: "local-ai",

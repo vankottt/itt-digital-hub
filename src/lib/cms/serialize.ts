@@ -222,6 +222,8 @@ export function recordToPerson(record: PersonRecord): Person {
     affiliation: record.affiliationBg && record.affiliationEn ? { bg: record.affiliationBg, en: record.affiliationEn } : undefined,
     expertise: { bg: record.expertiseBg, en: record.expertiseEn },
     bio: { bg: record.bioBg, en: record.bioEn },
+    axis: seed?.axis,
+    cardBio: seed?.cardBio,
     projects: record.relatedProjectSlugs,
     portrait: seed?.portrait,
   };

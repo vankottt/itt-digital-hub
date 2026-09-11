@@ -347,8 +347,8 @@ export const projects: Project[] = [
       en: "Solar park and battery control driven by market prices, not maximum output alone.",
     },
     tags: {
-      bg: ["Управление на ФЕЦ", "Батерийни системи", "Пазарна оптимизация", "Мониторинг в реално време"],
-      en: ["Solar plant control", "Battery systems", "Market optimisation", "Real time monitoring"],
+      bg: ["Управление на ФЕЦ", "Батерийни системи", "Пазарна оптимизация"],
+      en: ["Solar plant control", "Battery systems", "Market optimisation"],
     },
     proofPoint: {
       bg: "Внедрена в над 30 соларни парка",

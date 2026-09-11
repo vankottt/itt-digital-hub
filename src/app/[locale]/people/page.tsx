@@ -28,9 +28,8 @@ export default async function PeoplePage({ params }: Params) {
       <Section id="team" labelledBy="team-heading" size="sm">
         <SectionHeading label={c.team.label[locale]} heading={c.structure.heading[locale]} id="team-heading" lead={c.structureNote[locale]} align="split" />
         <div className="mt-12">
-          <FoundersPair people={founders} locale={locale} />
+          <FoundersPair people={founders} locale={locale} variant="profile" />
         </div>
-        <p className="mt-8 max-w-3xl text-small text-ink-3">{c.teamsNote[locale]}</p>
       </Section>
     </>
   );

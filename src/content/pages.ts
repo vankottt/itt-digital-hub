@@ -2,7 +2,7 @@ import type { L } from "@/lib/i18n";
 
 export const home = {
   meta: {
-    title: { bg: "ITT Digital Hub – приложен AI консултинг", en: "ITT Digital Hub — Applied AI Consultancy" },
+    title: { bg: "ITT Digital Hub: приложен AI консултинг", en: "ITT Digital Hub: Applied AI Consultancy" },
     description: {
       bg: "От сложни работни процеси до работещи AI системи. Бизнес разбиране, системен поглед и AI инженерство.",
       en: "From complex workflows to working AI systems. Business understanding, systems thinking and AI engineering.",
@@ -25,8 +25,8 @@ export const home = {
   experience: {
     heading: { bg: "Нашите партньори", en: "Our partners" },
     lead: {
-      bg: "Организации с реални операции — търговия, производство, логистика и публични институции.",
-      en: "Organisations with real operations — retail, manufacturing, logistics and public institutions.",
+      bg: "Организации с реални операции: търговия, производство, логистика и публични институции.",
+      en: "Organisations with real operations: retail, manufacturing, logistics and public institutions.",
     },
   },
   featured: {
@@ -50,8 +50,8 @@ export const home = {
     label: { bg: "Преценка", en: "Judgement" },
     heading: { bg: "AI не винаги е отговорът.", en: "AI isn’t always the answer." },
     lead: {
-      bg: "Започваме от процеса, не от модела. В зависимост от проблема архитектурата може да включва AI агенти, детерминирана автоматизация, интеграции, класически софтуер, налични корпоративни инструменти, локален AI — или комбинация.",
-      en: "We start with the process, not the model. Depending on the problem, the right architecture may involve AI agents, deterministic automation, integrations, conventional software, existing enterprise tools, local AI — or a combination.",
+      bg: "Започваме от процеса, не от модела. В зависимост от проблема архитектурата може да включва AI агенти, детерминирана автоматизация, интеграции, класически софтуер, налични корпоративни инструменти, локален AI или комбинация.",
+      en: "We start with the process, not the model. Depending on the problem, the right architecture may involve AI agents, deterministic automation, integrations, conventional software, existing enterprise tools, local AI or a combination.",
     },
   },
   approach: {
@@ -64,23 +64,18 @@ export const home = {
   },
   people: {
     label: { bg: "Екип", en: "Team" },
-    heading: { bg: "Двама допълващи се специалисти.", en: "Two complementary specialists." },
-    subheading: { bg: "Един отговорен екип.", en: "One accountable team." },
+    heading: { bg: "От бизнес проблема до работещата система.", en: "From the business problem to the working system." },
     lead: {
-      bg: "Директен контакт, допълваща експертиза, малко предавания, бързи решения — от разбирането на проблема до кода.",
-      en: "Direct communication, complementary expertise, fewer handoffs, fast decisions — from understanding the problem through to implementation.",
-    },
-    axes: {
-      left: { bg: "Бизнес / системи", en: "Business / systems" },
-      right: { bg: "AI / инженерство", en: "AI / engineering" },
+      bg: "Съчетаваме AI стратегия и бизнес трансформация със софтуерна архитектура и инженерна реализация. Така една и съща линия на мислене остава от първоначалното разбиране на проблема до внедряването на решението.",
+      en: "We bring together AI strategy and business transformation with software architecture and engineering. The same line of thinking stays intact from understanding the problem through to implementing the solution.",
     },
   },
   work: {
     label: { bg: "Контакт", en: "Contact" },
-    heading: { bg: "Имате проблем, който си струва да се реши?", en: "Have a problem worth solving?" },
+    heading: { bg: "Започваме с кратко запитване.", en: "We start with a short enquiry." },
     body: {
-      bg: "Ако имате процес, операция или система, където AI може да има смисъл — покажете ни проблема.",
-      en: "If you have a process, operation or system where AI might make sense, show us the problem.",
+      bg: ". Или формата по-долу. Телефоните са в края на страницата.",
+      en: ". Or the form below. The phone numbers are at the bottom of the page.",
     },
   },
 } as const;
@@ -93,8 +88,8 @@ export const contactForm = {
   send: { bg: "Изпрати", en: "Send" },
   sending: { bg: "Изпращане…", en: "Sending…" },
   success: {
-    bg: "Благодарим. Съобщението е прието — ще се свържем.",
-    en: "Thank you. The message was received — we will be in touch.",
+    bg: "Съобщението е изпратено. Ще се свържем с вас възможно най-скоро.",
+    en: "The message has been sent. We will get back to you as soon as possible.",
   },
   error: {
     bg: "Не успяхме да изпратим съобщението. Опитайте отново.",
@@ -114,8 +109,8 @@ export const about = {
   meta: {
     title: { bg: "Какво решаваме", en: "What we solve" },
     description: {
-      bg: "ITT Digital Hub работи по разпокъсани процеси, работа, натоварена със знание, и сложни операции — с AI само където има смисъл.",
-      en: "ITT Digital Hub works on fragmented workflows, knowledge-heavy work and complex operations — using AI only where it makes sense.",
+      bg: "ITT Digital Hub работи по разпокъсани процеси, работа, натоварена със знание, и сложни операции, с AI само където има смисъл.",
+      en: "ITT Digital Hub works on fragmented workflows, knowledge-heavy work and complex operations, using AI only where it makes sense.",
     },
   },
   heading: { bg: "Проблемът първо. Технологията второ.", en: "Problem first. Technology second." },
@@ -129,8 +124,8 @@ export const methodologyPage = {
   meta: {
     title: { bg: "Подход", en: "Approach" },
     description: {
-      bg: "Разбиране, проектиране и изграждане — без шестетапна консултантска театралност.",
-      en: "Understand, design and build — without a six-stage consulting theatre.",
+      bg: "Разбиране, проектиране и изграждане, без шестетапна консултантска театралност.",
+      en: "Understand, design and build, without a six-stage consulting theatre.",
     },
   },
   heading: { bg: "Разбиране. Проектиране. Изграждане.", en: "Understand. Design. Build." },
@@ -215,29 +210,34 @@ export const peoplePage = {
   meta: {
     title: { bg: "За нас", en: "About" },
     description: {
-      bg: "Двама допълващи се специалисти: бизнес системи и AI инженерство в един ангажимент.",
-      en: "Two complementary specialists: business systems and AI engineering in the same engagement.",
+      bg: "ITT Digital Hub съчетава AI стратегия и бизнес трансформация със софтуерна архитектура и инженерна реализация.",
+      en: "ITT Digital Hub brings together AI strategy and business transformation with software architecture and engineering.",
     },
   },
-  heading: { bg: "Двама допълващи се специалисти. Един отговорен екип.", en: "Two complementary specialists. One accountable team." },
-  lead: {
-    bg: "Малкият старши екип е предимство: директен разговор, по-малко предавания, непрекъснатост от проблема до реализацията.",
-    en: "A small senior team is an advantage: direct conversation, fewer handoffs, continuity from the problem through to implementation.",
+  heading: {
+    bg: "Бизнесът определя посоката.\nТехнологията я превръща в работещо решение.",
+    en: "Business sets the direction.\nTechnology turns it into a working solution.",
   },
-  structure: { label: { bg: "Комбинация", en: "Combination" }, heading: { bg: "Бизнес разбиране × инженерно изпълнение", en: "Business understanding × engineering execution" } },
+  lead: {
+    bg: "ITT Digital Hub съчетава AI стратегия и бизнес трансформация със софтуерна архитектура и инженерна реализация. Работим директно от разбирането на проблема до внедряването на решението.",
+    en: "ITT Digital Hub brings together AI strategy and business transformation with software architecture and engineering. We work directly from understanding the problem through to implementing the solution.",
+  },
+  structure: {
+    label: { bg: "Екип", en: "Team" },
+    heading: {
+      bg: "Две допълващи се роли.\nЕдин процес.",
+      en: "Two complementary roles.\nOne process.",
+    },
+  },
   structureNote: {
-    bg: "Не са твърди силози. И двамата могат да работят напречно. Важното е, че разбирането и изпълнението са в един ангажимент.",
-    en: "These are not rigid silos. Both contribute across areas. The point is that understanding and execution sit in the same engagement.",
+    bg: "Единият фокус е върху бизнеса, процесите и това какво си струва да бъде променено. Другият е върху архитектурата, инженерното изпълнение и надеждната работа на системата. Работим заедно през целия проект, а не като отделни звена.",
+    en: "One perspective focuses on the business, its processes and what is worth changing. The other focuses on architecture, engineering and making the system work reliably. We work together throughout the project rather than as separate handoff points.",
   },
   disciplines: { label: { bg: "Експертиза", en: "Expertise" }, heading: { bg: "Къде се допълваме", en: "Where we complement each other" } },
-  team: { label: { bg: "Хора", en: "People" }, heading: { bg: "Профили", en: "Profiles" } },
+  team: { label: { bg: "Екип", en: "Team" }, heading: { bg: "Профили", en: "Profiles" } },
   teamEmpty: {
     bg: "Профилите се показват само с потвърдени имена.",
     en: "Profiles are shown only with confirmed names.",
-  },
-  teamsNote: {
-    bg: "ITT Digital Hub не представя несъществуващ голям екип.",
-    en: "ITT Digital Hub does not imply a larger invisible organisation.",
   },
   expertiseLabel: { bg: "Експертиза", en: "Expertise" },
 } as const;
@@ -246,14 +246,14 @@ export const workPage = {
   meta: {
     title: { bg: "Контакт", en: "Contact" },
     description: {
-      bg: "Продължете разговора с ITT Digital Hub — кратка форма за запитване, без пакети.",
-      en: "Continue the conversation with ITT Digital Hub — a short enquiry form, without packages.",
+      bg: "Продължете разговора с ITT Digital Hub. Кратка форма за запитване, без пакети.",
+      en: "Continue the conversation with ITT Digital Hub. A short enquiry form, without packages.",
     },
   },
-  heading: { bg: "Имате проблем, който си струва да се реши?", en: "Have a problem worth solving?" },
+  heading: { bg: "Започваме с кратко запитване.", en: "We start with a short enquiry." },
   lead: {
-    bg: "Ако имате процес, операция или система, където AI може да има смисъл, покажете ни проблема.",
-    en: "If you have a process, operation or system where AI might make sense, show us the problem.",
+    bg: ". Или формата по-долу. Телефоните са в края на страницата.",
+    en: ". Or the form below. The phone numbers are at the bottom of the page.",
   },
   routes: { label: { bg: "Контакт", en: "Contact" }, heading: { bg: "Нисък праг", en: "Low friction" } },
   routeFields: {
@@ -265,8 +265,8 @@ export const workPage = {
   },
   path: { label: { bg: "Как протича", en: "How it unfolds" }, heading: { bg: "От разговор до система", en: "From conversation to system" } },
   pathBody: {
-    bg: "Кратък разговор за проблема. После — дали изобщо има смисъл да се строи, и какво точно.",
-    en: "A short conversation about the problem. Then — whether anything should be built, and what.",
+    bg: "Кратък разговор за проблема. После гледаме дали изобщо има смисъл да се строи, и какво точно.",
+    en: "A short conversation about the problem. Then we look at whether anything should be built, and what.",
   },
   independence: { label: { bg: "Принцип", en: "Principle" }, heading: { bg: "Процесът първо", en: "Process first" } },
   independenceBody: {
@@ -287,16 +287,16 @@ export const privacyPage = {
     bg: [
       "Този уебсайт представя ITT Digital Hub и не изисква регистрация.",
       "Контактната форма събира име, фирма, телефон и кратко описание на проблем, за да отговорим на запитването. Не използваме тези данни за маркетинг.",
-      "Сайтът може да използва Vercel Analytics – измерване без рекламни бисквитки и без идентификация на отделни посетители.",
+      "Сайтът може да използва Vercel Analytics за измерване без рекламни бисквитки и без идентификация на отделни посетители.",
       "Хостинг доставчикът може да обработва технически данни (например IP адрес и данни за заявката) в сървърни журнали за сигурност и стабилност, съгласно собствените си правила.",
-      "Имейл за доставка на формата и график: TODO_CONTENT. При промяна в обработването тази страница ще бъде актуализирана.",
+      "Запитванията се приемат през контактната форма, публикувания имейл адрес и публикуваните телефонни номера. При промяна в обработването тази страница ще бъде актуализирана.",
     ],
     en: [
       "This website presents ITT Digital Hub and does not require registration.",
       "The contact form collects name, company, phone and a short description of the problem so we can reply to the enquiry. We do not use these details for marketing.",
-      "The site may use Vercel Analytics — measurement without advertising cookies and without identifying individual visitors.",
+      "The site may use Vercel Analytics for measurement without advertising cookies and without identifying individual visitors.",
       "The hosting provider may process technical data (such as IP address and request data) in server logs for security and stability, under its own policies.",
-      "Inbox for form delivery and scheduling: TODO_CONTENT. If data processing changes, this page will be updated.",
+      "Enquiries are received through the contact form, the published email address and the published phone numbers. If data processing changes, this page will be updated.",
     ],
   },
 } as const;

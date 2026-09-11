@@ -32,6 +32,8 @@ export const site = {
   } satisfies L,
 };
 
+export const contactEmail = "office@ittdigitalhub.uk";
+
 export const contactPhones = ["+359 895 581 911", "+359 899 811 455"] as const;
 
 export interface NavItem {

@@ -24,9 +24,8 @@ export interface Messages {
   toProject: string;
   toMethodology: string;
   toPeople: string;
-  teamUpcoming: string;
-  linkedInProfile: string;
-  toWorkWithUs: string;
+    teamUpcoming: string;
+    toWorkWithUs: string;
   toAbout: string;
   status: string;
   type: string;
@@ -90,8 +89,8 @@ const messages: Record<Locale, Messages> = {
     primaryNav: "Основна навигация",
     footerNav: "Навигация в долния колонтитул",
     language: "Език",
-    languageFooter: "Език – долен колонтитул",
-    languageMenu: "Език – меню",
+    languageFooter: "Език, долен колонтитул",
+    languageMenu: "Език, меню",
     stageReference: "Справочник на етапите",
     switchTo: "Switch to English",
     home: "Начало",
@@ -104,7 +103,6 @@ const messages: Record<Locale, Messages> = {
     toMethodology: "Подходът",
     toPeople: "За нас",
     teamUpcoming: "ITT е двама души.",
-    linkedInProfile: "LinkedIn профил",
     toWorkWithUs: "Контакт",
     toAbout: "Какво решаваме",
     status: "Статус",
@@ -177,8 +175,8 @@ const messages: Record<Locale, Messages> = {
     primaryNav: "Primary navigation",
     footerNav: "Footer navigation",
     language: "Language",
-    languageFooter: "Language — footer",
-    languageMenu: "Language — menu",
+    languageFooter: "Language, footer",
+    languageMenu: "Language, menu",
     stageReference: "Stage reference",
     switchTo: "Превключи на български",
     home: "Home",
@@ -191,7 +189,6 @@ const messages: Record<Locale, Messages> = {
     toMethodology: "The approach",
     toPeople: "About",
     teamUpcoming: "ITT is two people.",
-    linkedInProfile: "LinkedIn profile",
     toWorkWithUs: "Contact",
     toAbout: "What we solve",
     status: "Status",

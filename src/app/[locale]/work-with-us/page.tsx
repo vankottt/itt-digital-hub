@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/editorial/PageHeader";
 import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/editorial/SectionHeading";
 import { ContactForm } from "@/components/contact/ContactForm";
+import { ContactLead } from "@/components/contact/ContactEmailLink";
 
 type Params = { params: Promise<{ locale: string }> };
 
@@ -21,7 +22,7 @@ export default async function WorkWithUsPage({ params }: Params) {
 
   return (
     <>
-      <PageHeader label={c.meta.title[locale]} heading={c.heading[locale]} lead={c.lead[locale]} />
+      <PageHeader label={c.meta.title[locale]} heading={c.heading[locale]} lead={<ContactLead after={c.lead[locale]} />} />
 
       <Section id="contact" labelledBy="contact-heading" size="sm">
         <SectionHeading label={c.contact.label[locale]} heading={c.contact.heading[locale]} id="contact-heading" lead={c.pathBody[locale]} align="split" />

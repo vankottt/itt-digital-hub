@@ -44,7 +44,7 @@ export function SectionHeading({
           </p>
         ) : null}
         {heading ? (
-          <Heading id={id} className={cn(headingSize, headingClassName ?? (dark && "text-on-dark"))}>
+          <Heading id={id} className={cn(headingSize, headingClassName ?? (dark && "text-on-dark"), heading.includes("\n") && "whitespace-pre-line hyphens-none [text-wrap:wrap]")}>
             {heading}
           </Heading>
         ) : null}

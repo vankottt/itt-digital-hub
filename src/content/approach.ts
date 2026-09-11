@@ -8,8 +8,8 @@ export const approachStages: Stage[] = [
     short: { bg: "Разбиране", en: "Understand" },
     title: { bg: "Разбиране", en: "Understand" },
     body: {
-      bg: "Работен процес, хора, системи, данни, ограничения и реалният бизнес проблем — преди да се избере технология.",
-      en: "Workflow, people, systems, data, constraints and the actual business problem — before choosing a technology.",
+      bg: "Работен процес, хора, системи, данни, ограничения и реалният бизнес проблем, преди да се избере технология.",
+      en: "Workflow, people, systems, data, constraints and the actual business problem, before choosing a technology.",
     },
   },
   {

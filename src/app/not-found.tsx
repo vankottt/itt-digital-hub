@@ -16,7 +16,7 @@ export default function RootNotFound() {
   return (
     <html lang="bg" className={fontClassName}>
       <body className="min-h-svh bg-paper text-ink">
-        <title>{`${bg.notFoundTitle} · ${en.notFoundTitle} – ${site.short.bg}`}</title>
+        <title>{`${bg.notFoundTitle} · ${en.notFoundTitle} · ${site.short.bg}`}</title>
         <main id="main" className="container-site flex min-h-svh flex-col justify-center py-16">
           <Mark size={58} />
           <p className="label mt-10">404</p>
@@ -28,10 +28,10 @@ export default function RootNotFound() {
           </div>
           <div className="mt-10 flex flex-wrap gap-6 font-sans text-small font-medium">
             <Link href="/bg" className="link-quiet">
-              {bg.backHome} — {site.name.bg}
+              {bg.backHome}: {site.name.bg}
             </Link>
             <Link href="/en" lang="en" className="link-quiet">
-              {en.backHome} — {site.name.en}
+              {en.backHome}: {site.name.en}
             </Link>
           </div>
         </main>

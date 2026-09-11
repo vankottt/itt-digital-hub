@@ -3,6 +3,7 @@ import type { Locale } from "@/lib/i18n";
 import { href } from "@/lib/paths";
 import { contactPhones, footerNav, site } from "@/content/site";
 import { t } from "@/content/messages";
+import { ContactEmailLink } from "@/components/contact/ContactEmailLink";
 import { Container } from "./Container";
 import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
@@ -52,6 +53,8 @@ export function SiteFooter({ locale }: { locale: Locale }) {
             <LanguageSwitcher current={locale} tone="on-dark" label={m.languageFooter} className="mt-2" />
             <p className="mt-8 max-w-sm text-small text-on-dark-muted">
               {site.contactNote[locale]}
+              <br />
+              <ContactEmailLink tone="on-dark" />
               <br />
               <PhoneLink phone={contactPhones[0]} />
               <br />

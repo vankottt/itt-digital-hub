@@ -79,7 +79,7 @@ export function LanguageSwitcher({
             {active ? (
               <span aria-current="true" lang={localeLabels[loc].htmlLang} className={cn("font-medium", dark ? "text-on-dark" : "text-ink")}>
                 {localeLabels[loc].short}
-                <span className="sr-only"> — {localeLabels[loc].long}</span>
+                <span className="sr-only"> ({localeLabels[loc].long})</span>
               </span>
             ) : (
               <Link
@@ -94,7 +94,7 @@ export function LanguageSwitcher({
                 )}
               >
                 {localeLabels[loc].short}
-                <span className="sr-only"> — {localeLabels[loc].long}</span>
+                <span className="sr-only"> ({localeLabels[loc].long})</span>
               </Link>
             )}
           </span>

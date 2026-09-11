@@ -382,7 +382,7 @@
   .partners-track {
     display: flex;
     width: max-content;
-    animation: partners-marquee 48.3s linear infinite;
+    animation: partners-marquee 60.375s linear infinite;
   }
   .partners-logo {
     filter: grayscale(1) contrast(1.05);

@@ -133,13 +133,18 @@ export interface Insight {
 export interface Person {
   slug: string;
   name: L;
+  /** Homepage / team-card eyebrow. Independent of the confirmed role title. */
+  axis?: L;
   /** Confirmed public role only. */
   role?: L;
   affiliation?: L;
   expertise: L<string[]>;
+  /** Longer first-person profile for About / People. */
   bio: L<string[]>;
+  /** Short first-person copy for homepage team cards. About / People uses `bio`. */
+  cardBio?: L<string[]>;
   projects?: string[];
-  /** Verified external profile URLs only. LinkedIn is rendered as an icon in the team grid. */
+  /** Verified external profile URLs only. LinkedIn is not rendered on public profiles. */
   links?: Array<{ label: string; url: string }>;
   /** Colour photograph; cropped to a circle in CSS. */
   portrait?: {
