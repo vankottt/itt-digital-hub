@@ -171,7 +171,7 @@ export const projects: Project[] = [
         bg: "Удължената гаранция като вход към директна клиентска връзка, автоматична проверка и бизнес информация.",
         en: "Extended warranty as the entry point to a direct customer relationship, automated verification and business insight.",
       },
-      image: "/stories/warranty-relation-cover.png",
+      image: "/stories/warranty-journey.jpg",
     },
   },
   {

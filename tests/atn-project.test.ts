@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { projects } from "../src/content/projects";
 import { home, projectsPage } from "../src/content/pages";
-import { storyCovers } from "../src/content/stories";
+import { projectHeroVisuals, projectStoryVisuals, storyCovers } from "../src/content/stories";
 import { projectToRecord } from "../src/lib/cms/serialize";
 import { validateProjectPublish } from "../src/lib/cms/truth";
 
@@ -79,13 +79,18 @@ describe("public project stories", () => {
   });
 
   it("uses non-confidential cover assets", () => {
-    expect(storyCovers["atn-warranty-portal"]?.kind).toBe("diagram");
+    expect(storyCovers["atn-warranty-portal"]?.kind).toBe("photo");
     expect(storyCovers["local-ai-orchestration"]?.kind).toBe("diagram");
     expect(storyCovers["atn-creator-social-intelligence"]?.kind).toBe("photo");
     expect(storyCovers["ai-assisted-solar-operations"]?.kind).toBe("photo");
 
+    const warrantyVisuals = projectStoryVisuals["atn-warranty-portal"];
     const files = [
-      "/stories/warranty-relation-cover.png",
+      "/stories/warranty-journey.jpg",
+      "/stories/warranty-relationship.jpg",
+      "/stories/warranty-verification.jpg",
+      "/stories/warranty-exceptions.jpg",
+      "/stories/warranty-intelligence.jpg",
       "/stories/creator-studio-cover.jpg",
       "/stories/solar-batteries-cover.jpg",
       "/stories/local-orchestration-cover.webp",
@@ -93,7 +98,13 @@ describe("public project stories", () => {
     for (const src of files) {
       expect(existsSync(resolve(`public${src}`))).toBe(true);
     }
-    expect(projects[0]?.seo?.image).toBe("/stories/warranty-relation-cover.png");
+    expect(projects[0]?.seo?.image).toBe("/stories/warranty-journey.jpg");
+    expect(projectHeroVisuals["atn-warranty-portal"]?.src).toBe("/stories/warranty-relationship.jpg");
+    expect(warrantyVisuals?.built?.src).toBe("/stories/warranty-verification.jpg");
+    expect(warrantyVisuals?.how?.src).toBe("/stories/warranty-exceptions.jpg");
+    expect(warrantyVisuals?.value?.src).toBe("/stories/warranty-intelligence.jpg");
+    expect(warrantyVisuals?.value?.caption?.en).toMatch(/sample data/i);
+    expect(warrantyVisuals?.value?.caption?.bg).toMatch(/примерни данни/i);
     expect(projects[1]?.seo?.image).toBe("/stories/creator-studio-cover.jpg");
     expect(projects[2]?.seo?.image).toBe("/stories/solar-batteries-cover.jpg");
     expect(projects[3]?.seo?.image).toBe("/stories/local-orchestration-cover.webp");

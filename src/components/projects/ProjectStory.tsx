@@ -1,20 +1,14 @@
 import type { ReactNode } from "react";
 import type { Locale } from "@/lib/i18n";
 import type { Project, StorySection } from "@/content/types";
+import { projectStoryVisuals, type ProjectVisual } from "@/content/stories";
 import { projectsPage as c } from "@/content/pages";
+import { EditorialFigure } from "@/components/editorial/EditorialFigure";
 import { Paragraphs } from "@/components/editorial/Blocks";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { href } from "@/lib/paths";
 import { ProjectSection } from "./ProjectSection";
-import {
-  CapabilityList,
-  CreatorAnalyticsVisual,
-  ProcessFlow,
-  PullQuote,
-  SolarMarketVisual,
-  WarrantyDashboardVisual,
-  WarrantyVerificationVisual,
-} from "./ProjectVisuals";
+import { CapabilityList, CreatorAnalyticsVisual, ProcessFlow, PullQuote, SolarMarketVisual } from "./ProjectVisuals";
 
 function StoryBlock({
   id,
@@ -38,9 +32,23 @@ function StoryBlock({
   );
 }
 
+function StoryPhoto({ visual, locale }: { visual: ProjectVisual; locale: Locale }) {
+  return (
+    <EditorialFigure
+      src={visual.src}
+      alt={visual.alt[locale]}
+      caption={visual.caption?.[locale]}
+      ratio="aspect-[16/9]"
+      className="overflow-hidden rounded-[1.25rem] border-0"
+      imageClassName="object-cover"
+      objectPosition={visual.objectPosition}
+    />
+  );
+}
+
 function StoryVisuals({ slug, locale, slot }: { slug: string; locale: Locale; slot: "built" | "how" | "value" }) {
-  if (slug === "atn-warranty-portal" && slot === "built") return <WarrantyVerificationVisual locale={locale} />;
-  if (slug === "atn-warranty-portal" && slot === "value") return <WarrantyDashboardVisual locale={locale} />;
+  const photo = projectStoryVisuals[slug]?.[slot];
+  if (photo) return <StoryPhoto visual={photo} locale={locale} />;
   if (slug === "atn-creator-social-intelligence" && slot === "value") return <CreatorAnalyticsVisual locale={locale} />;
   if (slug === "ai-assisted-solar-operations" && slot === "how") return <SolarMarketVisual locale={locale} />;
   return null;

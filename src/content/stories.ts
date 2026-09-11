@@ -38,11 +38,13 @@ export type ProjectScreenSet = {
 /** Homepage and index covers. No client brands, no confidential screens. */
 export const storyCovers: Record<string, StoryCover> = {
   "atn-warranty-portal": {
-    kind: "diagram",
-    diagram: "warranty-relation",
+    kind: "photo",
+    src: "/stories/warranty-journey.jpg",
+    overlay: "light",
+    objectPosition: "center 42%",
     alt: {
-      bg: "Схема на дистрибуционната верига и директната дигитална връзка между производител и краен клиент",
-      en: "Diagram of the distribution chain and the direct digital relationship between manufacturer and end customer",
+      bg: "Производство, склад и търговия, свързани с краен клиент на открито, който регистрира оптично устройство с телефон",
+      en: "Factory, warehouse and retail connected to an outdoor customer registering an optical device on a phone",
     },
   },
   "atn-creator-social-intelligence": {
@@ -76,6 +78,14 @@ export const storyCovers: Record<string, StoryCover> = {
 };
 
 export const projectHeroVisuals: Record<string, ProjectVisual> = {
+  "atn-warranty-portal": {
+    src: "/stories/warranty-relationship.jpg",
+    alt: {
+      bg: "Физическият път от производство през дистрибуция и търговия до клиента, с дигитална платформа между производител и краен клиент",
+      en: "The physical path from factory through distribution and retail to the customer, with a digital platform linking manufacturer and end customer",
+    },
+    objectPosition: "center",
+  },
   "ai-assisted-solar-operations": {
     src: "/stories/solar-batteries-cover.jpg",
     alt: {
@@ -83,5 +93,43 @@ export const projectHeroVisuals: Record<string, ProjectVisual> = {
       en: "Solar park with photovoltaic panels and a containerised battery system",
     },
     objectPosition: "center 45%",
+  },
+};
+
+export const projectStoryVisuals: Record<string, Partial<Record<"built" | "how" | "value", ProjectVisual>>> = {
+  "atn-warranty-portal": {
+    built: {
+      src: "/stories/warranty-verification.jpg",
+      alt: {
+        bg: "Клиент снима касова бележка с телефон, докато екранът показва качване, извличане и проверка на документа",
+        en: "A customer photographs a purchase receipt while a screen shows upload, extract and validate steps",
+      },
+      caption: {
+        bg: "Илюстративен процес на проверка. Примерни данни.",
+        en: "Illustrative verification flow. Sample data.",
+      },
+    },
+    how: {
+      src: "/stories/warranty-exceptions.jpg",
+      alt: {
+        bg: "Оператор преглежда случай за човешка проверка на настолен и мобилен екран",
+        en: "An operator reviews a human-exception case on desktop and mobile",
+      },
+      caption: {
+        bg: "Илюстративен случай за човешка проверка. Примерни данни.",
+        en: "Illustrative exception case. Sample data.",
+      },
+    },
+    value: {
+      src: "/stories/warranty-intelligence.jpg",
+      alt: {
+        bg: "Илюстративно управленско табло с примерни регистрации, пазари, търговци и случаи",
+        en: "Illustrative management dashboard with sample registrations, markets, retailers and cases",
+      },
+      caption: {
+        bg: "Илюстративно управленско табло. Примерни данни.",
+        en: "Illustrative management dashboard. Sample data.",
+      },
+    },
   },
 };
