@@ -85,7 +85,7 @@ export function StoryCard({
         <div className="mt-5 min-h-[4.75rem]">
           <ProjectTags tags={tags} />
         </div>
-        <h3 className="mt-3 min-h-[5.2em] text-h3 text-pretty text-ink transition-colors duration-150 group-hover:text-signal">
+        <h3 className="mt-3 text-h3 text-pretty text-ink transition-colors duration-150 group-hover:text-signal">
           {project.title[locale]}
         </h3>
         <p className="mt-2 line-clamp-3 min-h-[4.5em] text-small text-ink-2">{project.summary[locale]}</p>

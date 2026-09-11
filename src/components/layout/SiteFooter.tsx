@@ -1,11 +1,22 @@
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n";
 import { href } from "@/lib/paths";
-import { footerNav, site } from "@/content/site";
+import { contactPhones, footerNav, site } from "@/content/site";
 import { t } from "@/content/messages";
 import { Container } from "./Container";
 import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+
+function PhoneLink({ phone }: { phone: string }) {
+  return (
+    <a
+      href={`tel:${phone.replace(/\s+/g, "")}`}
+      className="text-on-dark-muted transition-colors duration-150 hover:text-on-dark hover:underline hover:decoration-amber hover:underline-offset-[4px]"
+    >
+      {phone}
+    </a>
+  );
+}
 
 export function SiteFooter({ locale }: { locale: Locale }) {
   const m = t(locale);
@@ -19,7 +30,6 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           <div className="md:col-span-5">
             <Logo locale={locale} tone="on-dark" layout="full" />
             <p className="mt-6 max-w-sm text-small text-on-dark-muted">{site.descriptor[locale]}</p>
-            <p className="mt-8 hidden font-sans text-[0.75rem] text-on-dark-muted md:block">{copyright}</p>
           </div>
 
           <nav aria-label={m.footerNav} className="md:col-span-3">
@@ -41,18 +51,16 @@ export function SiteFooter({ locale }: { locale: Locale }) {
             <p className="label-dark">{m.language}</p>
             <LanguageSwitcher current={locale} tone="on-dark" label={m.languageFooter} className="mt-2" />
             <p className="mt-8 max-w-sm text-small text-on-dark-muted">
-              {site.contactNote[locale]}{" "}
-              <a
-                href={`tel:${site.phone.replace(/\s+/g, "")}`}
-                className="text-on-dark-muted transition-colors duration-150 hover:text-on-dark hover:underline hover:decoration-amber hover:underline-offset-[4px]"
-              >
-                {site.phone}
-              </a>
+              {site.contactNote[locale]}
+              <br />
+              <PhoneLink phone={contactPhones[0]} />
+              <br />
+              <PhoneLink phone={contactPhones[1]} />
             </p>
           </div>
-
-          <p className="font-sans text-[0.75rem] text-on-dark-muted md:hidden">{copyright}</p>
         </div>
+
+        <p className="mt-10 border-t border-on-dark/10 pt-6 font-sans text-[0.75rem] text-on-dark-muted">{copyright}</p>
       </Container>
     </footer>
   );

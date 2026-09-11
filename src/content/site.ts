@@ -27,11 +27,12 @@ export const site = {
     en: "ITT Digital Hub combines business process expertise and hands-on software engineering to design and build AI solutions around real operations, existing systems and data.",
   } satisfies L,
   contactNote: {
-    bg: "Директен контакт: LinkedIn. Телефон:",
-    en: "Direct contact: LinkedIn. Phone:",
+    bg: "Директен контакт:",
+    en: "Direct contact:",
   } satisfies L,
-  phone: "+359 895 581 911",
 };
+
+export const contactPhones = ["+359 895 581 911", "+359 899 811 455"] as const;
 
 export interface NavItem {
   key: RouteKey;
