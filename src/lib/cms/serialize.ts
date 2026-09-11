@@ -29,9 +29,43 @@ function stableId(prefix: string, slug: string): string {
   return `${prefix}-${slug}`;
 }
 
+function projectSeoToRecord(seo: Project["seo"], title: Project["title"], standfirst: Project["standfirst"]) {
+  if (!seo) {
+    return {
+      titleBg: title.bg,
+      titleEn: title.en,
+      descriptionBg: standfirst.bg,
+      descriptionEn: standfirst.en,
+    };
+  }
+  return {
+    titleBg: seo.documentTitle.bg,
+    titleEn: seo.documentTitle.en,
+    descriptionBg: seo.description.bg,
+    descriptionEn: seo.description.en,
+    ogTitleBg: seo.ogTitle.bg,
+    ogTitleEn: seo.ogTitle.en,
+    ogDescriptionBg: seo.ogDescription.bg,
+    ogDescriptionEn: seo.ogDescription.en,
+    image: seo.image,
+  };
+}
+
+function projectSeoFromRecord(record: ProjectRecord): Project["seo"] | undefined {
+  const seo = record.seo;
+  if (!seo?.image && !seo?.ogDescriptionEn && !seo?.ogDescriptionBg) return undefined;
+  return {
+    documentTitle: { bg: seo.titleBg || record.titleBg, en: seo.titleEn || record.titleEn },
+    description: { bg: seo.descriptionBg || record.standfirstBg, en: seo.descriptionEn || record.standfirstEn },
+    ogTitle: { bg: seo.ogTitleBg || record.titleBg, en: seo.ogTitleEn || record.titleEn },
+    ogDescription: { bg: seo.ogDescriptionBg || seo.descriptionBg || "", en: seo.ogDescriptionEn || seo.descriptionEn || "" },
+    image: seo.image || "",
+  };
+}
+
 export function projectToRecord(project: Project): ProjectRecord {
   const ts = nowIso();
-  const { slug, featured, status, type, domain, methodologyName, title, standfirst, summary, related, relatedInsights, ...rest } = project;
+  const { slug, featured, status, type, domain, methodologyName, title, standfirst, summary, related, relatedInsights, seo, ...rest } = project;
   return {
     id: stableId("project", slug),
     slug,
@@ -49,12 +83,7 @@ export function projectToRecord(project: Project): ProjectRecord {
     domainEn: domain.en,
     methodologyName: methodologyNameToRecord(methodologyName),
     payload: rest as unknown as Record<string, unknown>,
-    seo: {
-      titleBg: title.bg,
-      titleEn: title.en,
-      descriptionBg: standfirst.bg,
-      descriptionEn: standfirst.en,
-    },
+    seo: projectSeoToRecord(seo, title, standfirst),
     publicationState: "published",
     featured: Boolean(featured),
     relatedProjectSlugs: related ?? [],
@@ -66,8 +95,9 @@ export function projectToRecord(project: Project): ProjectRecord {
 }
 
 export function recordToProject(record: ProjectRecord): Project {
-  const payload = record.payload as Omit<Project, "slug" | "featured" | "status" | "type" | "domain" | "methodologyName" | "title" | "standfirst" | "summary" | "related" | "relatedInsights"> & {
+  const payload = record.payload as Omit<Project, "slug" | "featured" | "status" | "type" | "domain" | "methodologyName" | "title" | "standfirst" | "summary" | "related" | "relatedInsights" | "seo"> & {
     methodologyName?: unknown;
+    seo?: unknown;
   };
   const { methodologyName: _ignoredMethodologyName, ...payloadRest } = payload;
   return {
@@ -83,7 +113,14 @@ export function recordToProject(record: ProjectRecord): Project {
     summary: { bg: record.summaryBg, en: record.summaryEn },
     related: record.relatedProjectSlugs,
     relatedInsights: record.relatedInsightSlugs,
+    seo: projectSeoFromRecord(record),
   };
+}
+
+export function mergeMissingSeedProjects(records: ProjectRecord[]): ProjectRecord[] {
+  const have = new Set(records.map((record) => record.slug));
+  const missing = projects.map(projectToRecord).filter((project) => !have.has(project.slug));
+  return missing.length ? [...records, ...missing] : records;
 }
 
 export function insightToRecord(insight: Insight): InsightRecord {

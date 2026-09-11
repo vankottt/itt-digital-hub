@@ -4,12 +4,12 @@ import { people, publicTeamList, teamUpcomingCount, joinSlotCount, linkedInHref 
 describe("public team", () => {
   it("lists the two complementary specialists", () => {
     expect(people.map((p) => p.slug)).toEqual(["ivan-todorov", "ivan-tomchev"]);
-    expect(people[0]?.portrait?.src).toBe("/images/team/ivan-todorov-portrait.jpg");
+    expect(people[0]?.portrait?.src).toBe("/images/team/ivan-todorov-portrait-v2.jpg");
     expect(people[0]?.name.en).toBe("Ivan Todorov");
     expect(people[0]?.role?.en).toBe("Business Systems & AI Solutions Consultant");
     expect(people[1]?.name.en).toBe("Ivan Tomchev");
     expect(people[1]?.role?.en).toBe("AI Systems Architect & Software Engineer");
-    expect(people[1]?.portrait?.src).toBe("/images/team/ivan-tomchev-portrait.jpg");
+    expect(people[1]?.portrait?.src).toBe("/images/team/ivan-tomchev-portrait-v2.jpg");
   });
 
   it("keeps seed order when CMS returns the same people shuffled", () => {

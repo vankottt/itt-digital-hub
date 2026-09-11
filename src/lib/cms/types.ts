@@ -43,6 +43,11 @@ export interface SeoFields {
   titleEn?: string;
   descriptionBg?: string;
   descriptionEn?: string;
+  ogTitleBg?: string;
+  ogTitleEn?: string;
+  ogDescriptionBg?: string;
+  ogDescriptionEn?: string;
+  image?: string;
 }
 
 export interface ProjectRecord {

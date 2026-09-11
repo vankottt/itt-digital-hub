@@ -18,7 +18,7 @@ import { ProjectExecutive } from "@/components/projects/ProjectExecutive";
 import { ProjectToc } from "@/components/projects/ProjectToc";
 import { Chain } from "@/components/systems/Chain";
 import { ArrowLink } from "@/components/ui/ArrowLink";
-import { projectScreens, storyCovers } from "@/content/stories";
+import { projectHeroVisuals, projectScreens, projectSectionVisuals, storyCovers } from "@/content/stories";
 import { EditorialFigure } from "@/components/editorial/EditorialFigure";
 import { ProjectHeroShot, ProjectScreenGallery } from "@/components/projects/ProjectScreens";
 
@@ -36,7 +36,22 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const locale: Locale = isLocale(raw) ? raw : "bg";
   const project = await getProjectForPublic(slug);
   if (!project) return {};
-  return pageMetadata({ locale, key: "projects", slug, title: project.title[locale], description: project.standfirst[locale], type: "article" });
+  const seo = project.seo;
+  const meta = pageMetadata({
+    locale,
+    key: "projects",
+    slug,
+    title: project.title[locale],
+    description: seo?.description[locale] ?? project.standfirst[locale],
+    ogTitle: seo?.ogTitle[locale] ?? project.title[locale],
+    ogDescription: seo?.ogDescription[locale],
+    image: seo?.image,
+    type: "article",
+  });
+  if (seo?.documentTitle[locale]) {
+    return { ...meta, title: { absolute: seo.documentTitle[locale] } };
+  }
+  return meta;
 }
 
 export default async function ProjectDetailPage({ params }: Params) {
@@ -51,18 +66,22 @@ export default async function ProjectDetailPage({ params }: Params) {
   const relatedInsights = (project.relatedInsights ?? []).map((relatedSlug) => publishedArticles.find((i) => i.slug === relatedSlug)).filter((i): i is NonNullable<typeof i> => Boolean(i));
   const screens = projectScreens[project.slug];
   const cover = storyCovers[project.slug];
+  const heroVisual = projectHeroVisuals[project.slug];
+  const sectionVisuals = projectSectionVisuals[project.slug];
   const toc = [
     { id: "executive", label: d.glance[locale] },
     { id: "problem", label: d.problem[locale] },
     { id: "objective", label: d.objective[locale] },
     ...(project.scope ? [{ id: "scope", label: d.scope[locale] }] : []),
     { id: "methodology", label: d.methodology[locale] },
+    ...(project.intelligence ? [{ id: "intelligence", label: d.intelligence[locale] }] : []),
     ...(project.dataEvidence ? [{ id: "data", label: d.data[locale] }] : []),
     ...(project.stakeholders ? [{ id: "stakeholders", label: d.stakeholders[locale] }] : []),
     ...(project.targetArchitecture ? [{ id: "architecture", label: d.architecture[locale] }] : []),
     ...(project.outputs ? [{ id: "outputs", label: d.outputs[locale] }] : []),
     { id: "results", label: d.measured[locale] },
     ...(project.validation ? [{ id: "validation", label: d.validation[locale] }] : []),
+    ...(project.followUp ? [{ id: "follow-up", label: d.followUp[locale] }] : []),
     { id: "status", label: d.statusNote[locale] },
   ];
 
@@ -94,6 +113,18 @@ export default async function ProjectDetailPage({ params }: Params) {
             <div className="mt-12 lg:mt-14">
               <ProjectHeroShot screens={screens} locale={locale} />
             </div>
+          ) : heroVisual ? (
+            <EditorialFigure
+              src={heroVisual.src}
+              alt={heroVisual.alt[locale]}
+              caption={heroVisual.caption[locale]}
+              ratio="aspect-[16/9]"
+              className="mt-12 overflow-hidden rounded-[1.25rem] border-0 lg:mt-14"
+              imageClassName="object-cover"
+              objectPosition={heroVisual.objectPosition}
+              sizes="(min-width: 1024px) 1100px, 100vw"
+              priority
+            />
           ) : cover?.kind === "photo" ? (
             <EditorialFigure
               src={cover.src}
@@ -101,6 +132,7 @@ export default async function ProjectDetailPage({ params }: Params) {
               ratio="aspect-[16/9]"
               className="mt-12 overflow-hidden rounded-[1.25rem] border-0 lg:mt-14"
               imageClassName="object-cover"
+              objectPosition={cover.objectPosition}
               sizes="(min-width: 1024px) 1100px, 100vw"
               priority
             />
@@ -164,6 +196,24 @@ export default async function ProjectDetailPage({ params }: Params) {
           </ol>
         </ProjectSection>
 
+        {project.intelligence ? (
+          <ProjectSection id="intelligence" heading={d.intelligence[locale]}>
+            <Paragraphs items={project.intelligence.body[locale]} />
+            {sectionVisuals?.intelligence ? (
+              <EditorialFigure
+                src={sectionVisuals.intelligence.src}
+                alt={sectionVisuals.intelligence.alt[locale]}
+                caption={sectionVisuals.intelligence.caption[locale]}
+                ratio="aspect-[16/9]"
+                className="mt-8 overflow-hidden rounded-[1.25rem] border-0"
+                imageClassName="object-cover"
+                objectPosition={sectionVisuals.intelligence.objectPosition}
+                sizes="(min-width: 1024px) 800px, 100vw"
+              />
+            ) : null}
+          </ProjectSection>
+        ) : null}
+
         {project.dataEvidence ? (
           <ProjectSection id="data" heading={d.data[locale]}>
             <Paragraphs items={project.dataEvidence[locale]} />
@@ -213,6 +263,14 @@ export default async function ProjectDetailPage({ params }: Params) {
           ) : (
             <p className="border-l-2 border-amber pl-4 text-body text-ink-2">{d.measuredEmpty[locale]}</p>
           )}
+          {project.measuredAreas ? (
+            <div className="mt-8">
+              <p className="text-body text-ink-2">{project.measuredAreas.intro[locale]}</p>
+              <p className="label mt-6 mb-2">{d.measuredAreas[locale]}</p>
+              <RuledList items={project.measuredAreas.items[locale]} />
+              <p className="mt-5 text-small text-ink-3">{project.measuredAreas.note[locale]}</p>
+            </div>
+          ) : null}
         </ProjectSection>
 
         {project.validation ? (

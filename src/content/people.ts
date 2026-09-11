@@ -39,7 +39,7 @@ const confirmedPeople: Person[] = [
       ],
     },
     portrait: {
-      src: "/images/team/ivan-todorov-portrait.jpg",
+      src: "/images/team/ivan-todorov-portrait-v2.jpg",
       width: 819,
       height: 1024,
     },
@@ -68,10 +68,9 @@ const confirmedPeople: Person[] = [
       ],
     },
     portrait: {
-      src: "/images/team/ivan-tomchev-portrait.jpg",
-      width: 819,
+      src: "/images/team/ivan-tomchev-portrait-v2.jpg",
+      width: 859,
       height: 1024,
-      objectPosition: "center top",
     },
     projects: ["ai-assisted-solar-operations", "local-ai-orchestration"],
   },

@@ -17,6 +17,7 @@ function Cover({ cover, locale }: { cover?: StoryCover; locale: Locale }) {
         alt={cover.alt[locale]}
         fill
         sizes="(min-width: 1024px) 38vw, (min-width: 768px) 55vw, 90vw"
+        style={cover.objectPosition ? { objectPosition: cover.objectPosition } : undefined}
         className="object-cover object-center transition-transform duration-500 ease-out-soft motion-safe:group-hover:scale-[1.04]"
       />
     );

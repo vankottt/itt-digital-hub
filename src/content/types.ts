@@ -81,6 +81,19 @@ export interface Project {
   sourceNote: L;
   related?: string[];
   relatedInsights?: string[];
+  /** Executive-layer proposition; falls back to standfirst. */
+  proposition?: L;
+  /** Later product-direction narrative, rendered after methodology when present. */
+  intelligence?: { body: L<string[]> };
+  /** Future measurement areas — never current performance claims. */
+  measuredAreas?: { intro: L; items: L<string[]>; note: L };
+  seo?: {
+    documentTitle: L;
+    description: L;
+    ogTitle: L;
+    ogDescription: L;
+    image: string;
+  };
 }
 
 /** `concept-note` appears under Insights; `news` under News. Same body model (text + YouTube). */

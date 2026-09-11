@@ -2,7 +2,7 @@ import "server-only";
 
 import { projects as seedProjects } from "@/content/projects";
 import { createSupabaseServerClient } from "./supabase-server";
-import { projectToRecord } from "./serialize";
+import { projectToRecord, mergeMissingSeedProjects } from "./serialize";
 import type { InsightRecord, MediaRecord, PartnerRecord, PersonRecord, ProjectRecord, SiteSettingsRecord, StaffRecord } from "./types";
 
 const uuidRe = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -101,7 +101,7 @@ export async function loadSupabaseRecords() {
   if (err) throw err;
 
   return {
-    projects: mergeSeedProjectPayload((projects.data ?? []).map((row) => mapProject(row as Record<string, unknown>))),
+    projects: mergeMissingSeedProjects(mergeSeedProjectPayload((projects.data ?? []).map((row) => mapProject(row as Record<string, unknown>)))),
     insights: (insights.data ?? []).map((row) => mapInsight(row as Record<string, unknown>)),
     people: (people.data ?? []).map((row) => mapPerson(row as Record<string, unknown>)),
     partners: (partners.data ?? []).map((row) => mapPartner(row as Record<string, unknown>)),

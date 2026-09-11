@@ -2,8 +2,8 @@ import Image from "next/image";
 import { cn } from "@/lib/cn";
 
 /**
- * Editorial photograph: hairline frame, square corners.
- * Alt describes the picture; visible captions are not used on public figures.
+ * Editorial photograph: framed figure with optional caption.
+ * Alt describes the picture.
  */
 export function EditorialFigure({
   src,
@@ -14,6 +14,7 @@ export function EditorialFigure({
   className,
   ratio = "aspect-[16/9]",
   imageClassName,
+  objectPosition,
 }: {
   src: string;
   alt: string;
@@ -23,6 +24,7 @@ export function EditorialFigure({
   className?: string;
   ratio?: string;
   imageClassName?: string;
+  objectPosition?: string;
 }) {
   return (
     <figure className={cn("overflow-hidden border border-line bg-paper-3", className)}>
@@ -33,6 +35,7 @@ export function EditorialFigure({
           fill
           sizes={sizes}
           priority={priority}
+          style={objectPosition ? { objectPosition } : undefined}
           className={imageClassName ?? "object-cover object-left"}
         />
       </div>

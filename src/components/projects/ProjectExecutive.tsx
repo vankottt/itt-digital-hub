@@ -35,7 +35,7 @@ export function ProjectExecutive({ project, locale }: { project: Project; locale
         <Cell label={m.status}>
           <StatusLabel status={project.status} locale={locale} />
         </Cell>
-        <Cell label={d.proposition[locale]}>{project.standfirst[locale]}</Cell>
+        <Cell label={d.proposition[locale]}>{project.proposition?.[locale] ?? project.standfirst[locale]}</Cell>
         <Cell label={d.problem[locale]}>{project.systemProblem[locale][0]}</Cell>
         <Cell label={d.objective[locale]}>{project.objective[locale][0]}</Cell>
         {project.scope ? <Cell label={d.scope[locale]}>{project.scope.intro[locale]}</Cell> : null}

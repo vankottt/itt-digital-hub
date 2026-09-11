@@ -207,6 +207,8 @@ export const projectsPage = {
     intended: { bg: "Предвидено", en: "Intended outputs" },
     expected: { bg: "Очаквано", en: "Expected outcomes" },
     contents: { bg: "Съдържание", en: "Contents" },
+    intelligence: { bg: "Съдържание и интелигентност за представянето", en: "Content & performance intelligence" },
+    measuredAreas: { bg: "Възможни бъдещи области за измерване", en: "Potential future measurement areas" },
   },
 } as const;
 

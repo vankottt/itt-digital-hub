@@ -12,6 +12,9 @@ export function pageMetadata({
   title,
   description,
   type = "website",
+  ogTitle,
+  ogDescription,
+  image,
 }: {
   locale: Locale;
   key: RouteKey;
@@ -19,6 +22,9 @@ export function pageMetadata({
   title: string;
   description: string;
   type?: "website" | "article";
+  ogTitle?: string;
+  ogDescription?: string;
+  image?: string;
 }): Metadata {
   const base = siteUrl();
   const path = href(locale, key, slug);
@@ -27,6 +33,9 @@ export function pageMetadata({
     languages[localeLabels[loc].htmlLang] = `${base}${href(loc, key, slug)}`;
   }
   languages["x-default"] = `${base}${href("bg", key, slug)}`;
+  const socialTitle = ogTitle ?? title;
+  const socialDescription = ogDescription ?? description;
+  const socialImages = image ? [{ url: image }] : undefined;
 
   return {
     title,
@@ -36,18 +45,20 @@ export function pageMetadata({
       languages,
     },
     openGraph: {
-      title,
-      description,
+      title: socialTitle,
+      description: socialDescription,
       url: `${base}${path}`,
       siteName: site.name[locale],
       locale: localeLabels[locale].ogLocale,
       alternateLocale: locales.filter((l) => l !== locale).map((l) => localeLabels[l].ogLocale),
       type,
+      ...(socialImages ? { images: socialImages } : {}),
     },
     twitter: {
       card: "summary_large_image",
-      title,
-      description,
+      title: socialTitle,
+      description: socialDescription,
+      ...(image ? { images: [image] } : {}),
     },
     robots: robotsDirective(allowPublicIndexing()),
   };

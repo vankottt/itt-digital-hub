@@ -1,6 +1,25 @@
 import type { L } from "@/lib/i18n";
 
-export type StoryCover = { kind: "photo"; src: string; alt: L; overlay?: "light" | "heavy" };
+export type StoryCover = {
+  kind: "photo";
+  src: string;
+  alt: L;
+  overlay?: "light" | "heavy";
+  /** CSS object-position used when the 16:9 card crop trims the source. */
+  objectPosition?: string;
+};
+
+export type ProjectVisual = {
+  src: string;
+  alt: L;
+  caption: L;
+  objectPosition?: string;
+};
+
+const prototypeCaption = {
+  bg: "Концептуален продуктов прототип · Примерни данни · Крайната реализация може да се различава.",
+  en: "Conceptual product prototype · Sample data · Final implementation may differ.",
+} satisfies L;
 
 export type ProjectShot = {
   src: string;
@@ -43,6 +62,40 @@ export const storyCovers: Record<string, StoryCover> = {
     alt: {
       bg: "Ръце върху лаптоп с регистрация на продукт ATN, до термовизионен прицел и кутия",
       en: "Hands at a laptop registering an ATN product, beside a thermal riflescope and its box",
+    },
+  },
+  "atn-creator-social-intelligence": {
+    kind: "photo",
+    src: "/stories/atn-creator-collaboration-workspace.png",
+    overlay: "light",
+    alt: {
+      bg: "Концептуален интерфейс на платформата ATN Creator & Social Intelligence с профил на криейтър, сътрудничество, доставки, публикувано съдържание и активност",
+      en: "Conceptual ATN Creator & Social Intelligence Platform interface showing a creator profile, collaboration, deliverables, published content and activity",
+    },
+  },
+};
+
+/** Captioned article visuals — prototypes or live screens, separate from card covers. */
+export const projectHeroVisuals: Record<string, ProjectVisual> = {
+  "atn-creator-social-intelligence": {
+    src: "/stories/atn-creator-collaboration-workspace.png",
+    alt: {
+      bg: "Концептуален интерфейс на платформата ATN Creator & Social Intelligence с профил на криейтър, сътрудничество, доставки, публикувано съдържание и активност",
+      en: "Conceptual ATN Creator & Social Intelligence Platform interface showing a creator profile, collaboration, deliverables, published content and activity",
+    },
+    caption: prototypeCaption,
+  },
+};
+
+export const projectSectionVisuals: Record<string, Partial<Record<"intelligence", ProjectVisual>>> = {
+  "atn-creator-social-intelligence": {
+    intelligence: {
+      src: "/stories/atn-creator-content-intelligence.png",
+      alt: {
+        bg: "Концептуален аналитичен интерфейс на платформата ATN Creator & Social Intelligence с представяне на съдържание, тенденции и сравнение на криейтъри",
+        en: "Conceptual ATN Creator & Social Intelligence Platform analytics interface showing content performance, trends and creator comparison",
+      },
+      caption: prototypeCaption,
     },
   },
 };

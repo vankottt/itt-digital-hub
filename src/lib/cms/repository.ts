@@ -8,7 +8,7 @@ import { recordContentSource } from "./content-source";
 import { applyAnalysisInsights, analysisMediaNeededFor, missingAnalysisInsights } from "./analysis-overlay";
 import { applyDevNewsFixtures, demoNewsMediaNeededFor, missingDevNewsFixtures } from "./dev-news-overlay";
 import { applyMissingSeedContent, missingSeedContent } from "./seed-overlay";
-import { insightToRecord, projectToRecord, recordToInsight, recordToPerson, recordToProject, seedMedia, seedPartners, seedSettings } from "./serialize";
+import { insightToRecord, mergeMissingSeedProjects, projectToRecord, recordToInsight, recordToPerson, recordToProject, seedMedia, seedPartners, seedSettings } from "./serialize";
 import { canViewForPublic, isPublished, partnerIsPublic, personIsPublic, seoIncomplete, translationState, validateInsightPublish, validatePersonPublish, validateProjectPublish } from "./truth";
 import type {
   DashboardStats,
@@ -119,14 +119,15 @@ export async function loadAllRecords(): Promise<{
   const mode = cmsMode();
   if (mode === "local") {
     recordContentSource("local");
-    return persistMissingLocalOverlays();
+    const records = await persistMissingLocalOverlays();
+    return { ...records, projects: mergeMissingSeedProjects(records.projects) };
   }
   if (mode === "supabase") {
     try {
       const { loadSupabaseRecords } = await import("./supabase-repo");
       const records = await loadSupabaseRecords();
       recordContentSource("supabase");
-      return applyEditorialOverlays(records);
+      return applyEditorialOverlays({ ...records, projects: mergeMissingSeedProjects(records.projects) });
     } catch (error) {
       const reason = error instanceof Error ? error.message : "unknown CMS error";
       recordContentSource("seed-fallback", reason);
