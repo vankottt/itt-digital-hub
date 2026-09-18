@@ -10,7 +10,8 @@ export type RouteKey =
   | "news"
   | "people"
   | "work-with-us"
-  | "privacy";
+  | "privacy"
+  | "ai-act-agent";
 
 const segments: Record<RouteKey, string> = {
   home: "",
@@ -22,6 +23,7 @@ const segments: Record<RouteKey, string> = {
   people: "people",
   "work-with-us": "work-with-us",
   privacy: "privacy",
+  "ai-act-agent": "ai-act-agent",
 };
 
 export function href(locale: Locale, key: RouteKey, slug?: string): string {
@@ -39,4 +41,14 @@ export function switchLocalePath(pathname: string, to: Locale): string {
     return parts.join("/") || `/${to}`;
   }
   return `/${to}${pathname === "/" ? "" : pathname}`;
+}
+
+/** Entry and nested journeys for the AI Act product. */
+export function isAiActAgentPath(pathname: string): boolean {
+  return /^\/(bg|en)\/ai-act-agent(?:\/.*)?$/.test(pathname);
+}
+
+/** Dark first-viewport overlay, same header treatment as the homepage. */
+export function isAiActAgentEntryPath(pathname: string): boolean {
+  return /^\/(bg|en)\/ai-act-agent\/?$/.test(pathname);
 }

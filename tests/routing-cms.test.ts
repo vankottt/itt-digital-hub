@@ -24,6 +24,8 @@ describe("locale routing", () => {
     expect(href("bg", "projects", "x")).toBe("/bg/projects/x");
     expect(href("bg", "news")).toBe("/bg/news");
     expect(href("en", "news", "opening")).toBe("/en/news/opening");
+    expect(href("bg", "ai-act-agent")).toBe("/bg/ai-act-agent");
+    expect(href("en", "ai-act-agent", "use")).toBe("/en/ai-act-agent/use");
   });
   it("switches locale prefix", () => {
     expect(switchLocalePath("/bg/methodology", "en")).toBe("/en/methodology");
