@@ -2,6 +2,9 @@
 .ruflo/
 .cursor/
 
+# Local conference production files; not part of the website runtime
+conference-kit/
+
 # Source-resolution media; the site serves processed files from public/
 Video/
 Team Photos/
