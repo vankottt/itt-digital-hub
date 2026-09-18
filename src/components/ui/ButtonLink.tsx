@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import type { ButtonHTMLAttributes, MouseEventHandler, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import { ArrowRight } from "./Icons";
 import { scrollToHomeHash } from "@/components/layout/useHomeSectionSpy";
@@ -44,17 +44,21 @@ export function ButtonLink({
   variant = "primary",
   className,
   arrow = true,
+  onClick,
 }: {
   href: string;
   children: ReactNode;
   variant?: Variant;
   className?: string;
   arrow?: boolean;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
 }) {
   return (
     <Link
       href={href}
       onClick={(event) => {
+        onClick?.(event);
+        if (event.defaultPrevented) return;
         if (href.includes("#") && scrollToHomeHash(href)) event.preventDefault();
       }}
       className={cn(base, variants[variant], className)}

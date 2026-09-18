@@ -96,3 +96,20 @@ export function FundingIcon({ size = 20, ...props }: IconProps) {
     </svg>
   );
 }
+
+export function CopyIcon({ size = 16, ...props }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false" {...props}>
+      <path d="M5.5 5.5h7v8h-7z" stroke="currentColor" strokeWidth="1.25" strokeLinejoin="round" />
+      <path d="M3.5 10.5v-7h7" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function CheckIcon({ size = 16, ...props }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false" {...props}>
+      <path d="m3.5 8.5 3 3 6-7" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}

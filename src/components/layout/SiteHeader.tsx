@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n";
-import { href } from "@/lib/paths";
+import { href, isAiActAgentEntryPath, isAiActAgentPath } from "@/lib/paths";
 import { primaryNav } from "@/content/site";
 import { t } from "@/content/messages";
 import { isHomePath, homeHashHref } from "@/lib/home-nav";
@@ -18,9 +18,12 @@ export function SiteHeader({ locale }: { locale: Locale }) {
   const m = t(locale);
   const pathname = usePathname() ?? "";
   const onHome = isHomePath(pathname);
+  const onAiActProduct = isAiActAgentPath(pathname);
+  const onAiActEntry = isAiActAgentEntryPath(pathname);
+  const overlayLanding = onHome || onAiActEntry;
   const spyKey = useHomeSectionSpy(onHome);
   useLocaleSwitchScrollToTop(locale);
-  const [darkMix, setDarkMix] = useState(onHome ? 1 : 0);
+  const [darkMix, setDarkMix] = useState(overlayLanding ? 1 : 0);
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -91,7 +94,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           />
         </div>
       </header>
-      {onHome ? null : <div className="h-[5.5rem]" aria-hidden="true" />}
+      {onHome || onAiActProduct ? null : <div className="h-[5.5rem]" aria-hidden="true" />}
     </>
   );
 }

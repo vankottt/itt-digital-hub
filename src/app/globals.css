@@ -398,6 +398,21 @@
     animation-play-state: paused;
   }
 
+  /* AI Act product: native disclosure cards, no hover requirement. */
+  .ai-act-file > summary {
+    cursor: pointer;
+    list-style: none;
+  }
+  .ai-act-file > summary::-webkit-details-marker {
+    display: none;
+  }
+  .ai-act-file > summary::marker {
+    content: "";
+  }
+  .ai-act-composer {
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
+  }
+
   @keyframes partners-marquee {
     from {
       transform: translateX(0);
