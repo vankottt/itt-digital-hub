@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { isLocale, type Locale } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/metadata";
 import { aiActAgent } from "@/content/ai-act-agent";
-import { getInstallerPrompt } from "@/lib/ai-act/kit";
+import { getInstallerPrompt, getPrimaryTestCase } from "@/lib/ai-act/kit";
 import { BuildJourney } from "@/components/ai-act-agent/BuildJourney";
 
 type Params = { params: Promise<{ locale: string }> };
@@ -22,5 +22,13 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 export default async function AiActBuildPage({ params }: Params) {
   const { locale: raw } = await params;
   const locale: Locale = isLocale(raw) ? raw : "bg";
-  return <BuildJourney locale={locale} installerPrompt={getInstallerPrompt(locale)} />;
+  const test = getPrimaryTestCase(locale);
+  return (
+    <BuildJourney
+      locale={locale}
+      installerPrompt={getInstallerPrompt(locale)}
+      testQuestion={test.question}
+      testCriteria={test.criteria}
+    />
+  );
 }

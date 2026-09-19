@@ -68,7 +68,7 @@ export const aiActAgent = {
     assistant: { bg: "Асистент", en: "Assistant" },
     startersLabel: { bg: "Можете да започнете с", en: "You can start with" },
     remaining: {
-      two: { bg: "Два въпроса преди да поискаме кратко представяне.", en: "Two questions before a short introduction." },
+      two: { bg: "Задайте до 2 въпроса без регистрация.", en: "Ask up to 2 questions without registration." },
       one: { bg: "Още един въпрос, после кратко представяне.", en: "One more question, then a short introduction." },
       none: { bg: "За да продължите, кажете ни с кого разговаряме.", en: "To continue, tell us who we are speaking with." },
       open: { bg: "Можете да продължите разговора.", en: "You can continue the conversation." },
@@ -94,6 +94,14 @@ export const aiActAgent = {
         bg: "Не успяхме да получим отговор. Опитайте отново.",
         en: "We could not get a reply. Please try again.",
       },
+      timeout: {
+        bg: "Отговорът отне твърде дълго. Въпросът ви е запазен. Опитайте отново.",
+        en: "The reply took too long. Your question is kept. Please try again.",
+      },
+      network: {
+        bg: "Няма връзка в момента. Въпросът ви е запазен. Опитайте отново.",
+        en: "There is no connection right now. Your question is kept. Please try again.",
+      },
       invalid: {
         bg: "Въпросът не може да бъде изпратен в този вид. Съкратете текста и опитайте отново.",
         en: "This question cannot be sent as it is. Shorten the text and try again.",
@@ -103,8 +111,8 @@ export const aiActAgent = {
         en: "To continue, fill in the short details below.",
       },
       kit_not_ready: {
-        bg: "Комплектът още се подготвя. Екранът е готов; файлът ще се свърже без промяна тук.",
-        en: "The kit is still being prepared. This screen is ready; the file will connect here without a redesign.",
+        bg: "Изтеглянето не успя. Опитайте отново.",
+        en: "The download did not work. Please try again.",
       },
       generic: {
         bg: "Нещо се обърка. Опитайте отново.",
@@ -223,7 +231,7 @@ export const aiActAgent = {
         },
         sources: {
           title: { bg: "Надеждните източници", en: "The trusted sources" },
-          body: { bg: "Папка с документите, на които асистентът трябва да се опира. Съдържанието се свързва в следващата стъпка на проекта.", en: "A folder of documents the assistant should rely on. The contents are connected in the next project step." },
+          body: { bg: "Папка с официалните документи, на които асистентът трябва да се опира.", en: "A folder of official documents the assistant should rely on." },
         },
       } satisfies Record<AgentKitFileId, { title: L; body: L }>,
     },
@@ -236,9 +244,10 @@ export const aiActAgent = {
       },
       download: { bg: "Изтеглете комплекта", en: "Download the kit" },
       downloading: { bg: "Подготовка…", en: "Preparing…" },
+      downloaded: { bg: "Комплектът е изтеглен. Продължете със стъпките по-долу.", en: "The kit has been downloaded. Continue with the steps below." },
       readyNote: {
-        bg: "Данните са попълнени. Изтеглянето ще започне тук, щом пакетът е свързан.",
-        en: "Your details are in place. The download will start here once the package is connected.",
+        bg: "Данните са попълнени. Изтеглете комплекта и следвайте стъпките по-долу.",
+        en: "Your details are in place. Download the kit and follow the steps below.",
       },
     },
     step4: {

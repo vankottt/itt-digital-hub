@@ -17,11 +17,22 @@ export function readAiActConfig(env: EnvMap = envOf()): AiActConfig {
   return {
     provider,
     model,
-    googleKeyConfigured: Boolean(env.GOOGLE_AI_API_KEY?.trim()),
+    timeoutMs: Math.min(25_000, Math.max(5_000, Number(env.AI_TIMEOUT_MS) || 20_000)),
+    googleKeyConfigured: Boolean(env.GOOGLE_AI_API_KEY?.trim() || env.GEMINI_API_KEY?.trim()),
     openaiKeyConfigured: Boolean(env.OPENAI_API_KEY?.trim()),
   };
 }
 
 export function providerKeyConfigured(config: AiActConfig): boolean {
   return config.provider === "google" ? config.googleKeyConfigured : config.openaiKeyConfigured;
+}
+
+export function googleApiKey(env: EnvMap = envOf()): string | undefined {
+  const key = env.GOOGLE_AI_API_KEY?.trim() || env.GEMINI_API_KEY?.trim();
+  return key || undefined;
+}
+
+export function openaiApiKey(env: EnvMap = envOf()): string | undefined {
+  const key = env.OPENAI_API_KEY?.trim();
+  return key || undefined;
 }

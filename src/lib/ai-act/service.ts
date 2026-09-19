@@ -27,6 +27,7 @@ export async function completeAiActChat(input: {
     system,
     messages: input.messages,
     model: config.model,
+    timeoutMs: config.timeoutMs,
   };
 
   return provider.complete(request);

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useSyncExternalStore, type ReactNode } from "react";
+import { createContext, Suspense, useCallback, useContext, useEffect, useMemo, useSyncExternalStore, type ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
 import { readCampaignParams } from "@/lib/ai-act/campaign";
 import {
@@ -10,6 +10,7 @@ import {
   subscribeAiActSession,
   writeAiActSession,
 } from "@/lib/ai-act/session-store";
+import { applyLeadToSession } from "@/lib/ai-act/session";
 import type { AiActSession } from "@/lib/ai-act/types";
 
 type SessionUpdater = Partial<AiActSession> | ((current: AiActSession) => AiActSession);
@@ -58,11 +59,32 @@ export function AiActSessionProvider({ children }: { children: ReactNode }) {
     writeAiActSession(typeof patch === "function" ? patch(current) : { ...current, ...patch });
   }, []);
 
+  useEffect(() => {
+    void fetch("/api/ai-act/session")
+      .then((response) => response.json())
+      .then((data: { ok?: boolean; leadCaptured?: boolean; questionsAsked?: number; lead?: Pick<AiActSession, "name" | "workEmail" | "company" | "role" | "marketingConsent"> }) => {
+        if (!data?.ok) return;
+        update((current) => {
+          let next = current;
+          if (typeof data.questionsAsked === "number" && data.questionsAsked > current.questionsAsked) {
+            next = { ...next, questionsAsked: data.questionsAsked };
+          }
+          if (data.leadCaptured && data.lead && !current.leadCaptured) {
+            return applyLeadToSession(next, data.lead);
+          }
+          return next;
+        });
+      })
+      .catch(() => undefined);
+  }, [update]);
+
   const value = useMemo(() => ({ session, ready, update, ensure: ensureAiActSession }), [session, ready, update]);
 
   return (
     <AiActSessionContext.Provider value={value}>
-      <CampaignCapture session={session} update={update} />
+      <Suspense fallback={null}>
+        <CampaignCapture session={session} update={update} />
+      </Suspense>
       {children}
     </AiActSessionContext.Provider>
   );

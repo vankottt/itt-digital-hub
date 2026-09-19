@@ -8,7 +8,7 @@ import { siteUrl } from "@/lib/site-url";
 import { site } from "@/content/site";
 import { t } from "@/content/messages";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { SiteFooter } from "@/components/layout/SiteFooter";
+import { SiteFooterGate } from "@/components/layout/SiteFooterGate";
 import { ResetWindowScroll } from "@/components/layout/ResetWindowScroll";
 import { OrganizationJsonLd } from "@/components/layout/OrganizationJsonLd";
 import { allowPublicIndexing, robotsDirective } from "@/lib/indexing";
@@ -58,7 +58,7 @@ export default async function LocaleLayout({
         <main id="main" className="flex-1">
           {children}
         </main>
-        <SiteFooter locale={locale} />
+        <SiteFooterGate locale={locale} />
         <OrganizationJsonLd locale={locale} />
         <Analytics />
       </body>

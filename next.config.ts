@@ -11,6 +11,10 @@ try {
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  outputFileTracingIncludes: {
+    "/api/ai-act/chat": ["./src/content/ai-act-kit/**/*"],
+    "/api/ai-act/kit": ["./src/content/ai-act-kit/**/*"],
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: supabaseHost

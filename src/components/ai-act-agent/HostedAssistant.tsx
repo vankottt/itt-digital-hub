@@ -4,7 +4,13 @@ import { useEffect, useId, useRef, useState } from "react";
 import type { Locale } from "@/lib/i18n";
 import { aiActAgent as copy } from "@/content/ai-act-agent";
 import { trackAiActEvent } from "@/lib/ai-act/analytics";
-import { AI_ACT_MESSAGE_MAX_LENGTH, type AiActChatResponse, type AiActErrorCode, type ChatTurn } from "@/lib/ai-act/types";
+import {
+  AI_ACT_MESSAGE_MAX_LENGTH,
+  ANONYMOUS_QUESTION_LIMIT,
+  type AiActChatResponse,
+  type AiActErrorCode,
+  type ChatTurn,
+} from "@/lib/ai-act/types";
 import { needsLeadGate, remainingAnonymousQuestions, recordEvent } from "@/lib/ai-act/session";
 import { Container } from "@/components/layout/Container";
 import { Button } from "@/components/ui/ButtonLink";
@@ -19,6 +25,8 @@ function errorCopy(locale: Locale, code?: AiActErrorCode): string {
   if (code === "not_implemented") return table.not_implemented[locale];
   if (code === "rate_limited") return table.rate_limited[locale];
   if (code === "provider_error") return table.provider_error[locale];
+  if (code === "timeout") return table.timeout[locale];
+  if (code === "network") return table.network[locale];
   if (code === "invalid") return table.invalid[locale];
   if (code === "lead_required") return table.lead_required[locale];
   if (code === "kit_not_ready") return table.kit_not_ready[locale];
@@ -51,6 +59,23 @@ export function HostedAssistant({ locale }: { locale: Locale }) {
     node.scrollTop = node.scrollHeight;
   }, [session.messages]);
 
+  useEffect(() => {
+    const viewport = window.visualViewport;
+    if (!viewport) return;
+    const sync = () => {
+      const obscured = Math.max(0, window.innerHeight - viewport.height - viewport.offsetTop);
+      document.documentElement.style.setProperty("--ai-act-keyboard", `${obscured}px`);
+    };
+    sync();
+    viewport.addEventListener("resize", sync);
+    viewport.addEventListener("scroll", sync);
+    return () => {
+      viewport.removeEventListener("resize", sync);
+      viewport.removeEventListener("scroll", sync);
+      document.documentElement.style.removeProperty("--ai-act-keyboard");
+    };
+  }, []);
+
   async function send(text: string, options?: { retryOf?: string }) {
     const content = text.trim();
     if (!content || pending) return;
@@ -68,7 +93,6 @@ export function HostedAssistant({ locale }: { locale: Locale }) {
       return {
         ...current,
         journey: "use",
-        questionsAsked: options?.retryOf ? current.questionsAsked : current.questionsAsked + 1,
         messages,
         conversationEvents: recordEvent(current, "question_started").conversationEvents,
       };
@@ -76,7 +100,9 @@ export function HostedAssistant({ locale }: { locale: Locale }) {
     setDraft("");
     trackAiActEvent("ai_act_question_started", { locale, retry: Boolean(options?.retryOf) });
 
-    const history = [...session.messages.filter((turn) => turn.status === "complete"), userTurn].map((turn) => ({
+    const completeTurns = session.messages.filter((turn) => turn.status === "complete");
+    const historyTurns = completeTurns.some((turn) => turn.id === userTurn.id) ? completeTurns : [...completeTurns, userTurn];
+    const history = historyTurns.map((turn) => ({
       role: turn.role,
       content: turn.content,
     }));
@@ -92,19 +118,31 @@ export function HostedAssistant({ locale }: { locale: Locale }) {
         }),
       });
       const data = (await response.json()) as AiActChatResponse;
+      if (!data.ok && data.error.code === "lead_required") {
+        setDraft(content);
+        update((current) => ({
+          ...current,
+          questionsAsked: Math.max(current.questionsAsked, ANONYMOUS_QUESTION_LIMIT),
+          messages: current.messages.filter((turn) => turn.id !== pendingTurn.id && turn.id !== userTurn.id),
+        }));
+        return;
+      }
       update((current) => ({
         ...current,
+        questionsAsked: data.ok ? current.questionsAsked + 1 : current.questionsAsked,
         messages: current.messages.map((turn) => {
           if (turn.id !== pendingTurn.id) return turn;
-          if (data.ok) return { ...turn, status: "complete", content: data.message.content };
-          return { ...turn, status: "error", errorCode: data.error.code, content: "" };
+          if (data.ok) return { ...turn, status: "complete" as const, content: data.message.content };
+          return { ...turn, status: "error" as const, errorCode: data.error.code, content: "" };
         }),
       }));
+      if (!data.ok) setDraft(content);
     } catch {
+      setDraft(content);
       update((current) => ({
         ...current,
         messages: current.messages.map((turn) =>
-          turn.id === pendingTurn.id ? { ...turn, status: "error", errorCode: "provider_error", content: "" } : turn,
+          turn.id === pendingTurn.id ? { ...turn, status: "error", errorCode: "network", content: "" } : turn,
         ),
       }));
     }
@@ -126,7 +164,7 @@ export function HostedAssistant({ locale }: { locale: Locale }) {
   }
 
   return (
-    <div className="flex min-h-svh flex-col bg-paper pt-24 md:pt-28">
+    <div className="flex h-dvh flex-col overflow-hidden bg-paper pt-24 md:pt-28">
       <ProductChrome locale={locale} title={copy.chat.title[locale]} aside={remainingLabel()} />
 
       <Container className="flex min-h-0 flex-1 flex-col pb-0">
@@ -211,11 +249,12 @@ export function HostedAssistant({ locale }: { locale: Locale }) {
                   rows={2}
                   maxLength={AI_ACT_MESSAGE_MAX_LENGTH}
                   disabled={pending}
+                  enterKeyHint="send"
                   placeholder={copy.chat.placeholder[locale]}
                   className="w-full resize-none rounded-[1.25rem] bg-white px-4 py-3 font-sans text-base leading-normal text-ink outline-none placeholder:text-ink-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber md:text-small"
                 />
               </div>
-              <Button type="submit" disabled={pending || draft.trim().length === 0} className="w-full shrink-0 sm:w-auto">
+              <Button type="submit" disabled={pending || draft.trim().length === 0} className="w-full min-h-11 shrink-0 sm:w-auto">
                 {pending ? copy.chat.sending[locale] : copy.chat.send[locale]}
               </Button>
             </form>

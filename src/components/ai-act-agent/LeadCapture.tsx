@@ -22,6 +22,7 @@ function Field({
   autoComplete,
   maxLength,
   inputMode,
+  defaultValue,
 }: {
   label: string;
   name: string;
@@ -30,6 +31,7 @@ function Field({
   autoComplete?: string;
   maxLength: number;
   inputMode?: HTMLAttributes<HTMLInputElement>["inputMode"];
+  defaultValue?: string;
 }) {
   const id = useId();
   return (
@@ -45,7 +47,8 @@ function Field({
         autoComplete={autoComplete}
         maxLength={maxLength}
         inputMode={inputMode}
-        className={cn(controlClass, "h-10 md:h-8")}
+        defaultValue={defaultValue}
+        className={cn(controlClass, "h-11 md:h-8")}
       />
     </div>
   );
@@ -107,7 +110,7 @@ export function LeadCapture({
           marketingConsent: payload.marketingConsent,
         }),
       );
-      trackAiActEvent("ai_act_lead_submitted", { locale, reason, persisted: false });
+      trackAiActEvent("ai_act_lead_submitted", { locale, reason, persisted: true });
       setStatus("idle");
       onCompleted?.();
     } catch {
@@ -128,7 +131,7 @@ export function LeadCapture({
       </div>
 
       <div className="relative mt-6 grid gap-5">
-        <Field label={copy.lead.name[locale]} name="name" required autoComplete="name" maxLength={leadFieldLimits.name} />
+        <Field label={copy.lead.name[locale]} name="name" required autoComplete="name" maxLength={leadFieldLimits.name} defaultValue={session.name} />
         <Field
           label={copy.lead.email[locale]}
           name="workEmail"
@@ -137,6 +140,7 @@ export function LeadCapture({
           autoComplete="email"
           inputMode="email"
           maxLength={leadFieldLimits.workEmail}
+          defaultValue={session.workEmail}
         />
         <Field
           label={copy.lead.company[locale]}
@@ -144,6 +148,7 @@ export function LeadCapture({
           required
           autoComplete="organization"
           maxLength={leadFieldLimits.company}
+          defaultValue={session.company}
         />
         <Field
           label={copy.lead.role[locale]}
@@ -151,15 +156,16 @@ export function LeadCapture({
           required
           autoComplete="organization-title"
           maxLength={leadFieldLimits.role}
+          defaultValue={session.role}
         />
         <label className="flex items-start gap-3 text-small text-ink-2">
-          <input type="checkbox" name="marketingConsent" className="mt-1 size-4 shrink-0 accent-signal" />
+          <input type="checkbox" name="marketingConsent" defaultChecked={session.marketingConsent} className="mt-1 size-4 shrink-0 accent-signal" />
           <span>{copy.lead.consent[locale]}</span>
         </label>
       </div>
 
       <div className="mt-8 flex flex-col items-start gap-3">
-        <Button type="submit" disabled={status === "pending"}>
+        <Button type="submit" disabled={status === "pending"} className="min-h-11">
           {status === "pending" ? copy.lead.submitting[locale] : copy.lead.submit[locale]}
         </Button>
         {status === "invalid" ? (

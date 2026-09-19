@@ -1,17 +1,22 @@
 import type { Locale } from "@/lib/i18n";
 import type { KnowledgeContext } from "./types";
+import { loadSourceFiles, readKitFile } from "./kit-files";
 
-/**
- * Knowledge stays separable from Google Gemini and OpenAI.
- * Goal 2 attaches the AI Act corpus here. Goal 1 does not build a vector store.
- */
-export function loadKnowledgeContext(locale: Locale): KnowledgeContext {
-  void locale;
-  return { systemSupplement: "" };
+const localeDirective: Record<Locale, string> = {
+  bg: "Отговаряй на български, освен ако потребителят пише на друг език.",
+  en: "Answer in English unless the user writes in another language.",
+};
+
+export function loadSystemInstructions(locale: Locale): string {
+  return [localeDirective[locale], readKitFile("SYSTEM_PROMPT.md"), readKitFile("AGENT_CONFIG.md")].join("\n\n");
 }
 
-/** Goal 2 replaces this with SYSTEM_PROMPT.md. Empty so Goal 1 cannot invent legal answers. */
-export function loadSystemInstructions(locale: Locale): string {
+export function loadKnowledgeContext(locale: Locale): KnowledgeContext {
   void locale;
-  return "";
+  const sources = loadSourceFiles();
+  const systemSupplement = [
+    "Trusted knowledge pack. Use only these sources for legal statements.",
+    ...sources.map((file) => `## ${file.path}\n\n${file.content}`),
+  ].join("\n\n");
+  return { systemSupplement };
 }

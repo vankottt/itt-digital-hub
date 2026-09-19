@@ -65,6 +65,8 @@ export const AI_ACT_ERROR_CODES = [
   "not_implemented",
   "rate_limited",
   "provider_error",
+  "timeout",
+  "network",
   "invalid",
   "lead_required",
   "kit_not_ready",
@@ -81,7 +83,6 @@ export interface AiActChatRequest {
 export interface AiActChatSuccess {
   ok: true;
   message: { role: "assistant"; content: string };
-  diagnostics?: { provider: string; model: string };
 }
 
 export interface AiActChatFailure {
@@ -102,6 +103,7 @@ export interface ProviderRequest {
   system: string;
   messages: ProviderChatMessage[];
   model: string;
+  timeoutMs?: number;
 }
 
 export interface ProviderSuccess {
@@ -116,15 +118,31 @@ export interface AiProvider {
 }
 
 export interface KnowledgeContext {
-  /** Provider-agnostic supplement. Empty until Goal 2 attaches the corpus. */
   systemSupplement: string;
 }
 
 export interface AiActConfig {
   provider: AiProviderId;
   model: string;
+  timeoutMs: number;
   googleKeyConfigured: boolean;
   openaiKeyConfigured: boolean;
+}
+
+export const AI_ACT_LEAD_SOURCES = ["hosted_assistant", "agent_kit"] as const;
+export type AiActLeadSource = (typeof AI_ACT_LEAD_SOURCES)[number];
+
+export interface StoredAiActLead {
+  id: string;
+  name: string;
+  workEmail: string;
+  company: string;
+  role: string;
+  marketingConsent: boolean;
+  sessionId: string;
+  source: AiActLeadSource;
+  campaign?: string;
+  createdAt: string;
 }
 
 export const AGENT_KIT_FILE_IDS = [

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import type { Locale } from "@/lib/i18n";
 import { href } from "@/lib/paths";
 import { aiActAgent as copy } from "@/content/ai-act-agent";
-import { AGENT_KIT_FILES } from "@/lib/ai-act/kit";
+import { AGENT_KIT_FILES } from "@/lib/ai-act/kit-manifest";
 import { trackAiActEvent } from "@/lib/ai-act/analytics";
 import { InView } from "@/components/systems/InView";
 import { Container } from "@/components/layout/Container";
@@ -18,7 +18,17 @@ import { LeadCapture } from "./LeadCapture";
 import { useAiActSession } from "./AiActSessionProvider";
 import type { AgentKitFileId } from "@/lib/ai-act/types";
 
-export function BuildJourney({ locale, installerPrompt }: { locale: Locale; installerPrompt: string }) {
+export function BuildJourney({
+  locale,
+  installerPrompt,
+  testQuestion,
+  testCriteria,
+}: {
+  locale: Locale;
+  installerPrompt: string;
+  testQuestion: string;
+  testCriteria: string[];
+}) {
   const { session, update } = useAiActSession();
   const [downloadMessage, setDownloadMessage] = useState<string | null>(null);
   const [downloading, setDownloading] = useState(false);
@@ -50,15 +60,18 @@ export function BuildJourney({ locale, installerPrompt }: { locale: Locale; inst
   }, [locale, update]);
 
   async function downloadKit() {
-    if (!session.leadCaptured || downloading) return;
+    if (downloading) return;
     setDownloading(true);
     setDownloadMessage(null);
     update((current) => ({ ...current, kitDownloadRequested: true }));
     trackAiActEvent("ai_act_kit_download_clicked", { locale });
     try {
       const response = await fetch("/api/ai-act/kit");
-      if (!response.ok) {
-        setDownloadMessage(copy.chat.errors.kit_not_ready[locale]);
+      const type = response.headers.get("content-type") ?? "";
+      if (!response.ok || !type.includes("zip")) {
+        setDownloadMessage(
+          response.status === 403 ? copy.lead.downloadBody[locale] : copy.chat.errors.kit_not_ready[locale],
+        );
         return;
       }
       const blob = await response.blob();
@@ -71,8 +84,9 @@ export function BuildJourney({ locale, installerPrompt }: { locale: Locale; inst
       link.remove();
       URL.revokeObjectURL(url);
       update((current) => ({ ...current, kitDownloaded: true }));
+      setDownloadMessage(copy.build.step3.downloaded[locale]);
     } catch {
-      setDownloadMessage(copy.chat.errors.generic[locale]);
+      setDownloadMessage(copy.chat.errors.network[locale]);
     } finally {
       setDownloading(false);
     }
@@ -155,12 +169,12 @@ export function BuildJourney({ locale, installerPrompt }: { locale: Locale; inst
           />
           <div className="mt-10 max-w-2xl">
             {!session.leadCaptured ? (
-              <LeadCapture locale={locale} reason="download" />
+              <LeadCapture locale={locale} reason="download" onCompleted={() => void downloadKit()} />
             ) : (
               <div className="surface-card">
                 <p className="text-small text-ink-2">{copy.build.step3.readyNote[locale]}</p>
                 <div className="mt-6">
-                  <Button type="button" onClick={() => void downloadKit()} disabled={downloading}>
+                  <Button type="button" onClick={() => void downloadKit()} disabled={downloading} className="min-h-11">
                     {downloading ? copy.build.step3.downloading[locale] : copy.build.step3.download[locale]}
                   </Button>
                 </div>
@@ -251,10 +265,10 @@ export function BuildJourney({ locale, installerPrompt }: { locale: Locale; inst
           <div className="mt-12 grid gap-6 lg:grid-cols-12">
             <div className="surface-card lg:col-span-7">
               <p className="label">{copy.build.step6.questionLabel[locale]}</p>
-              <p className="mt-4 text-body text-ink">{copy.build.step6.question[locale]}</p>
+              <p className="mt-4 text-body text-ink">{testQuestion}</p>
               <div className="mt-6">
                 <CopyButton
-                  value={copy.build.step6.question[locale]}
+                  value={testQuestion}
                   label={copy.build.step6.copyTest[locale]}
                   copiedLabel={copy.build.step4.copied[locale]}
                   onCopied={() => trackAiActEvent("ai_act_test_copied", { locale })}
@@ -264,10 +278,10 @@ export function BuildJourney({ locale, installerPrompt }: { locale: Locale; inst
             <div className="lg:col-span-5">
               <p className="label">{copy.build.step6.criteriaLabel[locale]}</p>
               <ul className="mt-4 grid gap-2">
-                {copy.build.step6.criteria.map((item) => (
-                  <li key={item.en} className="flex gap-3 text-small text-ink-2">
+                {testCriteria.map((item) => (
+                  <li key={item} className="flex gap-3 text-small text-ink-2">
                     <CheckIcon className="mt-1 shrink-0 text-signal" />
-                    <span>{item[locale]}</span>
+                    <span>{item}</span>
                   </li>
                 ))}
               </ul>

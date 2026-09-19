@@ -287,6 +287,7 @@ export const privacyPage = {
     bg: [
       "Този уебсайт представя ITT Digital Hub и не изисква регистрация.",
       "Контактната форма събира име, фирма, телефон и кратко описание на проблем, за да отговорим на запитването. Не използваме тези данни за маркетинг.",
+      "Ако ползвате AI Act асистента или изтеглите комплекта, записваме име, служебен имейл, компания и роля, за да знаем с кого разговаряме. Маркетингово съгласие е отделно и не е задължително, за да продължите. Няма регистрация и няма потребителски акаунт.",
       "Сайтът може да използва Vercel Analytics за измерване без рекламни бисквитки и без идентификация на отделни посетители.",
       "Хостинг доставчикът може да обработва технически данни (например IP адрес и данни за заявката) в сървърни журнали за сигурност и стабилност, съгласно собствените си правила.",
       "Запитванията се приемат през контактната форма, публикувания имейл адрес и публикуваните телефонни номера. При промяна в обработването тази страница ще бъде актуализирана.",
@@ -294,6 +295,7 @@ export const privacyPage = {
     en: [
       "This website presents ITT Digital Hub and does not require registration.",
       "The contact form collects name, company, phone and a short description of the problem so we can reply to the enquiry. We do not use these details for marketing.",
+      "If you use the AI Act assistant or download the kit, we store a name, work email, company and role so we know who we are speaking with. Marketing consent is separate and is not required to continue. There is no registration and no user account.",
       "The site may use Vercel Analytics for measurement without advertising cookies and without identifying individual visitors.",
       "The hosting provider may process technical data (such as IP address and request data) in server logs for security and stability, under its own policies.",
       "Enquiries are received through the contact form, the published email address and the published phone numbers. If data processing changes, this page will be updated.",
