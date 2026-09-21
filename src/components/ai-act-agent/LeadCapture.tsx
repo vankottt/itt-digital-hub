@@ -23,6 +23,7 @@ function Field({
   maxLength,
   inputMode,
   defaultValue,
+  variant = "line",
 }: {
   label: string;
   name: string;
@@ -32,8 +33,29 @@ function Field({
   maxLength: number;
   inputMode?: HTMLAttributes<HTMLInputElement>["inputMode"];
   defaultValue?: string;
+  variant?: "line" | "box";
 }) {
   const id = useId();
+  if (variant === "box") {
+    return (
+      <div className="rounded-xl border border-line bg-white px-4 py-2.5 transition-colors duration-150 focus-within:border-signal">
+        <label htmlFor={id} className="text-meta uppercase tracking-[0.06em] text-ink-3">
+          {label}
+        </label>
+        <input
+          id={id}
+          name={name}
+          type={type}
+          required={required}
+          autoComplete={autoComplete}
+          maxLength={maxLength}
+          inputMode={inputMode}
+          defaultValue={defaultValue}
+          className={cn(controlClass, "h-9")}
+        />
+      </div>
+    );
+  }
   return (
     <div className="flex flex-col gap-1 border-b border-line pb-1 transition-colors duration-150 focus-within:border-signal">
       <label htmlFor={id} className="text-meta text-ink-3">
@@ -58,10 +80,12 @@ export function LeadCapture({
   locale,
   reason,
   onCompleted,
+  variant = "default",
 }: {
   locale: Locale;
   reason: "chat" | "download";
   onCompleted?: () => void;
+  variant?: "default" | "panel";
 }) {
   const { session, update, ensure } = useAiActSession();
   const [status, setStatus] = useState<"idle" | "pending" | "invalid" | "error">("idle");
@@ -118,10 +142,17 @@ export function LeadCapture({
     }
   }
 
+  const boxed = variant === "panel";
+  const fieldVariant = boxed ? "box" : "line";
+
   return (
-    <form onSubmit={(event) => void onSubmit(event)} className="relative surface-card" noValidate>
-      <h2 className="text-h3 text-ink">{title}</h2>
-      <p className="mt-2 max-w-[54ch] text-small text-ink-2">{body}</p>
+    <form onSubmit={(event) => void onSubmit(event)} className={cn("relative", boxed ? "rounded-[1.25rem] bg-white p-6 md:p-8" : "surface-card")} noValidate>
+      {boxed ? null : (
+        <>
+          <h2 className="text-h3 text-ink">{title}</h2>
+          <p className="mt-2 max-w-[54ch] text-small text-ink-2">{body}</p>
+        </>
+      )}
 
       <div className="absolute -left-[9999px] h-px w-px overflow-hidden" aria-hidden="true">
         <label>
@@ -130,8 +161,8 @@ export function LeadCapture({
         </label>
       </div>
 
-      <div className="relative mt-6 grid gap-5">
-        <Field label={copy.lead.name[locale]} name="name" required autoComplete="name" maxLength={leadFieldLimits.name} defaultValue={session.name} />
+      <div className={cn("relative grid gap-4", boxed ? undefined : "mt-6 gap-5")}>
+        <Field label={copy.lead.name[locale]} name="name" required autoComplete="name" maxLength={leadFieldLimits.name} defaultValue={session.name} variant={fieldVariant} />
         <Field
           label={copy.lead.email[locale]}
           name="workEmail"
@@ -141,6 +172,7 @@ export function LeadCapture({
           inputMode="email"
           maxLength={leadFieldLimits.workEmail}
           defaultValue={session.workEmail}
+          variant={fieldVariant}
         />
         <Field
           label={copy.lead.company[locale]}
@@ -149,6 +181,7 @@ export function LeadCapture({
           autoComplete="organization"
           maxLength={leadFieldLimits.company}
           defaultValue={session.company}
+          variant={fieldVariant}
         />
         <Field
           label={copy.lead.role[locale]}
@@ -157,6 +190,7 @@ export function LeadCapture({
           autoComplete="organization-title"
           maxLength={leadFieldLimits.role}
           defaultValue={session.role}
+          variant={fieldVariant}
         />
         <label className="flex items-start gap-3 text-small text-ink-2">
           <input type="checkbox" name="marketingConsent" defaultChecked={session.marketingConsent} className="mt-1 size-4 shrink-0 accent-signal" />

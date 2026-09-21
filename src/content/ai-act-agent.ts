@@ -201,8 +201,8 @@ export const aiActAgent = {
       title: { bg: "От какво е направен?", en: "What is it made of?" },
       heading: { bg: "Няма черна кутия.", en: "There is no black box." },
       lead: {
-        bg: "Можете да видите инструкциите, източниците и тестовете, с които работи.",
-        en: "You can see the instructions, sources and tests it works with.",
+        bg: "Можете да видите инструкциите, източниците и тестовете на асистента. Пълен контрол и прозрачност във всеки етап.",
+        en: "You can see the assistant’s instructions, sources and tests. Full control and transparency at every stage.",
       },
       files: {
         readme: {
@@ -239,8 +239,8 @@ export const aiActAgent = {
       label: { bg: "Стъпка 3", en: "Step 3" },
       title: { bg: "Вземете комплекта", en: "Take the kit" },
       lead: {
-        bg: "Пълният пакет е файловете по-горе в един архив. Изтеглянето използва същите данни като асистента, ако вече сте ги дали.",
-        en: "The full package is the files above in one archive. The download uses the same details as the assistant if you have already given them.",
+        bg: "Попълнете данните по-долу. Пълният пакет е файловете по-горе в един архив. Изтеглянето използва същите данни като асистента, ако вече сте ги дали.",
+        en: "Fill in the details below. The full package is the files above in one archive. The download uses the same details as the assistant if you have already given them.",
       },
       download: { bg: "Изтеглете комплекта", en: "Download the kit" },
       downloading: { bg: "Подготовка…", en: "Preparing…" },
@@ -271,14 +271,26 @@ export const aiActAgent = {
       label: { bg: "Стъпка 5", en: "Step 5" },
       title: { bg: "Вижте как се сглобява", en: "See how it is assembled" },
       lead: {
-        bg: "Това е идеята на сглобяването при вас. Не е отдалечено управление на ChatGPT.",
-        en: "This is the assembly idea on your side. It is not remote control of ChatGPT.",
+        bg: "Вашият AI асистент се изгражда от четири части: източници, инструкции, поведение и тестове. Те се комбинират при вас. Сайтът не управлява вашия ChatGPT акаунт.",
+        en: "Your AI assistant is built from four parts: sources, instructions, behaviour and tests. They are combined on your side. This website does not control your ChatGPT account.",
       },
       stages: [
-        { bg: "Източници", en: "Sources" },
-        { bg: "Инструкции", en: "Instructions" },
-        { bg: "Поведение", en: "Behaviour" },
-        { bg: "Тестове", en: "Tests" },
+        {
+          title: { bg: "Източници", en: "Sources" },
+          body: { bg: "Документите и знанието, на които се опира.", en: "The documents and knowledge it relies on." },
+        },
+        {
+          title: { bg: "Инструкции", en: "Instructions" },
+          body: { bg: "Как да се държи и на какъв език да обяснява.", en: "How it should behave and how it should explain." },
+        },
+        {
+          title: { bg: "Поведение", en: "Behaviour" },
+          body: { bg: "Граници, откази и кога да попита.", en: "Limits, refusals and when it should ask." },
+        },
+        {
+          title: { bg: "Тестове", en: "Tests" },
+          body: { bg: "Въпроси, с които се вижда дали работи както трябва.", en: "Questions that show whether it behaves as intended." },
+        },
       ],
       result: { bg: "AI Act асистент", en: "AI Act Assistant" },
     },
@@ -347,33 +359,89 @@ export const aiActAgent = {
       cta: { bg: "Обсъдете го с нас", en: "Discuss it with us" },
     },
   },
-  buildGame: {
-    progress: { bg: "Ниво", en: "Level" },
-    levels: [
-      { bg: "Състав", en: "Compose" },
+  journey: {
+    progress: { bg: "Маршрут", en: "Route" },
+    stops: [
+      { bg: "План", en: "Plan" },
+      { bg: "Части", en: "Parts" },
       { bg: "Комплект", en: "Kit" },
-      { bg: "Изтегляне", en: "Download" },
-      { bg: "ChatGPT", en: "ChatGPT" },
+      { bg: "Инструкции", en: "Instructions" },
       { bg: "Сглобяване", en: "Assembly" },
-      { bg: "Тест", en: "Test" },
+      { bg: "Проверка", en: "Test" },
     ] satisfies L[],
-    rewards: [
-      { bg: "Разбрахте анатомията на агента", en: "You understand the agent’s anatomy" },
-      { bg: "Събрахте всички части", en: "You collected all the parts" },
-      { bg: "Комплектът е ваш", en: "The kit is yours" },
-      { bg: "Готови за сглобяване", en: "Ready for assembly" },
-      { bg: "Агентът е сглобен", en: "The agent is assembled" },
-      { bg: "Мисията е изпълнена", en: "Mission complete" },
+    added: [
+      { bg: "задачата е ясна", en: "the task is clear" },
+      { bg: "частите са събрани", en: "the parts are collected" },
+      { bg: "комплектът е при вас", en: "the kit is in your hands" },
+      { bg: "инструкциите са готови", en: "the instructions are ready" },
+      { bg: "агентът е сглобен", en: "the agent is assembled" },
+      { bg: "проверката е направена", en: "the check is done" },
     ] satisfies L[],
     collected: { bg: "събрано", en: "collected" },
-    completion: { bg: "Агентът е активен", en: "The agent is live" },
+    continue: { bg: "Продължете към следващата стъпка", en: "Continue to the next step" },
+    completion: { bg: "Маршрутът е извървян", en: "The route is complete" },
+    visuals: {
+      compose: {
+        bg: "Екип около лаптоп, към който се събират инструкции, източници, контекст, правила и проверки.",
+        en: "A team around a laptop, with instructions, sources, context, rules and checks coming together.",
+      },
+      kit: {
+        bg: "Преглед на отворения комплект: файлове, инструкции и тестове без черна кутия.",
+        en: "A view of the open kit: files, instructions and tests, with no black box.",
+      },
+      download: {
+        bg: "Специалист получава комплекта и го преглежда на лаптоп.",
+        en: "A specialist receiving the kit and reviewing it on a laptop.",
+      },
+      chatgpt: {
+        bg: "Настройване на асистента в ChatGPT с готовия комплект.",
+        en: "Setting up the assistant in ChatGPT with the prepared kit.",
+      },
+      assemble: {
+        bg: "Четирите части се сглобяват в AI Act асистент.",
+        en: "The four parts being assembled into an AI Act assistant.",
+      },
+      validate: {
+        bg: "Проверка на отговора на асистента срещу ясни критерии.",
+        en: "Checking the assistant’s reply against clear criteria.",
+      },
+    },
     hero: {
-      badge: { bg: "Ниво 1", en: "Level 1" },
-      title: { bg: "Създай своя AI агент", en: "Build your own AI agent" },
-      subtitle: { bg: "Конструктор на агенти", en: "Agent constructor" },
-      start: { bg: "Започни мисията", en: "Start the mission" },
-      kit: { bg: "Виж комплекта", en: "View the kit" },
-      progress: { bg: "Прогрес", en: "Progress" },
+      chip: { bg: "Маршрут · 6 спирки", en: "Route · 6 stops" },
+      title: { bg: "Сглобете своя AI Act асистент", en: "Assemble your own AI Act assistant" },
+      lead: {
+        bg: "Един маршрут през шест спирки: от празно ядро до работещ асистент с инструкции, източници и проверки. Всяка спирка добавя част към вашия агент.",
+        en: "One route through six stops: from an empty core to a working assistant with instructions, sources and checks. Each stop adds a part to your agent.",
+      },
+      start: { bg: "Започнете маршрута", en: "Start the route" },
+      kit: { bg: "Директно към комплекта", en: "Skip to the kit" },
+      startMark: { bg: "старт", en: "start" },
+      imageAlt: {
+        bg: "Специалист пред лаптоп на ITT Digital Hub разглежда как знание и контекст се събират във AI асистент.",
+        en: "A specialist at an ITT Digital Hub laptop considering how knowledge and context come together in an AI assistant.",
+      },
+    },
+    notes: {
+      toCompose: { bg: "започваме от задачата", en: "we start with the task" },
+      toKit: { bg: "от идея към реални части", en: "from idea to real parts" },
+      toDownload: { bg: "събираме ги в един архив", en: "we gather them into one archive" },
+      toChatgpt: { bg: "тук добавяме инструкциите", en: "here we add the instructions" },
+      toAssemble: { bg: "слой по слой", en: "layer by layer" },
+      toValidate: { bg: "проверяваме, преди да продължим", en: "we check before moving on" },
+      toComplete: { bg: "последна отсечка", en: "the final stretch" },
+      intoCore: { bg: "към ядрото →", en: "into the core →" },
+    },
+    assembly: {
+      aria: {
+        bg: "Схема: агентът се сглобява слой по слой",
+        en: "Diagram: the agent is assembled layer by layer",
+      },
+      core: { bg: "AI ЯДРО", en: "AI CORE" },
+      mission: { bg: "ЗАДАЧА", en: "MISSION" },
+      knowledge: { bg: "ЗНАНИЕ", en: "KNOWLEDGE" },
+      instructions: { bg: "ИНСТРУКЦИИ", en: "INSTRUCTIONS" },
+      rules: { bg: "ПРАВИЛА", en: "RULES" },
+      tests: { bg: "ТЕСТОВЕ", en: "TESTS" },
     },
   },
 } as const;

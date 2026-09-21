@@ -1,12 +1,26 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import Image from "next/image";
+import {
+  BookOpen,
+  Bot,
+  ClipboardCheck,
+  Database,
+  FileText,
+  Folder,
+  Hash,
+  ScrollText,
+  Settings,
+  Shield,
+  Target,
+  Users,
+} from "lucide-react";
 import type { Locale } from "@/lib/i18n";
 import { href } from "@/lib/paths";
 import { aiActAgent as copy } from "@/content/ai-act-agent";
 import { AGENT_KIT_FILES } from "@/lib/ai-act/kit-manifest";
 import { trackAiActEvent } from "@/lib/ai-act/analytics";
-import { InView } from "@/components/systems/InView";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/editorial/SectionHeading";
@@ -15,11 +29,75 @@ import { CheckIcon } from "@/components/ui/Icons";
 import { ProductChrome } from "./ProductChrome";
 import { CopyButton } from "./CopyButton";
 import { LeadCapture } from "./LeadCapture";
-import { BuildConfetti } from "./BuildConfetti";
-import { BuildGameHero } from "./BuildGameHero";
-import { BuildProgress, BuildReward } from "./BuildProgress";
+import { RouteProgress } from "./JourneyProgress";
 import { useAiActSession } from "./AiActSessionProvider";
 import type { AgentKitFileId } from "@/lib/ai-act/types";
+
+function scrollToStep(step: string) {
+  document.querySelector(`[data-build-step='${step}']`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+const FILE_ICONS: Record<AgentKitFileId, typeof FileText> = {
+  readme: BookOpen,
+  installer: FileText,
+  system: ScrollText,
+  config: Settings,
+  tests: ClipboardCheck,
+  version: Hash,
+  sources: Folder,
+};
+
+const PART_ICONS = [FileText, Database, Target, Users, Shield] as const;
+const STAGE_ICONS = [Database, FileText, Users, Shield] as const;
+
+function StepPhoto({ src, alt, priority = false }: { src: string; alt: string; priority?: boolean }) {
+  return (
+    <div className="build-photo">
+      <Image src={src} alt={alt} fill priority={priority} sizes="(min-width: 1024px) 48vw, 100vw" className="object-cover" />
+    </div>
+  );
+}
+
+function Continue({ locale, to }: { locale: Locale; to: string }) {
+  return (
+    <div className="mt-8">
+      <Button type="button" arrow className="min-h-11" onClick={() => scrollToStep(to)}>
+        {copy.journey.continue[locale]}
+      </Button>
+    </div>
+  );
+}
+
+function Split({
+  step,
+  labelledBy,
+  content,
+  visual,
+  tint = false,
+  align = "center",
+}: {
+  step: string;
+  labelledBy: string;
+  content: ReactNode;
+  visual: ReactNode;
+  tint?: boolean;
+  align?: "center" | "start";
+}) {
+  return (
+    <section
+      aria-labelledby={labelledBy}
+      data-build-step={step}
+      className={tint ? "bg-paper-2" : "bg-paper"}
+    >
+      <Container className="py-12 md:py-16 lg:py-20">
+        <div className={align === "start" ? "grid items-start gap-10 lg:grid-cols-12 lg:gap-12" : "grid items-center gap-10 lg:grid-cols-12 lg:gap-12"}>
+          <div className="lg:col-span-5">{content}</div>
+          <div className="lg:col-span-7 lg:sticky lg:top-28">{visual}</div>
+        </div>
+      </Container>
+    </section>
+  );
+}
 
 export function BuildJourney({
   locale,
@@ -35,7 +113,6 @@ export function BuildJourney({
   const { session, update } = useAiActSession();
   const [downloadMessage, setDownloadMessage] = useState<string | null>(null);
   const [downloading, setDownloading] = useState(false);
-  const [collected, setCollected] = useState<Set<string>>(new Set());
   const seen = useRef(new Set<string>());
 
   useEffect(() => {
@@ -96,253 +173,234 @@ export function BuildJourney({
     }
   }
 
+  const visuals = copy.journey.visuals;
+
   return (
     <div className="bg-paper">
       <ProductChrome locale={locale} title={copy.build.kicker[locale]} aside={copy.provenance[locale]} />
-      <BuildGameHero locale={locale} />
-      <BuildProgress locale={locale} />
+      <RouteProgress locale={locale} />
 
-      <Section labelledBy="build-step-1" size="sm" rule={false}>
-        <div data-build-step="compose">
-          <SectionHeading
-            label={copy.build.step1.label[locale]}
-            heading={copy.build.step1.title[locale]}
-            id="build-step-1"
-            lead={copy.build.step1.lead[locale]}
-            align="split"
-          />
-          <InView className="mt-12">
-            <ol className="grid gap-3">
-              {copy.build.step1.parts.map((part, index) => (
-                <li
-                  key={part.title.en}
-                  className="surface-card draw-fade"
-                  style={{ "--draw-delay": `${0.08 * index}s` } as CSSProperties}
-                >
-                  <p className="label">{String(index + 1).padStart(2, "0")}</p>
-                  <h3 className="mt-2 text-h3 text-ink">{part.title[locale]}</h3>
-                  <p className="mt-1 text-small text-ink-2">{part.body[locale]}</p>
-                </li>
-              ))}
+      <Split
+        step="compose"
+        labelledBy="build-step-1"
+        content={
+          <>
+            <p className="label">{copy.build.step1.label[locale]}</p>
+            <h1 id="build-step-1" className="mt-3 max-w-[16ch] text-h1 text-balance">
+              {copy.build.step1.title[locale]}
+            </h1>
+            <p className="mt-4 max-w-[46ch] text-lead text-ink-2">{copy.build.step1.lead[locale]}</p>
+            <ol className="mt-8 grid gap-3">
+              {copy.build.step1.parts.map((part, index) => {
+                const Icon = PART_ICONS[index] ?? FileText;
+                return (
+                  <li key={part.title.en} className="build-part">
+                    <span className="build-part-num">{index + 1}</span>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-h4 text-ink">{part.title[locale]}</p>
+                      <p className="mt-0.5 text-small text-ink-2">{part.body[locale]}</p>
+                    </div>
+                    <Icon className="build-part-icon" strokeWidth={1.75} aria-hidden />
+                  </li>
+                );
+              })}
             </ol>
-            <p className="mt-6 text-center text-meta text-ink-3" aria-hidden="true">
-              ↓
-            </p>
-            <p className="surface-card mt-2 bg-marine text-center text-h3 text-on-dark">{copy.build.step1.result[locale]}</p>
-            <div className="mt-6 flex justify-center">
-              <BuildReward locale={locale} level={0} />
-            </div>
-          </InView>
-        </div>
-      </Section>
+            <Continue locale={locale} to="kit" />
+          </>
+        }
+        visual={<StepPhoto src="/tools/ai-act-build/step-1.jpg" alt={visuals.compose[locale]} priority />}
+      />
 
-      <Section tone="tint" labelledBy="build-step-2" size="sm" rule={false}>
-        <div data-build-step="kit">
-          <SectionHeading
-            label={copy.build.step2.label[locale]}
-            heading={copy.build.step2.heading[locale]}
-            id="build-step-2"
-            lead={copy.build.step2.lead[locale]}
-            align="split"
-          />
-          <ul className="mt-12 grid gap-3 md:grid-cols-2">
-            {AGENT_KIT_FILES.map((file) => {
-              const card = copy.build.step2.files[file.id as AgentKitFileId];
-              const isCollected = collected.has(file.id);
-              return (
-                <li key={file.id}>
-                  <details
-                    className="ai-act-file artifact-card surface-card h-full"
-                    data-collected={isCollected}
-                    onToggle={(event) => {
-                      if ((event.target as HTMLDetailsElement).open && !isCollected) {
-                        setCollected((prev) => new Set(prev).add(file.id));
-                        trackAiActEvent("ai_act_artifact_collected", { locale, artifact: file.id });
-                      }
-                    }}
-                  >
-                    <summary className="flex items-start justify-between gap-3">
-                      <span>
-                        <span className="font-mono text-meta text-ink-3">{file.name}</span>
-                        <span className="mt-2 block text-h4 text-ink">{card.title[locale]}</span>
-                      </span>
-                      <span className="label shrink-0">{file.kind === "folder" ? (locale === "bg" ? "папка" : "folder") : locale === "bg" ? "файл" : "file"}</span>
-                    </summary>
-                    <p className="mt-4 text-small text-ink-2">{card.body[locale]}</p>
-                    <span className="artifact-badge" aria-hidden="true">
-                      ★ {copy.buildGame.collected[locale]}
-                    </span>
-                  </details>
-                </li>
-              );
-            })}
-          </ul>
-          <InView className="mt-8">
-            <div className="flex justify-center">
-              <BuildReward locale={locale} level={1} />
-            </div>
-          </InView>
-        </div>
-      </Section>
+      <Split
+        step="kit"
+        labelledBy="build-step-2"
+        tint
+        align="start"
+        content={
+          <>
+            <p className="label">{copy.build.step2.label[locale]}</p>
+            <h2 id="build-step-2" className="mt-3 max-w-[16ch] text-h1 text-balance">
+              {copy.build.step2.heading[locale]}
+            </h2>
+            <p className="mt-4 max-w-[46ch] text-lead text-ink-2">{copy.build.step2.lead[locale]}</p>
+            <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+              {AGENT_KIT_FILES.map((file) => {
+                const card = copy.build.step2.files[file.id as AgentKitFileId];
+                const Icon = FILE_ICONS[file.id as AgentKitFileId];
+                return (
+                  <li key={file.id} className="build-file">
+                    <Icon className="build-file-icon" strokeWidth={1.75} aria-hidden />
+                    <p className="font-mono text-meta text-ink-3">{file.name}</p>
+                    <p className="mt-1 text-small font-medium text-ink">{card.title[locale]}</p>
+                    <p className="mt-1 text-small text-ink-2">{card.body[locale]}</p>
+                  </li>
+                );
+              })}
+            </ul>
+            <Continue locale={locale} to="download" />
+          </>
+        }
+        visual={<StepPhoto src="/tools/ai-act-build/step-2.jpg" alt={visuals.kit[locale]} />}
+      />
 
-      <Section labelledBy="build-step-3" size="sm" rule={false}>
-        <div data-build-step="download">
-          <SectionHeading
-            label={copy.build.step3.label[locale]}
-            heading={copy.build.step3.title[locale]}
-            id="build-step-3"
-            lead={copy.build.step3.lead[locale]}
-            align="split"
-          />
-          <div className="mt-10 max-w-2xl">
-            {!session.leadCaptured ? (
-              <LeadCapture locale={locale} reason="download" onCompleted={() => void downloadKit()} />
-            ) : (
-              <div className="surface-card">
-                <p className="text-small text-ink-2">{copy.build.step3.readyNote[locale]}</p>
-                <div className="mt-6">
-                  <Button type="button" onClick={() => void downloadKit()} disabled={downloading} className="min-h-11">
-                    {downloading ? copy.build.step3.downloading[locale] : copy.build.step3.download[locale]}
-                  </Button>
+      <Split
+        step="download"
+        labelledBy="build-step-3"
+        align="start"
+        content={
+          <>
+            <p className="label">{copy.build.step3.label[locale]}</p>
+            <h2 id="build-step-3" className="mt-3 max-w-[16ch] text-h1 text-balance">
+              {copy.build.step3.title[locale]}
+            </h2>
+            <p className="mt-4 max-w-[46ch] text-lead text-ink-2">{copy.build.step3.lead[locale]}</p>
+            <div className="mt-8">
+              {!session.leadCaptured ? (
+                <LeadCapture locale={locale} reason="download" variant="panel" onCompleted={() => void downloadKit()} />
+              ) : (
+                <div className="rounded-[1.25rem] bg-white p-6 md:p-8">
+                  <p className="text-small text-ink-2">{copy.build.step3.readyNote[locale]}</p>
+                  <div className="mt-6">
+                    <Button type="button" onClick={() => void downloadKit()} disabled={downloading} className="min-h-11">
+                      {downloading ? copy.build.step3.downloading[locale] : copy.build.step3.download[locale]}
+                    </Button>
+                  </div>
+                  {downloadMessage ? (
+                    <p className="mt-4 text-small text-ink-2" role="status">
+                      {downloadMessage}
+                    </p>
+                  ) : null}
                 </div>
-                {downloadMessage ? (
-                  <p className="mt-4 text-small text-ink-2" role="status">
-                    {downloadMessage}
-                  </p>
-                ) : null}
-              </div>
-            )}
-          </div>
-          <InView className="mt-8">
-            <div className="flex justify-center">
-              <BuildReward locale={locale} level={2} />
+              )}
             </div>
-          </InView>
-        </div>
-      </Section>
+            <Continue locale={locale} to="chatgpt" />
+          </>
+        }
+        visual={<StepPhoto src="/tools/ai-act-build/step-3.jpg" alt={visuals.download[locale]} />}
+      />
 
-      <Section tone="tint" labelledBy="build-step-4" size="sm" rule={false}>
-        <div data-build-step="chatgpt">
-          <SectionHeading
-            label={copy.build.step4.label[locale]}
-            heading={copy.build.step4.title[locale]}
-            id="build-step-4"
-            lead={copy.build.step4.lead[locale]}
-            align="split"
-          />
-          <ol className="mt-12 grid gap-4 md:grid-cols-2">
-            {copy.build.step4.steps.map((step, index) => (
-              <li key={step.en} className="surface-card">
-                <p className="label">{String(index + 1).padStart(2, "0")}</p>
-                <p className="mt-3 text-h4 text-ink">{step[locale]}</p>
-              </li>
-            ))}
-          </ol>
-          <div className="surface-card mt-6">
-            <p className="label">{copy.build.step4.promptLabel[locale]}</p>
-            <pre className="mt-4 overflow-x-auto whitespace-pre-wrap font-sans text-small text-ink-2">{installerPrompt}</pre>
-            <div className="mt-6">
-              <CopyButton
-                value={installerPrompt}
-                label={copy.build.step4.copy[locale]}
-                copiedLabel={copy.build.step4.copied[locale]}
-                onCopied={() => trackAiActEvent("ai_act_installer_prompt_copied", { locale })}
-              />
-            </div>
-          </div>
-          <InView className="mt-8">
-            <div className="flex justify-center">
-              <BuildReward locale={locale} level={3} />
-            </div>
-          </InView>
-        </div>
-      </Section>
-
-      <Section labelledBy="build-step-5" size="sm" rule={false}>
-        <div data-build-step="assemble">
-          <SectionHeading
-            label={copy.build.step5.label[locale]}
-            heading={copy.build.step5.title[locale]}
-            id="build-step-5"
-            lead={copy.build.step5.lead[locale]}
-            align="split"
-          />
-          <InView className="mt-12">
-            <ol className="grid gap-3">
-              {copy.build.step5.stages.map((stage, index) => (
-                <li
-                  key={stage.en}
-                  className="assemble-part flex items-center gap-4 border-b border-line py-4"
-                  style={{ "--draw-delay": `${0.12 * index}s` } as CSSProperties}
-                >
-                  <span className="inline-flex size-8 items-center justify-center rounded-full bg-marine text-on-dark">
-                    {index < copy.build.step5.stages.length - 1 ? <CheckIcon /> : <span className="text-meta">…</span>}
-                  </span>
-                  <span className="text-h3 text-ink">{stage[locale]}</span>
+      <Split
+        step="chatgpt"
+        labelledBy="build-step-4"
+        tint
+        align="start"
+        content={
+          <>
+            <p className="label">{copy.build.step4.label[locale]}</p>
+            <h2 id="build-step-4" className="mt-3 max-w-[16ch] text-h1 text-balance">
+              {copy.build.step4.title[locale]}
+            </h2>
+            <p className="mt-4 max-w-[46ch] text-lead text-ink-2">{copy.build.step4.lead[locale]}</p>
+            <ol className="mt-8 grid gap-3 sm:grid-cols-2">
+              {copy.build.step4.steps.map((step, index) => (
+                <li key={step.en} className="build-part">
+                  <span className="build-part-num">{index + 1}</span>
+                  <p className="text-small font-medium text-ink">{step[locale]}</p>
                 </li>
               ))}
             </ol>
-            <p className="mt-6 text-center text-meta text-ink-3" aria-hidden="true">
-              ↓
-            </p>
-            <p className="mt-2 text-center text-h2 text-ink">{copy.build.step5.result[locale]}</p>
-            <div className="mt-6 flex justify-center">
-              <BuildReward locale={locale} level={4} />
-            </div>
-          </InView>
-        </div>
-      </Section>
-
-      <Section tone="tint" labelledBy="build-step-6" size="sm" rule={false}>
-        <div data-build-step="validate">
-          <SectionHeading
-            label={copy.build.step6.label[locale]}
-            heading={copy.build.step6.title[locale]}
-            id="build-step-6"
-            lead={copy.build.step6.lead[locale]}
-            align="split"
-          />
-          <div className="mt-12 grid gap-6 lg:grid-cols-12">
-            <div className="surface-card lg:col-span-7">
-              <p className="label">{copy.build.step6.questionLabel[locale]}</p>
-              <p className="mt-4 text-body text-ink">{testQuestion}</p>
-              <div className="mt-6">
+            <div className="build-prompt mt-6">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <p className="label">{copy.build.step4.promptLabel[locale]}</p>
                 <CopyButton
-                  value={testQuestion}
-                  label={copy.build.step6.copyTest[locale]}
+                  value={installerPrompt}
+                  label={copy.build.step4.copy[locale]}
                   copiedLabel={copy.build.step4.copied[locale]}
-                  onCopied={() => trackAiActEvent("ai_act_test_copied", { locale })}
+                  onCopied={() => trackAiActEvent("ai_act_installer_prompt_copied", { locale })}
                 />
               </div>
+              <pre className="mt-4 max-h-48 overflow-auto whitespace-pre-wrap font-sans text-small text-ink-2">{installerPrompt}</pre>
             </div>
-            <div className="lg:col-span-5">
-              <p className="label">{copy.build.step6.criteriaLabel[locale]}</p>
-              <ul className="mt-4 grid gap-2">
-                {testCriteria.map((item) => (
-                  <li key={item} className="flex gap-3 text-small text-ink-2">
-                    <CheckIcon className="mt-1 shrink-0 text-signal" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <InView className="mt-8">
-            <div className="flex justify-center">
-              <BuildReward locale={locale} level={5} />
-            </div>
-          </InView>
-        </div>
-      </Section>
+            <Continue locale={locale} to="assemble" />
+          </>
+        }
+        visual={<StepPhoto src="/tools/ai-act-build/step-4.jpg" alt={visuals.chatgpt[locale]} />}
+      />
 
-      <section className="relative bg-marine text-on-dark" data-surface="dark" data-build-step="complete" aria-labelledby="build-complete">
-        <BuildConfetti />
+      <Split
+        step="assemble"
+        labelledBy="build-step-5"
+        content={
+          <>
+            <p className="label">{copy.build.step5.label[locale]}</p>
+            <h2 id="build-step-5" className="mt-3 max-w-[16ch] text-h1 text-balance">
+              {copy.build.step5.title[locale]}
+            </h2>
+            <p className="mt-4 max-w-[46ch] text-lead text-ink-2">{copy.build.step5.lead[locale]}</p>
+            <div className="mt-8 grid gap-3">
+              {copy.build.step5.stages.map((stage, index) => {
+                const Icon = STAGE_ICONS[index] ?? FileText;
+                return (
+                  <div key={stage.title.en} className="build-part">
+                    <Icon className="build-part-icon" strokeWidth={1.75} aria-hidden />
+                    <div className="min-w-0 flex-1">
+                      <p className="text-h4 text-ink">{stage.title[locale]}</p>
+                      <p className="mt-0.5 text-small text-ink-2">{stage.body[locale]}</p>
+                    </div>
+                    <span className="build-plus" aria-hidden="true">
+                      +
+                    </span>
+                  </div>
+                );
+              })}
+              <p className="build-agent-chip">
+                <Bot className="size-5" strokeWidth={1.75} aria-hidden />
+                {copy.build.step5.result[locale]}
+              </p>
+            </div>
+            <Continue locale={locale} to="validate" />
+          </>
+        }
+        visual={<StepPhoto src="/tools/ai-act-build/step-5.jpg" alt={visuals.assemble[locale]} />}
+      />
+
+      <Split
+        step="validate"
+        labelledBy="build-step-6"
+        tint
+        align="start"
+        content={
+          <>
+            <p className="label">{copy.build.step6.label[locale]}</p>
+            <h2 id="build-step-6" className="mt-3 max-w-[16ch] text-h1 text-balance">
+              {copy.build.step6.title[locale]}
+            </h2>
+            <p className="mt-4 max-w-[46ch] text-lead text-ink-2">{copy.build.step6.lead[locale]}</p>
+            <div className="mt-8 grid gap-4">
+              <div className="build-prompt">
+                <p className="label">{copy.build.step6.questionLabel[locale]}</p>
+                <p className="mt-3 text-body text-ink">{testQuestion}</p>
+                <div className="mt-5">
+                  <CopyButton
+                    value={testQuestion}
+                    label={copy.build.step6.copyTest[locale]}
+                    copiedLabel={copy.build.step4.copied[locale]}
+                    onCopied={() => trackAiActEvent("ai_act_test_copied", { locale })}
+                  />
+                </div>
+              </div>
+              <div className="build-prompt">
+                <p className="label">{copy.build.step6.criteriaLabel[locale]}</p>
+                <ul className="mt-4 grid gap-2.5">
+                  {testCriteria.map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-small text-ink-2">
+                      <span className="mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-signal/10 text-signal">
+                        <CheckIcon className="size-3.5" />
+                      </span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </>
+        }
+        visual={<StepPhoto src="/tools/ai-act-build/step-6.jpg" alt={visuals.validate[locale]} />}
+      />
+
+      <section className="bg-marine text-on-dark" data-surface="dark" data-build-step="complete" aria-labelledby="build-complete">
         <Container className="py-section-sm">
           <p className="label-dark">{copy.provenance[locale]}</p>
-          <p className="mt-6 inline-flex items-center gap-2 rounded-full border border-on-dark/25 px-4 py-1.5 font-mono text-meta tracking-[0.06em] text-on-dark">
-            <span aria-hidden="true" className="text-signal-2">★</span>
-            {copy.buildGame.completion[locale]}
-          </p>
           <h2 id="build-complete" className="mt-4 max-w-[16ch] text-hero text-balance text-on-dark">
             {copy.build.completion.title[locale]}
           </h2>
@@ -373,7 +431,7 @@ export function BuildJourney({
           />
           <ol className="mt-12 grid gap-4 md:grid-cols-3">
             {copy.build.next.items.map((item, index) => (
-              <li key={item.title.en} className="surface-card">
+              <li key={item.title.en} className="build-file">
                 <p className="label">{String(index + 1).padStart(2, "0")}</p>
                 <h3 className="mt-3 text-h3 text-ink">{item.title[locale]}</h3>
                 <p className="mt-2 text-small text-ink-2">{item.body[locale]}</p>
