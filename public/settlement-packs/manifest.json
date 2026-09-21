@@ -1,0 +1,16 @@
+{
+  "generatedAt": "2026-09-20T13:10:24.356Z",
+  "packs": [
+    {
+      "ekatte": "43952",
+      "name": "Ловеч",
+      "municipality": "Ловеч",
+      "region": "Ловеч",
+      "type": "city",
+      "lat": 43.136953,
+      "lon": 24.714191,
+      "radiusM": 6000,
+      "fetchedAt": "2026-09-20T13:10:24.356Z"
+    }
+  ]
+}

@@ -15,6 +15,9 @@ import { CheckIcon } from "@/components/ui/Icons";
 import { ProductChrome } from "./ProductChrome";
 import { CopyButton } from "./CopyButton";
 import { LeadCapture } from "./LeadCapture";
+import { BuildConfetti } from "./BuildConfetti";
+import { BuildGameHero } from "./BuildGameHero";
+import { BuildProgress, BuildReward } from "./BuildProgress";
 import { useAiActSession } from "./AiActSessionProvider";
 import type { AgentKitFileId } from "@/lib/ai-act/types";
 
@@ -32,6 +35,7 @@ export function BuildJourney({
   const { session, update } = useAiActSession();
   const [downloadMessage, setDownloadMessage] = useState<string | null>(null);
   const [downloading, setDownloading] = useState(false);
+  const [collected, setCollected] = useState<Set<string>>(new Set());
   const seen = useRef(new Set<string>());
 
   useEffect(() => {
@@ -93,8 +97,10 @@ export function BuildJourney({
   }
 
   return (
-    <div className="bg-paper pt-24 md:pt-28">
+    <div className="bg-paper">
       <ProductChrome locale={locale} title={copy.build.kicker[locale]} aside={copy.provenance[locale]} />
+      <BuildGameHero locale={locale} />
+      <BuildProgress locale={locale} />
 
       <Section labelledBy="build-step-1" size="sm" rule={false}>
         <div data-build-step="compose">
@@ -123,6 +129,9 @@ export function BuildJourney({
               ↓
             </p>
             <p className="surface-card mt-2 bg-marine text-center text-h3 text-on-dark">{copy.build.step1.result[locale]}</p>
+            <div className="mt-6 flex justify-center">
+              <BuildReward locale={locale} level={0} />
+            </div>
           </InView>
         </div>
       </Section>
@@ -139,9 +148,19 @@ export function BuildJourney({
           <ul className="mt-12 grid gap-3 md:grid-cols-2">
             {AGENT_KIT_FILES.map((file) => {
               const card = copy.build.step2.files[file.id as AgentKitFileId];
+              const isCollected = collected.has(file.id);
               return (
                 <li key={file.id}>
-                  <details className="ai-act-file surface-card h-full">
+                  <details
+                    className="ai-act-file artifact-card surface-card h-full"
+                    data-collected={isCollected}
+                    onToggle={(event) => {
+                      if ((event.target as HTMLDetailsElement).open && !isCollected) {
+                        setCollected((prev) => new Set(prev).add(file.id));
+                        trackAiActEvent("ai_act_artifact_collected", { locale, artifact: file.id });
+                      }
+                    }}
+                  >
                     <summary className="flex items-start justify-between gap-3">
                       <span>
                         <span className="font-mono text-meta text-ink-3">{file.name}</span>
@@ -150,11 +169,19 @@ export function BuildJourney({
                       <span className="label shrink-0">{file.kind === "folder" ? (locale === "bg" ? "папка" : "folder") : locale === "bg" ? "файл" : "file"}</span>
                     </summary>
                     <p className="mt-4 text-small text-ink-2">{card.body[locale]}</p>
+                    <span className="artifact-badge" aria-hidden="true">
+                      ★ {copy.buildGame.collected[locale]}
+                    </span>
                   </details>
                 </li>
               );
             })}
           </ul>
+          <InView className="mt-8">
+            <div className="flex justify-center">
+              <BuildReward locale={locale} level={1} />
+            </div>
+          </InView>
         </div>
       </Section>
 
@@ -186,6 +213,11 @@ export function BuildJourney({
               </div>
             )}
           </div>
+          <InView className="mt-8">
+            <div className="flex justify-center">
+              <BuildReward locale={locale} level={2} />
+            </div>
+          </InView>
         </div>
       </Section>
 
@@ -218,6 +250,11 @@ export function BuildJourney({
               />
             </div>
           </div>
+          <InView className="mt-8">
+            <div className="flex justify-center">
+              <BuildReward locale={locale} level={3} />
+            </div>
+          </InView>
         </div>
       </Section>
 
@@ -235,7 +272,7 @@ export function BuildJourney({
               {copy.build.step5.stages.map((stage, index) => (
                 <li
                   key={stage.en}
-                  className="flex items-center gap-4 border-b border-line py-4 draw-fade"
+                  className="assemble-part flex items-center gap-4 border-b border-line py-4"
                   style={{ "--draw-delay": `${0.12 * index}s` } as CSSProperties}
                 >
                   <span className="inline-flex size-8 items-center justify-center rounded-full bg-marine text-on-dark">
@@ -249,6 +286,9 @@ export function BuildJourney({
               ↓
             </p>
             <p className="mt-2 text-center text-h2 text-ink">{copy.build.step5.result[locale]}</p>
+            <div className="mt-6 flex justify-center">
+              <BuildReward locale={locale} level={4} />
+            </div>
           </InView>
         </div>
       </Section>
@@ -287,12 +327,22 @@ export function BuildJourney({
               </ul>
             </div>
           </div>
+          <InView className="mt-8">
+            <div className="flex justify-center">
+              <BuildReward locale={locale} level={5} />
+            </div>
+          </InView>
         </div>
       </Section>
 
-      <section className="bg-marine text-on-dark" data-surface="dark" data-build-step="complete" aria-labelledby="build-complete">
+      <section className="relative bg-marine text-on-dark" data-surface="dark" data-build-step="complete" aria-labelledby="build-complete">
+        <BuildConfetti />
         <Container className="py-section-sm">
           <p className="label-dark">{copy.provenance[locale]}</p>
+          <p className="mt-6 inline-flex items-center gap-2 rounded-full border border-on-dark/25 px-4 py-1.5 font-mono text-meta tracking-[0.06em] text-on-dark">
+            <span aria-hidden="true" className="text-signal-2">★</span>
+            {copy.buildGame.completion[locale]}
+          </p>
           <h2 id="build-complete" className="mt-4 max-w-[16ch] text-hero text-balance text-on-dark">
             {copy.build.completion.title[locale]}
           </h2>

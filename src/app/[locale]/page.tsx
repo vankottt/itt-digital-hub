@@ -12,11 +12,12 @@ import { Hero } from "@/components/editorial/Hero";
 import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/editorial/SectionHeading";
 import { StoriesCarousel } from "@/components/projects/StoriesCarousel";
+import { StoryCard } from "@/components/projects/StoryCard";
+import { storyCovers } from "@/content/stories";
 import { PartnersBand } from "@/components/partners/PartnersBand";
 import { FoundersPair } from "@/components/people/FoundersPair";
 import { ArrowLink } from "@/components/ui/ArrowLink";
 import { ContactForm } from "@/components/contact/ContactForm";
-import { ContactLead } from "@/components/contact/ContactEmailLink";
 
 type Params = { params: Promise<{ locale: string }> };
 
@@ -36,6 +37,7 @@ export default async function HomePage({ params }: Params) {
   const c = home;
   const founders = people.filter((person) => person.slug === "ivan-todorov" || person.slug === "ivan-tomchev");
   const projects = await listPublishedProjects();
+  const [firstProject, ...restProjects] = projects;
 
   return (
     <>
@@ -51,10 +53,14 @@ export default async function HomePage({ params }: Params) {
           <div className="surface-card shadow-[0_24px_80px_rgba(4,14,49,0.28)]">
             <p className="label">{c.hero.proofLabel[locale]}</p>
             <ol className="mt-4 divide-y divide-line">
-              {projects.map((project) => (
-                <li key={project.slug} className="py-3.5 first:pt-2 last:pb-0">
-                  <p className="font-sans text-h4 text-pretty text-ink">{project.title[locale]}</p>
-                  <p className="mt-1 text-meta text-ink-3">{project.domain[locale]}</p>
+              {projects.map((project, index) => (
+                <li key={project.slug} className={index === 0 ? "py-4 first:pt-3 last:pb-0" : "py-3.5 last:pb-0"}>
+                  <div className={index === 0 ? "border-l-2 border-signal pl-3" : undefined}>
+                    <p className={index === 0 ? "font-sans text-h3 text-pretty text-ink" : "font-sans text-h4 text-pretty text-ink"}>
+                      {project.title[locale]}
+                    </p>
+                    <p className="mt-1 text-meta text-ink-3">{project.domain[locale]}</p>
+                  </div>
                 </li>
               ))}
             </ol>
@@ -73,7 +79,18 @@ export default async function HomePage({ params }: Params) {
           align="split"
         />
         <div className="mt-12">
-          <StoriesCarousel projects={projects} locale={locale} />
+          {firstProject && restProjects.length > 0 ? (
+            <div className="grid gap-6 lg:grid-cols-12 lg:gap-10">
+              <div className="lg:col-span-7">
+                <StoryCard project={firstProject} locale={locale} cover={storyCovers[firstProject.slug]} featured />
+              </div>
+              <div className="lg:col-span-5">
+                <StoriesCarousel projects={restProjects} locale={locale} single />
+              </div>
+            </div>
+          ) : (
+            <StoriesCarousel projects={projects} locale={locale} />
+          )}
         </div>
         <div className="mt-10">
           <ArrowLink href={href(locale, "projects")}>{m.viewMore}</ArrowLink>
@@ -91,7 +108,7 @@ export default async function HomePage({ params }: Params) {
         <ol className="mt-12 grid gap-4 md:grid-cols-3 md:gap-5">
           {problemClasses.map((item) => (
             <li key={item.code} className="surface-card">
-              <p className="label">{item.code}</p>
+              <p className="font-mono text-meta tracking-[0.08em] text-signal">{item.code}</p>
               <h3 className="mt-3 text-h3 text-ink">{item.title[locale]}</h3>
               <p className="mt-2 text-small text-ink-2">{item.body[locale]}</p>
             </li>
@@ -121,7 +138,7 @@ export default async function HomePage({ params }: Params) {
         <ol className="mt-12 grid gap-4 md:grid-cols-3 md:gap-5">
           {approachStages.map((stage) => (
             <li key={stage.code} className="surface-card">
-              <p className="label">{stage.code}</p>
+              <p className="font-mono text-meta tracking-[0.08em] text-signal">{stage.code}</p>
               <h3 className="mt-3 text-h3 text-ink">{stage.title[locale]}</h3>
               <p className="mt-2 text-small text-ink-2">{stage.body[locale]}</p>
             </li>
@@ -150,7 +167,7 @@ export default async function HomePage({ params }: Params) {
           label={c.work.label[locale]}
           heading={c.work.heading[locale]}
           id="contact-heading"
-          lead={<ContactLead after={c.work.body[locale]} />}
+          lead={c.work.lead[locale]}
           align="split"
         />
         <ContactForm locale={locale} />

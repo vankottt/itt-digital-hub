@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "ruflo": {
+      "command": "/Users/ivan.todorov/.local/bin/node",
+      "args": [
+        "${workspaceFolder}/.ruflo/cursor/bin/ruflo-mcp.mjs"
+      ],
+      "env": {
+        "CLAUDE_FLOW_DB_PATH": "${workspaceFolder}/.ruflo/state/ruflo.db",
+        "RUFLO_TELEMETRY_ENABLED": "false",
+        "CLAUDE_FLOW_TELEMETRY_ENABLED": "false"
+      }
+    }
+  }
+}

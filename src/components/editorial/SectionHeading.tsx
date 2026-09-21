@@ -37,7 +37,7 @@ export function SectionHeading({
 
   return (
     <div className={cn(align === "split" ? "grid gap-6 lg:grid-cols-12 lg:gap-10" : "max-w-3xl", className)}>
-      <div className={align === "split" ? "lg:col-span-5" : undefined}>
+      <div className={cn(align === "split" ? "lg:col-span-6" : undefined)}>
         {label ? (
           <p id={heading ? undefined : id} className={cn(dark ? "label-dark" : "label", heading && "mb-4")}>
             {label}
@@ -50,8 +50,8 @@ export function SectionHeading({
         ) : null}
       </div>
       {lead || children ? (
-        <div className={cn(align === "split" ? cn("lg:col-span-7", heading && "lg:pt-9") : "mt-6", "max-w-2xl")}>
-          {lead ? <p className={cn("text-lead", dark ? "text-on-dark-muted" : "text-ink-2")}>{lead}</p> : null}
+        <div className={cn(align === "split" ? cn("lg:col-span-6", heading && "lg:pt-9") : "mt-6")}>
+          {lead ? <p className={cn("text-lead whitespace-pre-line", dark ? "text-on-dark-muted" : "text-ink-2")}>{lead}</p> : null}
           {children}
         </div>
       ) : null}

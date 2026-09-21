@@ -5,7 +5,7 @@ import { t } from "@/content/messages";
 
 function LogoMark({ partner, locale }: { partner: Partner; locale: Locale }) {
   const svg = partner.logo.endsWith(".svg");
-  const className = "h-12 w-auto max-h-12 max-w-[11rem] object-contain object-center md:h-14 md:max-h-14 md:max-w-[13rem]";
+  const className = "h-10 w-auto max-h-10 max-w-[9rem] object-contain object-center md:h-12 md:max-h-12 md:max-w-[11rem]";
   return svg ? (
     // SVGs from public/ stay as img so Next does not rasterise the official marks.
     // eslint-disable-next-line @next/next/no-img-element
@@ -38,7 +38,7 @@ function Track({
             href={partner.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="partners-logo inline-flex h-20 items-center justify-center px-2 no-underline md:h-24"
+            className="partners-logo inline-flex h-14 items-center justify-center px-2 no-underline md:h-16"
           >
             <LogoMark partner={partner} locale={locale} />
           </a>

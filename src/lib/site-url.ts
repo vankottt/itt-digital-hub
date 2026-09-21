@@ -1,6 +1,6 @@
 /**
  * Site origin for metadata, sitemap and robots.
- * No production domain is fixed yet; the value is resolved from the environment only.
+ * Production canonical is https://ittdigitalhub.org via NEXT_PUBLIC_SITE_URL.
  *
  * Preview deployments must not advertise the production host as canonical.
  */

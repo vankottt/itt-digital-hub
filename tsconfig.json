@@ -36,10 +36,12 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
-    "exclude": [
-      "node_modules",
-      ".ruflo",
-      "qa",
-      ".data"
-    ]
+  "exclude": [
+    "node_modules",
+    ".ruflo",
+    "qa",
+    ".data",
+    "Tools",
+    "src/settlement-analyzer/**/*.test.ts"
+  ]
 }

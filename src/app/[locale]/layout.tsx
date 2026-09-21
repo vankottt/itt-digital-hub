@@ -7,8 +7,7 @@ import { isLocale, locales, localeLabels, type Locale } from "@/lib/i18n";
 import { siteUrl } from "@/lib/site-url";
 import { site } from "@/content/site";
 import { t } from "@/content/messages";
-import { SiteHeader } from "@/components/layout/SiteHeader";
-import { SiteFooterGate } from "@/components/layout/SiteFooterGate";
+import { SiteChrome } from "@/components/layout/SiteChrome";
 import { ResetWindowScroll } from "@/components/layout/ResetWindowScroll";
 import { OrganizationJsonLd } from "@/components/layout/OrganizationJsonLd";
 import { allowPublicIndexing, robotsDirective } from "@/lib/indexing";
@@ -48,17 +47,9 @@ export default async function LocaleLayout({
     <html lang={localeLabels[locale].htmlLang} className={fontClassName}>
       <body className="flex min-h-svh flex-col">
         <ResetWindowScroll />
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-full focus:bg-marine focus:px-4 focus:py-2 focus:text-on-dark"
-        >
-          {m.skipToContent}
-        </a>
-        <SiteHeader locale={locale} />
-        <main id="main" className="flex-1">
+        <SiteChrome locale={locale} skipLabel={m.skipToContent}>
           {children}
-        </main>
-        <SiteFooterGate locale={locale} />
+        </SiteChrome>
         <OrganizationJsonLd locale={locale} />
         <Analytics />
       </body>

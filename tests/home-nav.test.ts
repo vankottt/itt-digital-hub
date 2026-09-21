@@ -10,6 +10,7 @@ import {
   isHomePath,
   isHomeSectionHash,
   navKeyForHomeSection,
+  primaryNavHref,
 } from "../src/lib/home-nav";
 
 describe("home path", () => {
@@ -30,8 +31,15 @@ describe("home path", () => {
 });
 
 describe("homepage section map", () => {
-  it("keeps primary nav in the Summit one-page order", () => {
-    expect(primaryNav.map((item) => item.key)).toEqual(["projects", "about", "methodology", "people", "work-with-us"]);
+  it("keeps primary nav in the Summit one-page order, with Tools before About", () => {
+    expect(primaryNav.map((item) => item.key)).toEqual([
+      "projects",
+      "about",
+      "methodology",
+      "tools",
+      "people",
+      "work-with-us",
+    ]);
   });
 
   it("maps landing blocks onto primary nav keys", () => {
@@ -68,11 +76,28 @@ describe("homepage section map", () => {
     expect(href("bg", "insights")).toBe("/bg/insights");
   });
 
+  it("keeps Tools as its own route instead of a homepage hash", () => {
+    expect(homeNavHash.tools).toBeUndefined();
+    expect(homeHashHref("bg", "tools")).toBe(null);
+    expect(homeHashHref("en", "tools")).toBe(null);
+    expect(href("bg", "tools")).toBe("/bg/tools");
+    expect(href("en", "tools")).toBe("/en/tools");
+  });
+
   it("builds in-page hashes for the landing nav", () => {
     expect(homeHashHref("bg", "methodology")).toBe("/bg#approach");
     expect(homeHashHref("en", "projects")).toBe("/en#work");
     expect(homeHashHref("en", "about")).toBe("/en#problems");
     expect(homeHashHref("bg", "privacy")).toBe(null);
+  });
+
+  it("keeps landing sections on the homepage from every route, including Tools", () => {
+    expect(primaryNavHref("bg", "projects")).toBe("/bg#work");
+    expect(primaryNavHref("bg", "people")).toBe("/bg#people");
+    expect(primaryNavHref("en", "about")).toBe("/en#problems");
+    expect(primaryNavHref("bg", "work-with-us")).toBe("/bg#contact");
+    expect(primaryNavHref("bg", "tools")).toBe("/bg/tools");
+    expect(primaryNavHref("en", "privacy")).toBe("/en/privacy");
   });
 });
 

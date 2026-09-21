@@ -22,8 +22,8 @@ describe("public project stories", () => {
   it("uses the client-facing order without replacing slugs", () => {
     expect(projects.map((item) => item.slug)).toEqual([
       "atn-warranty-portal",
-      "atn-creator-social-intelligence",
       "ai-assisted-solar-operations",
+      "atn-creator-social-intelligence",
       "local-ai-orchestration",
     ]);
   });
@@ -39,7 +39,7 @@ describe("public project stories", () => {
       expect(blob).not.toMatch(/\bATN\b/);
     }
     expect(projects[0]?.title.en).toBe("Manufacturer-to-Customer Warranty Platform");
-    expect(projects[1]?.title.en).toBe("Creator & Social Intelligence");
+    expect(projects[2]?.title.en).toBe("Creator & Social Intelligence");
   });
 
   it("keeps EN and BG story structure aligned", () => {
@@ -144,13 +144,13 @@ describe("public project stories", () => {
     expect(warrantyVisuals?.value?.caption?.en).toMatch(/sample data/i);
     expect(warrantyVisuals?.value?.caption?.bg).toMatch(/примерни данни/i);
     const creatorVisuals = projectStoryVisuals["atn-creator-social-intelligence"];
-    expect(projects[1]?.seo?.image).toBe("/stories/creator-content-library.jpg");
+    expect(projects[2]?.seo?.image).toBe("/stories/creator-content-library.jpg");
     expect(projectHeroVisuals["atn-creator-social-intelligence"]?.src).toBe("/stories/creator-profile.jpg");
     expect(creatorVisuals?.built?.src).toBe("/stories/creator-content-performance.jpg");
     expect(creatorVisuals?.value?.src).toBe("/stories/creator-analytics.jpg");
     expect(creatorVisuals?.value?.caption?.en).toMatch(/sample data/i);
     expect(creatorVisuals?.value?.caption?.bg).toMatch(/примерни данни/i);
-    expect(projects[2]?.seo?.image).toBe("/stories/solar-batteries-cover.jpg");
+    expect(projects[1]?.seo?.image).toBe("/stories/solar-batteries-cover.jpg");
     expect(projects[3]?.seo?.image).toBe("/stories/local-orchestration-cover.webp");
   });
 });

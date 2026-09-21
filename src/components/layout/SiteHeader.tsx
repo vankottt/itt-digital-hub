@@ -3,11 +3,12 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n";
-import { href, isAiActAgentEntryPath, isAiActAgentPath } from "@/lib/paths";
+import { href, isAiActAgentEntryPath, isAiActAgentPath, isToolsPath } from "@/lib/paths";
 import { primaryNav } from "@/content/site";
 import { t } from "@/content/messages";
-import { isHomePath, homeHashHref } from "@/lib/home-nav";
+import { isHomePath, homeHashHref, primaryNavHref } from "@/lib/home-nav";
 import { usePathname } from "next/navigation";
+import { cn } from "@/lib/cn";
 import { Logo } from "./Logo";
 import { LanguageSwitcher, useLocaleSwitchScrollToTop } from "./LanguageSwitcher";
 import { MobileMenu } from "./MobileMenu";
@@ -20,10 +21,12 @@ export function SiteHeader({ locale }: { locale: Locale }) {
   const onHome = isHomePath(pathname);
   const onAiActProduct = isAiActAgentPath(pathname);
   const onAiActEntry = isAiActAgentEntryPath(pathname);
-  const overlayLanding = onHome || onAiActEntry;
+  const onTools = isToolsPath(pathname);
+  const overlayLanding = onHome || onAiActEntry || onTools;
   const spyKey = useHomeSectionSpy(onHome);
   useLocaleSwitchScrollToTop(locale);
   const [darkMix, setDarkMix] = useState(overlayLanding ? 1 : 0);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -38,6 +41,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
         if (bottom > top) mix = Math.max(mix, (bottom - top) / band);
       }
       setDarkMix(reduced ? (mix > 0.5 ? 1 : 0) : mix);
+      setScrolled(window.scrollY > 80);
     };
     update();
     window.addEventListener("scroll", update, { passive: true });
@@ -55,7 +59,8 @@ export function SiteHeader({ locale }: { locale: Locale }) {
     navKey: item.key,
   }));
   const contact = links.find((l) => l.emphasis);
-  const contactHash = onHome && contact ? homeHashHref(locale, contact.navKey) : null;
+  const contactHref = contact ? primaryNavHref(locale, contact.navKey) : null;
+  const contactHash = contact ? homeHashHref(locale, contact.navKey) : null;
   const overlay = darkMix > 0.45;
 
   return (
@@ -68,14 +73,20 @@ export function SiteHeader({ locale }: { locale: Locale }) {
             darkMix={darkMix}
             className="min-w-0 shrink xl:flex-none"
           />
-          <div className="hidden items-center gap-2 rounded-full bg-white/90 px-2 py-1.5 shadow-[0_8px_32px_rgba(4,14,49,0.12)] backdrop-blur-md xl:flex">
+          <div
+            className={cn(
+              "hidden items-center gap-2 rounded-full bg-white/90 px-2 shadow-[0_8px_32px_rgba(4,14,49,0.12)] backdrop-blur-md transition-[padding] duration-200 ease-out-soft xl:flex",
+              scrolled ? "py-1" : "py-1.5",
+            )}
+          >
             <DesktopNav locale={locale} links={links} label={m.primaryNav} pathname={pathname} onHome={onHome} spyKey={spyKey} />
             <LanguageSwitcher current={locale} label={m.language} className="px-2" />
-            {contact ? (
+            {contact && contactHref ? (
               <Link
-                href={contactHash ?? contact.href}
+                href={contactHref}
+                scroll={!contactHash}
                 onClick={(e) => {
-                  if (contactHash && scrollToHomeHash(contactHash)) e.preventDefault();
+                  if (onHome && contactHash && scrollToHomeHash(contactHash)) e.preventDefault();
                 }}
                 className="inline-flex h-9 items-center rounded-full bg-marine px-4 font-sans text-[0.9375rem] font-normal text-on-dark transition-colors duration-150 hover:bg-marine-2"
               >
@@ -94,7 +105,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           />
         </div>
       </header>
-      {onHome || onAiActProduct ? null : <div className="h-[5.5rem]" aria-hidden="true" />}
+      {onHome || onAiActProduct || onTools ? null : <div className="h-[5.5rem]" aria-hidden="true" />}
     </>
   );
 }

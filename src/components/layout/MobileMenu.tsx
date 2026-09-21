@@ -8,7 +8,7 @@ import { cn } from "@/lib/cn";
 import { CloseIcon, MenuIcon } from "@/components/ui/Icons";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { type NavLink } from "./DesktopNav";
-import { homeHashHref, isActivePath } from "@/lib/home-nav";
+import { homeHashHref, isActivePath, primaryNavHref } from "@/lib/home-nav";
 import { scrollToHomeHash } from "./useHomeSectionSpy";
 
 export function MobileMenu({
@@ -80,8 +80,8 @@ export function MobileMenu({
         aria-label={open ? labels.close : labels.open}
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          "inline-flex h-10 w-10 items-center justify-center rounded-full transition-colors duration-150",
-          overlay ? "text-on-dark hover:bg-white/10" : "text-ink hover:bg-white/70",
+          "inline-flex h-10 w-10 items-center justify-center rounded-full text-ink shadow-[0_8px_32px_rgba(4,14,49,0.12)] backdrop-blur-md transition-colors duration-150 hover:bg-white",
+          overlay ? "bg-white" : "bg-white/90",
         )}
       >
         {open ? <CloseIcon /> : <MenuIcon />}
@@ -98,30 +98,34 @@ export function MobileMenu({
         <nav aria-label={labels.menu} className="container-site pt-4 pb-10">
           <ul className="grid gap-1 pt-2">
             {links.map((l, i) => {
-              const hashHref = onHome ? homeHashHref(locale, l.navKey) : null;
-              const href = hashHref ?? l.href;
+              const hashHref = homeHashHref(locale, l.navKey);
+              const href = primaryNavHref(locale, l.navKey);
               const active = onHome ? spyKey === l.navKey : isActivePath(pathname, l.href);
               return (
               <li key={l.navKey}>
                 <Link
                   ref={i === 0 ? firstLinkRef : undefined}
                   href={href}
+                  scroll={!hashHref}
                   aria-current={active ? "page" : undefined}
                   onClick={(e) => {
-                    if (hashHref) {
+                    if (onHome && hashHref) {
                       e.preventDefault();
                       pendingHashRef.current = hashHref;
                     }
                     setOpen(false);
                   }}
                   className={cn(
-                    "flex items-center justify-between rounded-full px-4 py-3 font-sans text-[1.5rem] font-light leading-tight text-ink transition-colors duration-150 hover:bg-white",
-                    l.emphasis && "font-normal",
-                    active && "bg-white",
+                    "flex items-center justify-between rounded-full px-4 py-3 font-sans text-[1.5rem] font-light leading-tight transition-colors duration-150",
+                    l.emphasis
+                      ? "mt-3 justify-center bg-marine font-normal text-on-dark hover:bg-marine-2"
+                      : cn("text-ink hover:bg-white", active && "bg-white"),
                   )}
                 >
                   {l.label}
-                  <span aria-hidden="true" className={cn("h-1.5 w-1.5 rounded-full", active ? "bg-signal" : "bg-transparent")} />
+                  {l.emphasis ? null : (
+                    <span aria-hidden="true" className={cn("h-1.5 w-1.5 rounded-full", active ? "bg-signal" : "bg-transparent")} />
+                  )}
                 </Link>
               </li>
               );

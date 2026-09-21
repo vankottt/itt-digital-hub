@@ -48,3 +48,6 @@ yarn-error.log*
 # (adapter, routing, config) stays in the index; do not re-add node_modules.
 /.ruflo/
 supabase/.temp/
+
+# Separate local project (own git repo)
+/Tools/

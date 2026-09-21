@@ -21,7 +21,7 @@ export function ArrowUpRight({ size = 14, ...props }: IconProps) {
 export function MenuIcon({ size = 20, ...props }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false" {...props}>
-      <path d="M2 5.5h16M2 10h16M2 14.5h16" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" />
+      <path d="M2 5.5h16M2 10h16M2 14.5h16" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
     </svg>
   );
 }
@@ -29,7 +29,7 @@ export function MenuIcon({ size = 20, ...props }: IconProps) {
 export function CloseIcon({ size = 20, ...props }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false" {...props}>
-      <path d="m4 4 12 12M16 4 4 16" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" />
+      <path d="m4 4 12 12M16 4 4 16" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
     </svg>
   );
 }

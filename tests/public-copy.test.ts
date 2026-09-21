@@ -30,7 +30,7 @@ describe("public copy finish", () => {
   });
 
   it("keeps the privacy notice specific without an unpublished inbox", () => {
-    expect(contactEmail).toBe("office@ittdigitalhub.uk");
+    expect(contactEmail).toBe("office@ittdigitalhub.org");
     expect(privacyPage.body.en.at(-1)).toMatch(/contact form, the published email address and the published phone numbers/i);
     expect(privacyPage.body.bg.at(-1)).toMatch(/контактната форма, публикувания имейл адрес и публикуваните телефонни номера/);
     expect(privacyPage.body.en.join("\n")).not.toMatch(MARKER);

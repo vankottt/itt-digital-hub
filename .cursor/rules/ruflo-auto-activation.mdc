@@ -1,0 +1,36 @@
+---
+description: Auto-enable or disable project-local Cursor Ruflo only on explicit user request. Persistent even when Ruflo is OFF.
+alwaysApply: true
+---
+
+# Ruflo auto-activation (Cursor)
+
+Ruflo Cursor is opt-in. Do not enable it because a task is complex, large, or parallelizable. Enable it only when the user explicitly asks, or when it is already ON.
+
+Explicit ON intent (English, Bulgarian, or equivalent): "Use Ruflo", "Use Ruflo for this task", "Use Ruflo orchestration", "Run this with Ruflo", "Пусни Ruflo", "Използвай Ruflo", "Използвай Ruflo orchestration".
+
+Explicit OFF intent: "Turn Ruflo off", "Disable Ruflo", "Stop using Ruflo", "Спри Ruflo", "Изключи Ruflo", "Продължи без Ruflo".
+
+## Explicit ON
+
+1. Run `ruflo-cursor-status` from this project.
+2. If OFF, run `ruflo-cursor-on`. If already ON, do not re-run enable/setup.
+3. Run `ruflo-cursor-status` and confirm ON.
+4. Detect whether Ruflo MCP is loaded in THIS chat: the live tool catalog must include a Ruflo MCP server/tools (search namespaces/tools for `ruflo`). `.cursor/mcp.json` on disk is not enough.
+5. If Ruflo is ON but this chat has no Ruflo MCP tools, MCP changed after the chat started. Tell the user clearly: Ruflo is now ON, but Cursor requires a **new Agent chat** to load the MCP. Stop. Do not pretend tools exist. Do not start the Ruflo-orchestrated task in this stale chat.
+6. If Ruflo MCP tools are already available here, continue immediately.
+
+## Explicit OFF
+
+Do not disable Ruflo after a task. Leave it ON unless the user explicitly asks to disable it.
+
+On explicit OFF:
+
+1. `ruflo-cursor-stop`
+2. `ruflo-cursor-off`
+3. `ruflo-cursor-status` and confirm OFF
+4. If this chat still shows Ruflo MCP tools from the old session, tell the user to open a new Agent chat for a clean non-Ruflo context.
+
+## Execution (only when ON and loaded, or after a new chat)
+
+Use the existing Cursor adapter `.ruflo/cursor/bin/adapter.mjs` with real Cursor Agent CLI workers. Never `codex exec`. Never consume Codex quota. Use `.ruflo/cursor/model-routing.json`. Parallel workers only when useful. Do not reinstall Ruflo, do not modify the Codex Ruflo integration, `~/.codex`, or global Cursor MCP.

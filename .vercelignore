@@ -1,17 +1,2 @@
-# Local agent/orchestration caches — not part of the site
-.ruflo/
-.cursor/
-
-# Local conference production files; not part of the website runtime
-conference-kit/
-
-# Source-resolution media; the site serves processed files from public/
-Video/
-Team Photos/
-Logo/
-
-# Local CMS, Next cache, QA
-.data/
-.next/
-qa/
-supabase/.temp/
+# Original Land Scope copy is local source, not part of the Next.js deploy.
+Tools

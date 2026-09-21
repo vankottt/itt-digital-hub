@@ -11,7 +11,9 @@ export type RouteKey =
   | "people"
   | "work-with-us"
   | "privacy"
-  | "ai-act-agent";
+  | "ai-act-agent"
+  | "tools"
+  | "settlement-analyzer";
 
 const segments: Record<RouteKey, string> = {
   home: "",
@@ -24,6 +26,8 @@ const segments: Record<RouteKey, string> = {
   "work-with-us": "work-with-us",
   privacy: "privacy",
   "ai-act-agent": "ai-act-agent",
+  tools: "tools",
+  "settlement-analyzer": "settlement-analyzer",
 };
 
 export function href(locale: Locale, key: RouteKey, slug?: string): string {
@@ -51,4 +55,13 @@ export function isAiActAgentPath(pathname: string): boolean {
 /** Dark first-viewport overlay, same header treatment as the homepage. */
 export function isAiActAgentEntryPath(pathname: string): boolean {
   return /^\/(bg|en)\/ai-act-agent\/?$/.test(pathname);
+}
+
+export function isSettlementAnalyzerPath(pathname: string): boolean {
+  return /^\/(bg|en)\/settlement-analyzer(?:\/.*)?$/.test(pathname);
+}
+
+/** Dark first-viewport overlay, same header treatment as the homepage. */
+export function isToolsPath(pathname: string): boolean {
+  return /^\/(bg|en)\/tools\/?$/.test(pathname);
 }

@@ -13,9 +13,12 @@ import { StoryCard } from "./StoryCard";
 export function StoriesCarousel({
   projects,
   locale,
+  single = false,
 }: {
   projects: Project[];
   locale: Locale;
+  /** One card per view — used beside the featured story. */
+  single?: boolean;
 }) {
   const m = t(locale);
   const scrollerRef = useRef<HTMLUListElement>(null);
@@ -64,7 +67,7 @@ export function StoriesCarousel({
         <div className="mb-6 flex justify-end gap-2">
           <button
             type="button"
-            className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-ink text-ink transition-colors duration-150 hover:border-signal hover:text-signal"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-ink shadow-[0_8px_24px_rgba(4,14,49,0.18)] transition-colors duration-150 hover:bg-paper"
             onClick={() => scrollByCard(-1)}
             aria-label={m.storiesPrevious}
           >
@@ -72,7 +75,7 @@ export function StoriesCarousel({
           </button>
           <button
             type="button"
-            className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-ink text-ink transition-colors duration-150 hover:border-signal hover:text-signal"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-ink shadow-[0_8px_24px_rgba(4,14,49,0.18)] transition-colors duration-150 hover:bg-paper"
             onClick={() => scrollByCard(1)}
             aria-label={m.storiesNext}
           >
@@ -94,7 +97,7 @@ export function StoriesCarousel({
             scrollByCard(-1);
           }
         }}
-        className={cn("news-strip stories-strip flex gap-6 overflow-x-auto pb-2")}
+        className={cn("news-strip stories-strip flex gap-6 overflow-x-auto pb-2", single && "news-strip-single")}
       >
         {projects.map((project) => (
           <li key={project.slug} className="news-strip-item">

@@ -32,7 +32,7 @@ export const site = {
   } satisfies L,
 };
 
-export const contactEmail = "office@ittdigitalhub.uk";
+export const contactEmail = "office@ittdigitalhub.org";
 
 export const contactPhones = ["+359 895 581 911", "+359 899 811 455"] as const;
 
@@ -45,6 +45,7 @@ export const primaryNav: NavItem[] = [
   { key: "projects", label: { bg: "Работа", en: "Work" } },
   { key: "about", label: { bg: "Какво решаваме", en: "What we solve" } },
   { key: "methodology", label: { bg: "Подход", en: "Approach" } },
+  { key: "tools", label: { bg: "Инструменти", en: "Tools" } },
   { key: "people", label: { bg: "За нас", en: "About" } },
   { key: "work-with-us", label: { bg: "Контакт", en: "Contact" } },
 ];

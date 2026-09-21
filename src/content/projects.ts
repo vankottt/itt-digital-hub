@@ -175,6 +175,143 @@ export const projects: Project[] = [
     },
   },
   {
+    slug: "ai-assisted-solar-operations",
+    featured: false,
+    status: "production",
+    type: { bg: "Операционна система", en: "Operational system" },
+    domain: { bg: "Възобновяема енергия", en: "Renewable energy" },
+    methodologyName: approachName,
+    title: {
+      bg: "Пазарно оптимизирано управление на соларни паркове",
+      en: "Market Optimised Solar Park Management",
+    },
+    standfirst: {
+      bg: "Софтуерна система за управление на фотоволтаични централи и батерийни системи, която свързва производството с пазарните цени на електроенергията и помага активите да работят за по-добър икономически резултат, а не просто за максимално производство.",
+      en: "A software platform for managing photovoltaic plants and battery systems by connecting energy production with electricity market prices, helping assets operate for stronger economic performance rather than simply maximum output.",
+    },
+    summary: {
+      bg: "Управление на соларни паркове и батерии според пазарните цени, а не само според максималното производство.",
+      en: "Solar park and battery control driven by market prices, not maximum output alone.",
+    },
+    tags: {
+      bg: ["Управление на ФЕЦ", "Батерийни системи", "Пазарна оптимизация"],
+      en: ["Solar plant control", "Battery systems", "Market optimisation"],
+    },
+    proofPoint: {
+      bg: "Внедрена в над 30 соларни парка",
+      en: "Deployed across more than 30 solar parks",
+    },
+    cta: discussProject,
+    proposition: {
+      bg: "Целта не е максимално производство. Целта е максимална икономическа ефективност.",
+      en: "The goal is not maximum production. The goal is maximum economic efficiency.",
+    },
+    story: {
+      challenge: {
+        heading: { bg: "Предизвикателството", en: "The challenge" },
+        body: {
+          bg: [
+            "Максималното производство не винаги означава максимална печалба. Цените на електроенергията се променят динамично. В неблагоприятни или отрицателни ценови периоди допълнителното производство може да намали финансовия резултат.",
+            "Системата затова гледа не само колко може да произведе централата, но и дали има икономически смисъл да произвежда точно сега.",
+          ],
+          en: [
+            "Maximum production does not always mean maximum profit. Electricity prices change dynamically. During unfavourable or negative price periods, producing additional electricity can reduce the financial result.",
+            "The system therefore considers not only how much the plant can produce, but whether it makes economic sense to produce it right now.",
+          ],
+        },
+      },
+      built: {
+        heading: { bg: "Какво изградихме", en: "What we built" },
+        body: {
+          bg: [
+            "Изградихме софтуерна платформа за наблюдение и управление на фотоволтаични централи и батерийни системи. Тя свързва физическите енергийни активи с пазарна информация от IBEX, независимата българска енергийна борса.",
+            "Системата следи производството и състоянието на централата, свързаните батерийни системи и пазарните цени. Използва предварително дефинирани ценови и оперативни правила, може да адаптира производството автоматично, да го ограничава или временно да го спира, когато това е икономически обосновано, и изчислява приходите спрямо цените на IBEX.",
+            "Финансовото представяне се проследява на интервали от 15 минути спрямо пазарните цени на IBEX.",
+          ],
+          en: [
+            "We built a software platform for monitoring and controlling photovoltaic plants and battery systems. It connects physical energy assets with market information from IBEX, the Independent Bulgarian Energy Exchange.",
+            "The system monitors production and plant status, connected battery systems and market prices. It uses predefined price and operational rules, can adapt production automatically, curtail it or temporarily stop it where that is economically appropriate, and calculates revenues against IBEX prices.",
+            "Financial performance is tracked in 15 minute intervals against IBEX market prices.",
+          ],
+        },
+      },
+      howItWorks: {
+        heading: { bg: "Как работи", en: "How it works" },
+        body: {
+          bg: [
+            "Фотоволтаичното производство и батерийното съхранение се управляват като свързани енергийни активи, които реагират на технически и пазарни условия.",
+            "Системата не зависи от ИИ, за да работи. ИИ е допълнителен слой, който постепенно подобрява анализа и подпомага оптимизационните решения. Заедно с детерминираната логика за управление се обучава специализиран ИИ модел върху натрупани оперативни и пазарни данни, за да подпомага по-добра оптимизация с времето.",
+          ],
+          en: [
+            "Photovoltaic production and battery storage are managed as connected energy assets responding to technical and market conditions.",
+            "The platform does not depend on AI to operate. AI acts as an additional learning layer that progressively improves analysis and supports optimisation decisions. Alongside the deterministic control logic, a specialised AI model is being trained on accumulated operational and market data, so optimisation can improve as more real operating data becomes available.",
+          ],
+        },
+        quote: {
+          bg: "Целта не е максимално производство. Целта е максимална икономическа ефективност.",
+          en: "The goal is not maximum production. The goal is maximum economic efficiency.",
+        },
+      },
+      value: {
+        heading: { bg: "Икономическа ефективност", en: "Economic efficiency" },
+        body: {
+          bg: [
+            "Операторите получават по-малко нужда от постоянно ръчно наблюдение и реакция. Собствениците получават по-ясна видимост към реалното представяне на активите и възможност да управляват производството според икономическия резултат, а не само според техническия капацитет.",
+          ],
+          en: [
+            "Operators spend less time on constant manual monitoring and reaction. Owners gain clearer visibility into actual asset performance and the ability to manage production according to economic outcome, not technical capacity alone.",
+          ],
+        },
+        items: {
+          bg: [
+            "Наблюдение на производството и състоянието на централата",
+            "Управление на свързани батерийни системи",
+            "Пазарни цени от IBEX",
+            "Автоматична адаптация, ограничаване или спиране на производството",
+            "Проследяване на приходи на 15 минути",
+          ],
+          en: [
+            "Production and plant status monitoring",
+            "Connected battery system management",
+            "Market prices from IBEX",
+            "Automatic adaptation, curtailment or stop",
+            "Revenue tracking every 15 minutes",
+          ],
+        },
+      },
+      outcome: {
+        heading: { bg: "Резултат", en: "Outcome" },
+        body: {
+          bg: [
+            "Соларният парк вече не просто произвежда енергия. Той реагира на пазара и постепенно става по-добър в това.",
+          ],
+          en: [
+            "The solar park no longer simply generates electricity. It responds to the market and becomes better at doing so over time.",
+          ],
+        },
+      },
+    },
+    seo: {
+      documentTitle: {
+        bg: "Пазарно оптимизирано управление на соларни паркове | ITT Digital Hub",
+        en: "Market Optimised Solar Park Management | ITT Digital Hub",
+      },
+      description: {
+        bg: "Софтуер за управление на фотоволтаични централи и батерии според пазарните цени на IBEX. Внедрена в над 30 соларни парка.",
+        en: "Software for managing photovoltaic plants and batteries against IBEX market prices. Deployed across more than 30 solar parks.",
+      },
+      ogTitle: {
+        bg: "Пазарно оптимизирано управление на соларни паркове",
+        en: "Market Optimised Solar Park Management",
+      },
+      ogDescription: {
+        bg: "Производство, което реагира на пазара. Внедрена в над 30 соларни парка.",
+        en: "Production that responds to the market. Deployed across more than 30 solar parks.",
+      },
+      image: "/stories/solar-batteries-cover.jpg",
+    },
+  },
+  {
     slug: "atn-creator-social-intelligence",
     featured: false,
     status: "production",
@@ -325,143 +462,6 @@ export const projects: Project[] = [
         en: "From fragmented creator management to structured creator and social intelligence.",
       },
       image: "/stories/creator-content-library.jpg",
-    },
-  },
-  {
-    slug: "ai-assisted-solar-operations",
-    featured: false,
-    status: "production",
-    type: { bg: "Операционна система", en: "Operational system" },
-    domain: { bg: "Възобновяема енергия", en: "Renewable energy" },
-    methodologyName: approachName,
-    title: {
-      bg: "Пазарно оптимизирано управление на соларни паркове",
-      en: "Market Optimised Solar Park Management",
-    },
-    standfirst: {
-      bg: "Софтуерна система за управление на фотоволтаични централи и батерийни системи, която свързва производството с пазарните цени на електроенергията и помага активите да работят за по-добър икономически резултат, а не просто за максимално производство.",
-      en: "A software platform for managing photovoltaic plants and battery systems by connecting energy production with electricity market prices, helping assets operate for stronger economic performance rather than simply maximum output.",
-    },
-    summary: {
-      bg: "Управление на соларни паркове и батерии според пазарните цени, а не само според максималното производство.",
-      en: "Solar park and battery control driven by market prices, not maximum output alone.",
-    },
-    tags: {
-      bg: ["Управление на ФЕЦ", "Батерийни системи", "Пазарна оптимизация"],
-      en: ["Solar plant control", "Battery systems", "Market optimisation"],
-    },
-    proofPoint: {
-      bg: "Внедрена в над 30 соларни парка",
-      en: "Deployed across more than 30 solar parks",
-    },
-    cta: discussProject,
-    proposition: {
-      bg: "Целта не е максимално производство. Целта е максимална икономическа ефективност.",
-      en: "The goal is not maximum production. The goal is maximum economic efficiency.",
-    },
-    story: {
-      challenge: {
-        heading: { bg: "Предизвикателството", en: "The challenge" },
-        body: {
-          bg: [
-            "Максималното производство не винаги означава максимална печалба. Цените на електроенергията се променят динамично. В неблагоприятни или отрицателни ценови периоди допълнителното производство може да намали финансовия резултат.",
-            "Системата затова гледа не само колко може да произведе централата, но и дали има икономически смисъл да произвежда точно сега.",
-          ],
-          en: [
-            "Maximum production does not always mean maximum profit. Electricity prices change dynamically. During unfavourable or negative price periods, producing additional electricity can reduce the financial result.",
-            "The system therefore considers not only how much the plant can produce, but whether it makes economic sense to produce it right now.",
-          ],
-        },
-      },
-      built: {
-        heading: { bg: "Какво изградихме", en: "What we built" },
-        body: {
-          bg: [
-            "Изградихме софтуерна платформа за наблюдение и управление на фотоволтаични централи и батерийни системи. Тя свързва физическите енергийни активи с пазарна информация от IBEX, независимата българска енергийна борса.",
-            "Системата следи производството и състоянието на централата, свързаните батерийни системи и пазарните цени. Използва предварително дефинирани ценови и оперативни правила, може да адаптира производството автоматично, да го ограничава или временно да го спира, когато това е икономически обосновано, и изчислява приходите спрямо цените на IBEX.",
-            "Финансовото представяне се проследява на интервали от 15 минути спрямо пазарните цени на IBEX.",
-          ],
-          en: [
-            "We built a software platform for monitoring and controlling photovoltaic plants and battery systems. It connects physical energy assets with market information from IBEX, the Independent Bulgarian Energy Exchange.",
-            "The system monitors production and plant status, connected battery systems and market prices. It uses predefined price and operational rules, can adapt production automatically, curtail it or temporarily stop it where that is economically appropriate, and calculates revenues against IBEX prices.",
-            "Financial performance is tracked in 15 minute intervals against IBEX market prices.",
-          ],
-        },
-      },
-      howItWorks: {
-        heading: { bg: "Как работи", en: "How it works" },
-        body: {
-          bg: [
-            "Фотоволтаичното производство и батерийното съхранение се управляват като свързани енергийни активи, които реагират на технически и пазарни условия.",
-            "Системата не зависи от ИИ, за да работи. ИИ е допълнителен слой, който постепенно подобрява анализа и подпомага оптимизационните решения. Заедно с детерминираната логика за управление се обучава специализиран ИИ модел върху натрупани оперативни и пазарни данни, за да подпомага по-добра оптимизация с времето.",
-          ],
-          en: [
-            "Photovoltaic production and battery storage are managed as connected energy assets responding to technical and market conditions.",
-            "The platform does not depend on AI to operate. AI acts as an additional learning layer that progressively improves analysis and supports optimisation decisions. Alongside the deterministic control logic, a specialised AI model is being trained on accumulated operational and market data, so optimisation can improve as more real operating data becomes available.",
-          ],
-        },
-        quote: {
-          bg: "Целта не е максимално производство. Целта е максимална икономическа ефективност.",
-          en: "The goal is not maximum production. The goal is maximum economic efficiency.",
-        },
-      },
-      value: {
-        heading: { bg: "Икономическа ефективност", en: "Economic efficiency" },
-        body: {
-          bg: [
-            "Операторите получават по-малко нужда от постоянно ръчно наблюдение и реакция. Собствениците получават по-ясна видимост към реалното представяне на активите и възможност да управляват производството според икономическия резултат, а не само според техническия капацитет.",
-          ],
-          en: [
-            "Operators spend less time on constant manual monitoring and reaction. Owners gain clearer visibility into actual asset performance and the ability to manage production according to economic outcome, not technical capacity alone.",
-          ],
-        },
-        items: {
-          bg: [
-            "Наблюдение на производството и състоянието на централата",
-            "Управление на свързани батерийни системи",
-            "Пазарни цени от IBEX",
-            "Автоматична адаптация, ограничаване или спиране на производството",
-            "Проследяване на приходи на 15 минути",
-          ],
-          en: [
-            "Production and plant status monitoring",
-            "Connected battery system management",
-            "Market prices from IBEX",
-            "Automatic adaptation, curtailment or stop",
-            "Revenue tracking every 15 minutes",
-          ],
-        },
-      },
-      outcome: {
-        heading: { bg: "Резултат", en: "Outcome" },
-        body: {
-          bg: [
-            "Соларният парк вече не просто произвежда енергия. Той реагира на пазара и постепенно става по-добър в това.",
-          ],
-          en: [
-            "The solar park no longer simply generates electricity. It responds to the market and becomes better at doing so over time.",
-          ],
-        },
-      },
-    },
-    seo: {
-      documentTitle: {
-        bg: "Пазарно оптимизирано управление на соларни паркове | ITT Digital Hub",
-        en: "Market Optimised Solar Park Management | ITT Digital Hub",
-      },
-      description: {
-        bg: "Софтуер за управление на фотоволтаични централи и батерии според пазарните цени на IBEX. Внедрена в над 30 соларни парка.",
-        en: "Software for managing photovoltaic plants and batteries against IBEX market prices. Deployed across more than 30 solar parks.",
-      },
-      ogTitle: {
-        bg: "Пазарно оптимизирано управление на соларни паркове",
-        en: "Market Optimised Solar Park Management",
-      },
-      ogDescription: {
-        bg: "Производство, което реагира на пазара. Внедрена в над 30 соларни парка.",
-        en: "Production that responds to the market. Deployed across more than 30 solar parks.",
-      },
-      image: "/stories/solar-batteries-cover.jpg",
     },
   },
   {

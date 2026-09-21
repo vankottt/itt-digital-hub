@@ -1,5 +1,5 @@
 import type { Locale } from "./i18n";
-import type { RouteKey } from "./paths";
+import { href, type RouteKey } from "./paths";
 
 /** Homepage section ids in document order, for scroll spy. */
 export const homeSpySectionIds = [
@@ -67,6 +67,11 @@ export function homeHashHref(locale: Locale, key: RouteKey): string | null {
   const hash = homeNavHash[key];
   if (!hash) return null;
   return `/${locale}#${hash}`;
+}
+
+/** Primary nav target: landing section when one exists, otherwise the inner route (Tools, Privacy). */
+export function primaryNavHref(locale: Locale, key: RouteKey): string {
+  return homeHashHref(locale, key) ?? href(locale, key);
 }
 
 /** Marks the current section from the pathname (e.g. /bg/projects/x → Work). */

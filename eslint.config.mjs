@@ -5,7 +5,14 @@ import nextTs from "eslint-config-next/typescript";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts", "qa/**", "references/**", ".ruflo/**", ".data/**"]),
+  {
+    files: ["src/settlement-analyzer/**/*.{ts,tsx}"],
+    rules: {
+      "@typescript-eslint/ban-ts-comment": "off",
+      "react-hooks/set-state-in-effect": "off",
+    },
+  },
+  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts", "qa/**", "references/**", ".ruflo/**", ".data/**", "Tools/**"]),
 ]);
 
 export default eslintConfig;

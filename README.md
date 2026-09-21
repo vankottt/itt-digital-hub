@@ -11,7 +11,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) (`/` negotiates locale; default `bg`).
+Open [http://localhost:3000](http://localhost:3000) (`/` is Bulgarian; English is `/en`).
 
 ```sh
 npm run check   # typecheck, lint, tests, production build

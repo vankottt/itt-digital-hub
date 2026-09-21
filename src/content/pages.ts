@@ -20,30 +20,30 @@ export const home = {
     },
     primary: { bg: "Разгледайте работата ни", en: "Explore our work" },
     secondary: { bg: "Свържете се", en: "Get in touch" },
-    proofLabel: { bg: "Нашите истории", en: "Our stories" },
+    proofLabel: { bg: "Част от нашите истории", en: "Some of our stories" },
   },
   experience: {
     heading: { bg: "Нашите партньори", en: "Our partners" },
     lead: {
-      bg: "Организации с реални операции: търговия, производство, логистика и публични институции.",
-      en: "Organisations with real operations: retail, manufacturing, logistics and public institutions.",
+      bg: "Организации, на които сме помогнали, работещи в сферите на:\nпроизводство, енергетика, търговия, логистика, публични институции.",
+      en: "Organisations we have helped, working in:\nmanufacturing, energy, retail, logistics, public institutions.",
     },
   },
   featured: {
     label: { bg: "Работа", en: "Work" },
-    heading: { bg: "Избрана работа", en: "Selected work" },
+    heading: { bg: "Системи, които работят", en: "Systems that work" },
     lead: {
-      bg: "Реални системи, приложен ИИ, оперативна автоматизация и напреднало ИИ инженерство.",
-      en: "Real systems, applied AI, operational automation and advanced AI engineering.",
+      bg: "От гаранционна проверка до пазарно управление на енергия. Всеки проект е изграден около реална операция, не около демо.",
+      en: "From warranty verification to market-driven energy management. Every project is built around a real operation, not a demo.",
     },
     chainTitle: { bg: "Оперативен поток", en: "Operational flow" },
   },
   problems: {
-    label: { bg: "Какво решаваме", en: "What we solve" },
-    heading: { bg: "Проблеми, не каталог от услуги", en: "Problems, not a service catalogue" },
+    label: { bg: "Какво правим", en: "What we do" },
+    heading: { bg: "Три начина да работите по-добре.", en: "Three ways to work better." },
     lead: {
-      bg: "AI, агенти, автоматизация и интеграции са средства. Започваме от класа проблем.",
-      en: "AI, agents, automation and integrations are mechanisms. We start from the problem class.",
+      bg: "Не продаваме технология. Решаваме проблеми с каквото работи.",
+      en: "We don’t sell technology. We solve problems with whatever works.",
     },
   },
   judgement: {
@@ -72,10 +72,10 @@ export const home = {
   },
   work: {
     label: { bg: "Контакт", en: "Contact" },
-    heading: { bg: "Започваме с кратко запитване.", en: "We start with a short enquiry." },
-    body: {
-      bg: ". Или формата по-долу. Телефоните са в края на страницата.",
-      en: ". Or the form below. The phone numbers are at the bottom of the page.",
+    heading: { bg: "Имате казус за решаване?\nНека го обсъдим!", en: "Have a case to solve?\nLet’s discuss it!" },
+    lead: {
+      bg: "Кажете ни какво ви забавя в ежедневната работа.\nЩе отговорим лично, без автоматични сценарии.",
+      en: "Tell us what slows you down in your daily work.\nWe reply personally, without scripts.",
     },
   },
 } as const;
@@ -135,6 +135,22 @@ export const methodologyPage = {
   },
 } as const;
 
+export const toolsPage = {
+  meta: {
+    title: { bg: "Инструменти · ITT Digital Hub", en: "Tools · ITT Digital Hub" },
+    description: {
+      bg: "Практически приложения, анализатори и AI инструменти от ITT Digital Hub.",
+      en: "Practical applications, analyzers and AI tools from ITT Digital Hub.",
+    },
+  },
+  heading: { bg: "Инструменти", en: "Tools" },
+  lead: {
+    bg: "Практически приложения, анализатори и AI инструменти, създадени около реални задачи.",
+    en: "Practical applications, analyzers and AI tools built around real-world tasks.",
+  },
+  open: { bg: "Отвори", en: "Open" },
+} as const;
+
 export const projectsPage = {
   meta: {
     title: { bg: "Работа", en: "Work" },
@@ -143,10 +159,10 @@ export const projectsPage = {
       en: "Selected work from ITT Digital Hub: operational systems, applied AI and business platforms.",
     },
   },
-  heading: { bg: "Избрана работа", en: "Selected work" },
+  heading: { bg: "Системи, които работят", en: "Systems that work" },
   lead: {
-    bg: "Реални системи, приложен ИИ, оперативна автоматизация и напреднало ИИ инженерство.",
-    en: "Real systems, applied AI, operational automation and advanced AI engineering.",
+    bg: "От гаранционна проверка до пазарно управление на енергия. Всеки проект е изграден около реална операция, не около демо.",
+    en: "From warranty verification to market-driven energy management. Every project is built around a real operation, not a demo.",
   },
   detail: {
     problem: { bg: "Проблемът", en: "The problem" },
@@ -250,7 +266,7 @@ export const workPage = {
       en: "Continue the conversation with ITT Digital Hub. A short enquiry form, without packages.",
     },
   },
-  heading: { bg: "Започваме с кратко запитване.", en: "We start with a short enquiry." },
+  heading: { bg: "Имате казус за решаване?\nНека го обсъдим!", en: "Have a case to solve?\nLet’s discuss it!" },
   lead: {
     bg: ". Или формата по-долу. Телефоните са в края на страницата.",
     en: ". Or the form below. The phone numbers are at the bottom of the page.",

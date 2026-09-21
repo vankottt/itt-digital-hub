@@ -9,6 +9,7 @@ export const AI_ACT_EVENTS = [
   "ai_act_installer_prompt_copied",
   "ai_act_test_copied",
   "ai_act_contact_clicked",
+  "ai_act_artifact_collected",
 ] as const;
 
 export type AiActEvent = (typeof AI_ACT_EVENTS)[number];

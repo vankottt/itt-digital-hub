@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n";
-import { href } from "@/lib/paths";
+import { primaryNavHref } from "@/lib/home-nav";
 import { contactPhones, footerNav, site } from "@/content/site";
 import { t } from "@/content/messages";
 import { ContactEmailLink } from "@/components/contact/ContactEmailLink";
@@ -35,16 +35,20 @@ export function SiteFooter({ locale }: { locale: Locale }) {
 
           <nav aria-label={m.footerNav} className="md:col-span-3">
             <ul className="grid gap-2.5 text-small">
-              {footerNav.map((item) => (
+              {footerNav.map((item) => {
+                const to = primaryNavHref(locale, item.key);
+                return (
                 <li key={item.key}>
                   <Link
-                    href={href(locale, item.key)}
+                    href={to}
+                    scroll={!to.includes("#")}
                     className="text-on-dark-muted transition-colors duration-150 hover:text-on-dark hover:underline hover:decoration-amber hover:underline-offset-[4px]"
                   >
                     {item.label[locale]}
                   </Link>
                 </li>
-              ))}
+                );
+              })}
             </ul>
           </nav>
 

@@ -74,14 +74,42 @@ export function useHomeSectionSpy(enabled: boolean): SpyKey {
   return useSyncExternalStore(live ? subscribe : subscribeDisabled, live ? getSnapshot : getDisabledSnapshot, getDisabledSnapshot);
 }
 
+function stickyHeaderHeight(): number {
+  const header = document.querySelector("header");
+  return header?.getBoundingClientRect().height ?? 80;
+}
+
+function restoreScrollBehavior(root: HTMLElement, previous: string) {
+  root.style.scrollBehavior = previous;
+}
+
+/**
+ * Align the section heading just below the sticky header.
+ * `scrollIntoView({ block: "start" })` uses the section box plus `scroll-padding-top`,
+ * so the section's own `py-section` reads as empty space and the lower content is clipped.
+ */
 export function scrollToHomeHash(href: string): boolean {
   const id = href.split("#")[1];
   if (!id) return false;
   const el = document.getElementById(id);
   if (!el) return false;
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
-  history.replaceState(null, "", href);
+  const next = href.startsWith("/") ? href : `${window.location.pathname}#${id}`;
+  history.replaceState(null, "", next);
+  const headerH = stickyHeaderHeight();
+  const padTop = Number.parseFloat(getComputedStyle(el).paddingTop) || 0;
+  const top = Math.max(0, window.scrollY + el.getBoundingClientRect().top + padTop - headerH - 8);
+  const root = document.documentElement;
+  const previous = root.style.scrollBehavior;
+  root.style.scrollBehavior = "auto";
+  window.scrollTo({ top, behavior: reduce ? "auto" : "smooth" });
+  if (reduce) {
+    restoreScrollBehavior(root, previous);
+  } else {
+    const restore = () => restoreScrollBehavior(root, previous);
+    window.addEventListener("scrollend", restore, { once: true });
+    window.setTimeout(restore, 900);
+  }
   window.dispatchEvent(new Event("scroll"));
   return true;
 }

@@ -10,10 +10,12 @@ const staticRoutes: Array<{ key: RouteKey; priority: number }> = [
   { key: "projects", priority: 0.9 },
   { key: "about", priority: 0.8 },
   { key: "methodology", priority: 0.8 },
+  { key: "tools", priority: 0.8 },
   { key: "people", priority: 0.8 },
   { key: "work-with-us", priority: 0.8 },
   { key: "privacy", priority: 0.3 },
   { key: "ai-act-agent", priority: 0.8 },
+  { key: "settlement-analyzer", priority: 0.8 },
 ];
 
 function entry(key: RouteKey, priority: number, slug?: string): MetadataRoute.Sitemap {

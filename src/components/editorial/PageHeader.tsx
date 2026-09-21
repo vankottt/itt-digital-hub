@@ -10,6 +10,7 @@ export function PageHeader({
   lead,
   aside,
   className,
+  tone = "paper",
 }: {
   back?: ReactNode;
   label?: string;
@@ -17,15 +18,18 @@ export function PageHeader({
   lead?: ReactNode;
   aside?: ReactNode;
   className?: string;
+  /** "dark" expects a dark atmosphere on the parent (e.g. hero-atmosphere). */
+  tone?: "paper" | "dark";
 }) {
+  const dark = tone === "dark";
   return (
-    <header className={cn("bg-paper", className)}>
+    <header className={cn(dark ? "text-on-dark" : "bg-paper", className)}>
       <Container className="grid gap-10 pt-12 pb-12 md:pt-16 md:pb-14 lg:grid-cols-12 lg:gap-12">
         <div className={aside ? "lg:col-span-8" : "lg:col-span-12"}>
           {back ? <div className="mb-6">{back}</div> : null}
-          {label ? <p className="label mb-5">{label}</p> : null}
-          <h1 className={cn("text-h1 text-ink", heading.includes("\n") ? "whitespace-pre-line hyphens-none [text-wrap:wrap]" : "text-pretty")}>{heading}</h1>
-          {lead ? <p className="mt-7 max-w-[62ch] text-lead text-ink-2">{lead}</p> : null}
+          {label ? <p className={cn(dark ? "label-dark" : "label", "mb-5")}>{label}</p> : null}
+          <h1 className={cn("text-h1", dark ? "text-on-dark" : "text-ink", heading.includes("\n") ? "whitespace-pre-line hyphens-none [text-wrap:wrap]" : "text-pretty")}>{heading}</h1>
+          {lead ? <p className={cn("mt-7 max-w-[62ch] text-lead", dark ? "text-on-dark-muted" : "text-ink-2")}>{lead}</p> : null}
         </div>
         {aside ? <div className="lg:col-span-4 lg:pt-10">{aside}</div> : null}
       </Container>

@@ -51,10 +51,13 @@ export function StoryCard({
   project,
   locale,
   cover,
+  featured = false,
 }: {
   project: Project;
   locale: Locale;
   cover?: StoryCover;
+  /** Lead story: larger heading, fuller summary, same arrow alphabet. */
+  featured?: boolean;
 }) {
   const m = t(locale);
   const url = href(locale, "projects", project.slug);
@@ -82,13 +85,25 @@ export function StoryCard({
             </span>
           </span>
         </div>
-        <div className="mt-5 min-h-[4.75rem]">
+        <div className={cn("mt-5", featured ? "min-h-0" : "min-h-[4.75rem]")}>
           <ProjectTags tags={tags} />
         </div>
-        <h3 className="mt-3 text-h3 text-pretty text-ink transition-colors duration-150 group-hover:text-signal">
+        <h3
+          className={cn(
+            "mt-3 text-pretty text-ink transition-colors duration-150 group-hover:text-signal",
+            featured ? "text-h2" : "text-h3",
+          )}
+        >
           {project.title[locale]}
         </h3>
-        <p className="mt-2 line-clamp-3 min-h-[4.5em] text-small text-ink-2">{project.summary[locale]}</p>
+        <p
+          className={cn(
+            "mt-2 text-ink-2",
+            featured ? "text-body" : "line-clamp-3 min-h-[4.5em] text-small",
+          )}
+        >
+          {project.summary[locale]}
+        </p>
       </Link>
     </article>
   );

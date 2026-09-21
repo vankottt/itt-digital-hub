@@ -1,0 +1,22 @@
+---
+description: Project-local Ruflo orchestration for Cursor. Additive only; Cursor remains the host.
+alwaysApply: true
+---
+
+# Ruflo orchestration (Cursor)
+
+Ruflo is an optional coordination layer for this project. It does not replace Cursor.
+
+Keep using normal Cursor plugins, skills, MCPs, rules, and tools. The main Cursor agent owns final integration and validation.
+
+Do not create swarms for trivial work. Do not re-run `ruflo-cursor-on` when Ruflo is already ON and MCP tools are loaded in this chat — just use it. Leave Ruflo ON after the task unless the user explicitly asks to disable it.
+
+If this chat has no Ruflo MCP tools after enable, stop and tell the user to open a new Agent chat. Do not pretend the tools exist.
+
+For work the user asked Ruflo to handle, Ruflo may decompose tasks, route subtasks, coordinate workers, reuse `.ruflo/state` memory, and return results for you to integrate.
+
+Never treat Ruflo registry tools such as `agent_spawn` / `agent_execute` as real executing workers. Those are registry records, not Cursor processes.
+
+Real delegated work must use Cursor Agent CLI workers via `.ruflo/cursor/bin/adapter.mjs` (`agent -p --model ...`). Never `codex exec`. Use verified Cursor routing in `.ruflo/cursor/model-routing.json`. Check `.ruflo/cursor/metrics/` for the actual model, PID, and result. Parallel workers only when useful.
+
+Maximum concurrency is 3. Concurrent writers need separate Git worktrees or distinct directories. Codex Ruflo commands, `~/.codex`, and global Cursor MCP stay untouched.
