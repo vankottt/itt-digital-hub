@@ -49,5 +49,9 @@ yarn-error.log*
 /.ruflo/
 supabase/.temp/
 
-# Separate local project (own git repo)
-/Tools/
+# Land Scope source lives in Tools/; keep build artifacts and caches local.
+Tools/**/node_modules/
+Tools/**/dist/
+Tools/**/.wrangler/
+Tools/**/.playwright-cli/
+Tools/**/coverage/

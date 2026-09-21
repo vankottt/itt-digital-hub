@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.wrangler/
+.playwright-cli/
+coverage/
+.DS_Store
+.env
+.env.*
+!.env.example
+*.tsbuildinfo

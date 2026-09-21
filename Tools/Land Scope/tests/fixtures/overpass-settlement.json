@@ -1,0 +1,13 @@
+{
+  "version": 0.6,
+  "generator": "conference-regression-fixture",
+  "elements": [
+    { "type": "way", "id": 101, "tags": { "building": "house" }, "nodes": [1,2,3,4,1], "geometry": [{"lat":42.6980,"lon":26.3300},{"lat":42.6980,"lon":26.3304},{"lat":42.6984,"lon":26.3304},{"lat":42.6984,"lon":26.3300},{"lat":42.6980,"lon":26.3300}] },
+    { "type": "way", "id": 102, "tags": { "building": "warehouse" }, "nodes": [5,6,7,8,5], "geometry": [{"lat":42.6990,"lon":26.3320},{"lat":42.6990,"lon":26.3326},{"lat":42.6996,"lon":26.3326},{"lat":42.6996,"lon":26.3320},{"lat":42.6990,"lon":26.3320}] },
+    { "type": "way", "id": 103, "tags": { "building": "yes" }, "nodes": [9,10,11,12,9], "geometry": [{"lat":42.7000,"lon":26.3340},{"lat":42.7000,"lon":26.3344},{"lat":42.7004,"lon":26.3344},{"lat":42.7004,"lon":26.3340},{"lat":42.7000,"lon":26.3340}] },
+    { "type": "way", "id": 201, "tags": { "highway": "residential" }, "nodes": [20,21], "geometry": [{"lat":42.6960,"lon":26.3270},{"lat":42.7040,"lon":26.3390}] },
+    { "type": "way", "id": 301, "tags": { "landuse": "residential" }, "nodes": [30,31,32,33,30], "geometry": [{"lat":42.6960,"lon":26.3280},{"lat":42.6960,"lon":26.3360},{"lat":42.7030,"lon":26.3360},{"lat":42.7030,"lon":26.3280},{"lat":42.6960,"lon":26.3280}] },
+    { "type": "way", "id": 302, "tags": { "landuse": "farmland" }, "nodes": [40,41,42,43,40], "geometry": [{"lat":42.7000,"lon":26.3340},{"lat":42.7000,"lon":26.3420},{"lat":42.7070,"lon":26.3420},{"lat":42.7070,"lon":26.3340},{"lat":42.7000,"lon":26.3340}] },
+    { "type": "node", "id": 401, "lat": 42.6995, "lon": 26.3315, "tags": { "amenity": "school", "name": "Тестово училище" } }
+  ]
+}
