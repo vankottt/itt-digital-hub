@@ -4,8 +4,6 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n";
 import { href } from "@/lib/paths";
-import { Logo } from "@/components/layout/Logo";
-import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { sa } from "./copy";
 
 export function ProductHeader({
@@ -22,7 +20,6 @@ export function ProductHeader({
   const copy = sa(locale);
   return (
     <header className="sa-header">
-      <Logo locale={locale} layout="compact" className="sa-header__logo" />
       <div className="sa-header__identity">
         <Link href={href(locale, "tools")} className="sa-header__crumb">
           {copy.tools}
@@ -40,7 +37,6 @@ export function ProductHeader({
             {copy.newAnalysis}
           </button>
         ) : null}
-        <LanguageSwitcher current={locale} label={locale === "bg" ? "Език" : "Language"} />
         {infoSlot}
       </div>
     </header>

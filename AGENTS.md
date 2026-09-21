@@ -17,8 +17,20 @@ Business understanding × systems thinking × AI engineering. Process first. AI 
 Never invent names, clients, metrics, permissions, logos, emails, or results. Use TODO_CONTENT / TODO_VERIFY / TODO_ASSET / TODO_PERMISSION. Do not label organisations as clients unless confirmed. Do not carry CIT, UASG, ASAESIS, news, or academic-centre identity into the public ITT site.
 
 ## Information architecture
-Nav: Work · What we solve · Approach · About · Contact · BG/EN.
+Nav: Work · What we solve · Approach · Tools · About · Contact · BG/EN.
 Homepage: Hero → Experience across → Selected work → Problems → AI isn’t always the answer → How we work → Two specialists → Contact.
+
+## Product surfaces
+This repository is one website and one Vercel project. AI Act Assistant, Settlement Analyzer, and later tools are surfaces of the same site — not separate apps, remotes, or deployments.
+
+Live routes:
+- `/[locale]/ai-act-agent` — `src/components/ai-act-agent/`, `src/lib/ai-act/`, `src/content/ai-act-*`
+- `/[locale]/settlement-analyzer` — `src/settlement-analyzer/`
+- `/[locale]/tools` — catalogue of those surfaces
+
+New products follow the same pattern: App Router page under `src/app/[locale]/<product>/`, module under `src/`, copy in `src/content/`, same design system, same `npm run check`.
+
+`Tools/Land Scope` is in-tree source for the analyzer. The public product is `src/settlement-analyzer/`. Do not split it into another repo, Vercel project, or ignore file.
 
 ## Engineering
 - Page files compose; reusable components stay in `src/components/`.

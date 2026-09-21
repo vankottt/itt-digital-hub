@@ -1,7 +1,6 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useSelectedLayoutSegment } from "next/navigation";
 import type { Locale } from "@/lib/i18n";
 import { SiteHeader } from "./SiteHeader";
 import { SiteFooterGate } from "./SiteFooterGate";
@@ -15,9 +14,6 @@ export function SiteChrome({
   skipLabel: string;
   children: ReactNode;
 }) {
-  const segment = useSelectedLayoutSegment();
-  if (segment === "settlement-analyzer") return children;
-
   return (
     <>
       <a

@@ -100,7 +100,6 @@ export default function ConferenceExperience({
   if (testRegistration) {
     return <RegistrationGate locale={locale} previewMode onCompleted={() => window.location.assign(href(locale, 'settlement-analyzer'))} />
   }
-  if (!state.registered) return <RegistrationGate locale={locale} onCompleted={(fullName) => setState({ registered: true, ownerMode: false, fullName, profileCompleted: false, analysisCount: 0 })} />
 
   return (
     <>

@@ -9,6 +9,7 @@ import {
   isActivePath,
   isHomePath,
   isHomeSectionHash,
+  isNavItemActive,
   navKeyForHomeSection,
   primaryNavHref,
 } from "../src/lib/home-nav";
@@ -105,5 +106,13 @@ describe("path-based current item", () => {
   it("marks a section from nested paths", () => {
     expect(isActivePath("/bg/projects/pilot", "/bg/projects")).toBe(true);
     expect(isActivePath("/bg/methodology", "/bg/projects")).toBe(false);
+  });
+
+  it("keeps Tools current on every product surface", () => {
+    expect(isNavItemActive("/bg/tools", "tools", "/bg/tools")).toBe(true);
+    expect(isNavItemActive("/bg/ai-act-agent", "tools", "/bg/tools")).toBe(true);
+    expect(isNavItemActive("/bg/ai-act-agent/build", "tools", "/bg/tools")).toBe(true);
+    expect(isNavItemActive("/en/settlement-analyzer", "tools", "/en/tools")).toBe(true);
+    expect(isNavItemActive("/bg/projects", "tools", "/bg/tools")).toBe(false);
   });
 });

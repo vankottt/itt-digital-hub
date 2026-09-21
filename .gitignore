@@ -49,7 +49,7 @@ yarn-error.log*
 /.ruflo/
 supabase/.temp/
 
-# Land Scope source lives in Tools/; keep build artifacts and caches local.
+# Build artifacts only. Tools/Land Scope is part of this site.
 Tools/**/node_modules/
 Tools/**/dist/
 Tools/**/.wrangler/

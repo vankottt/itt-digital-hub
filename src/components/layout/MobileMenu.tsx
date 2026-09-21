@@ -8,7 +8,7 @@ import { cn } from "@/lib/cn";
 import { CloseIcon, MenuIcon } from "@/components/ui/Icons";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { type NavLink } from "./DesktopNav";
-import { homeHashHref, isActivePath, primaryNavHref } from "@/lib/home-nav";
+import { homeHashHref, isNavItemActive, primaryNavHref } from "@/lib/home-nav";
 import { scrollToHomeHash } from "./useHomeSectionSpy";
 
 export function MobileMenu({
@@ -100,7 +100,7 @@ export function MobileMenu({
             {links.map((l, i) => {
               const hashHref = homeHashHref(locale, l.navKey);
               const href = primaryNavHref(locale, l.navKey);
-              const active = onHome ? spyKey === l.navKey : isActivePath(pathname, l.href);
+              const active = onHome ? spyKey === l.navKey : isNavItemActive(pathname, l.navKey, l.href);
               return (
               <li key={l.navKey}>
                 <Link

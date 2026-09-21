@@ -3,7 +3,7 @@
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n";
 import type { RouteKey } from "@/lib/paths";
-import { homeHashHref, isActivePath, primaryNavHref } from "@/lib/home-nav";
+import { homeHashHref, isNavItemActive, primaryNavHref } from "@/lib/home-nav";
 import { cn } from "@/lib/cn";
 import { scrollToHomeHash } from "./useHomeSectionSpy";
 
@@ -37,7 +37,7 @@ export function DesktopNav({
         {items.map((l) => {
           const hashHref = homeHashHref(locale, l.navKey);
           const href = primaryNavHref(locale, l.navKey);
-          const active = onHome ? spyKey === l.navKey : isActivePath(pathname, l.href);
+          const active = onHome ? spyKey === l.navKey : isNavItemActive(pathname, l.navKey, l.href);
           return (
             <li key={l.navKey}>
               <Link

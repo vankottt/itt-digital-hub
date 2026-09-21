@@ -2,6 +2,8 @@
 
 Bilingual (BG/EN) website of ITT Digital Hub — Applied AI Consultancy. Prepared as a digital business card for AI Industrial Summit 2026.
 
+This repository is one site: consultancy pages plus product surfaces (AI Act Assistant, Settlement Analyzer, and later tools) on the same Next.js app and Vercel project. Not separate products or deploys.
+
 This repository is independent of the CIT website. Do not push here to `vankottt/cit-website`.
 
 ## Run

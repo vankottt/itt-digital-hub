@@ -1,5 +1,5 @@
 import type { Locale } from "./i18n";
-import { href, type RouteKey } from "./paths";
+import { href, isAiActAgentPath, isSettlementAnalyzerPath, isToolsPath, type RouteKey } from "./paths";
 
 /** Homepage section ids in document order, for scroll spy. */
 export const homeSpySectionIds = [
@@ -77,4 +77,12 @@ export function primaryNavHref(locale: Locale, key: RouteKey): string {
 /** Marks the current section from the pathname (e.g. /bg/projects/x → Work). */
 export function isActivePath(pathname: string, linkHref: string): boolean {
   return pathname === linkHref || pathname.startsWith(`${linkHref}/`);
+}
+
+/** Tools stays current on every product surface under the catalogue. */
+export function isNavItemActive(pathname: string, navKey: RouteKey, linkHref: string): boolean {
+  if (navKey === "tools" && (isToolsPath(pathname) || isAiActAgentPath(pathname) || isSettlementAnalyzerPath(pathname))) {
+    return true;
+  }
+  return isActivePath(pathname, linkHref);
 }

@@ -12,6 +12,7 @@ const eslintConfig = defineConfig([
       "react-hooks/set-state-in-effect": "off",
     },
   },
+  // Tools/Land Scope has its own package.json/toolchain; live analyzer is src/settlement-analyzer.
   globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts", "qa/**", "references/**", ".ruflo/**", ".data/**", "Tools/**"]),
 ]);
 
