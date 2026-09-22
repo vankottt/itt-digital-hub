@@ -21,7 +21,7 @@ import { useAiActSession } from "./AiActSessionProvider";
 function AnswerBody({ text }: { text: string }) {
   const parts = text.replace(/^#{1,6} /gm, "").split(/(\*\*[^*]+\*\*)/g);
   return (
-    <p className="mt-2 max-w-[60ch] text-body text-ink whitespace-pre-wrap">
+    <div className="mt-2 text-body text-ink whitespace-pre-wrap">
       {parts.map((part, index) =>
         part.startsWith("**") && part.endsWith("**") && part.length > 4 ? (
           <strong key={index} className="font-medium">
@@ -31,7 +31,7 @@ function AnswerBody({ text }: { text: string }) {
           <span key={index}>{part}</span>
         ),
       )}
-    </p>
+    </div>
   );
 }
 
@@ -197,6 +197,7 @@ export function HostedAssistant({ locale }: { locale: Locale }) {
 
       <Container className="flex min-h-0 flex-1 flex-col pb-0">
         <div ref={logRef} className="min-h-[14rem] flex-1 overflow-y-auto py-6 md:py-8" aria-live="polite" aria-relevant="additions">
+          <div className="mx-auto w-full max-w-[42rem]">
           {session.messages.length === 0 ? (
             <div>
               <p className="max-w-[54ch] text-small text-ink-2">{copy.chat.empty[locale]}</p>
@@ -208,7 +209,7 @@ export function HostedAssistant({ locale }: { locale: Locale }) {
                       type="button"
                       onClick={() => void send(item[locale])}
                       disabled={pending || gate}
-                      className="w-full rounded-[1.25rem] bg-white px-4 py-3 text-left text-small text-ink transition-colors duration-150 hover:bg-marine-tint disabled:opacity-60"
+                      className="w-full rounded-[1.25rem] border border-line bg-white px-4 py-3 text-left text-small text-ink transition-colors duration-150 hover:border-signal hover:bg-marine-tint disabled:opacity-60"
                     >
                       {item[locale]}
                     </button>
@@ -217,36 +218,49 @@ export function HostedAssistant({ locale }: { locale: Locale }) {
               </ul>
             </div>
           ) : (
-            <ol className="grid gap-5">
-              {session.messages.map((turn) => (
-                <li key={turn.id}>
-                  <p className="label">{turn.role === "user" ? copy.chat.you[locale] : copy.chat.assistant[locale]}</p>
-                  {turn.status === "pending" ? (
-                    <p className="mt-2 text-small text-ink-3">{copy.chat.generating[locale]}</p>
-                  ) : turn.status === "error" ? (
-                    <div className="mt-2 max-w-[60ch]">
-                      <p className="text-small text-ink-2">{errorCopy(locale, turn.errorCode)}</p>
-                      <button
-                        type="button"
-                        className="mt-3 text-small font-medium text-signal underline decoration-transparent underline-offset-[4px] hover:decoration-signal"
-                        onClick={() => {
-                          const last = lastUserContent();
-                          if (last) void send(last, { retryOf: session.messages.find((item) => item.role === "user" && item.content === last)?.id });
-                        }}
-                      >
-                        {copy.chat.retry[locale]}
-                      </button>
+            <ol className="grid gap-6">
+              {session.messages.map((turn) =>
+                turn.role === "user" ? (
+                  <li key={turn.id} className="flex justify-end">
+                    <div className="max-w-[85%] rounded-[1.25rem] bg-marine px-4 py-3 text-on-dark">
+                      <p className="label-dark">{copy.chat.you[locale]}</p>
+                      <p className="mt-1 whitespace-pre-wrap text-small text-on-dark">{turn.content}</p>
                     </div>
-                  ) : (
-                    <AnswerBody text={turn.content} />
-                  )}
-                </li>
-              ))}
+                  </li>
+                ) : (
+                  <li key={turn.id}>
+                    <div className="rounded-[1.25rem] border border-line bg-white px-4 py-4 shadow-[inset_3px_0_0_0_var(--color-signal)] md:px-5">
+                      <p className="label text-signal">{copy.chat.assistant[locale]}</p>
+                      {turn.status === "pending" ? (
+                        <p className="mt-2 text-small text-ink-3">{copy.chat.generating[locale]}</p>
+                      ) : turn.status === "error" ? (
+                        <div className="mt-2">
+                          <p className="text-small text-ink-2">{errorCopy(locale, turn.errorCode)}</p>
+                          <button
+                            type="button"
+                            className="mt-3 text-small font-medium text-signal underline decoration-transparent underline-offset-[4px] hover:decoration-signal"
+                            onClick={() => {
+                              const last = lastUserContent();
+                              if (last) void send(last, { retryOf: session.messages.find((item) => item.role === "user" && item.content === last)?.id });
+                            }}
+                          >
+                            {copy.chat.retry[locale]}
+                          </button>
+                        </div>
+                      ) : (
+                        <AnswerBody text={turn.content} />
+                      )}
+                    </div>
+                  </li>
+                ),
+              )}
             </ol>
           )}
+          </div>
         </div>
 
         <div className="ai-act-composer sticky bottom-0 z-10 border-t border-line bg-paper pt-4">
+          <div className="mx-auto w-full max-w-[42rem]">
           {gate ? (
             <div className="pb-4">
               {gateThanks ? <p className="mb-4 text-small text-ink-2">{copy.lead.thanks[locale]}</p> : null}
@@ -288,6 +302,7 @@ export function HostedAssistant({ locale }: { locale: Locale }) {
             </form>
           )}
           <p className="mt-3 max-w-[70ch] pb-1 text-[0.75rem] leading-5 text-ink-3">{copy.chat.notice[locale]}</p>
+          </div>
         </div>
       </Container>
     </div>
