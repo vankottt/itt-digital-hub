@@ -4,6 +4,7 @@ import { useEffect, useId, useRef, useState, type FormEvent, type HTMLAttributes
 import type { Locale } from "@/lib/i18n";
 import { cn } from "@/lib/cn";
 import { aiActAgent as copy } from "@/content/ai-act-agent";
+import { postAgent, type AiActPlatformState } from "@/lib/agent-platform/client";
 import { leadFieldLimits } from "@/lib/ai-act/lead";
 import { applyLeadToSession } from "@/lib/ai-act/session";
 import type { AiActJourney } from "@/lib/ai-act/types";
@@ -115,25 +116,27 @@ export function LeadCapture({
 
     setStatus("pending");
     try {
-      const response = await fetch("/api/ai-act/lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+      const response = await postAgent("/v1/agents/ai-act/actions/lead", {
+        locale,
+        sessionId: live.anonymousSessionId,
+        input: payload,
+        ...(live.gateToken ? { clientState: { gate: live.gateToken } } : {}),
       });
-      const data = (await response.json()) as { ok?: boolean };
-      if (!response.ok || !data.ok) {
+      const data = (await response.json()) as { result?: { persisted?: boolean }; state?: AiActPlatformState };
+      if (!response.ok || data.result?.persisted === false) {
         setStatus(response.status === 400 ? "invalid" : "error");
         return;
       }
-      update((current) =>
-        applyLeadToSession(current, {
+      update((current) => ({
+        ...applyLeadToSession(current, {
           name: payload.name.trim(),
           workEmail: payload.workEmail.trim(),
           company: payload.company.trim(),
           role: payload.role.trim(),
           marketingConsent: payload.marketingConsent,
         }),
-      );
+        ...(data.state?.gate ? { gateToken: data.state.gate } : {}),
+      }));
       trackAiActEvent("ai_act_lead_submitted", { locale, reason, persisted: true });
       setStatus("idle");
       onCompleted?.();
@@ -146,7 +149,14 @@ export function LeadCapture({
   const fieldVariant = boxed ? "box" : "line";
 
   return (
-    <form onSubmit={(event) => void onSubmit(event)} className={cn("relative", boxed ? "rounded-[1.25rem] bg-white p-6 md:p-8" : "surface-card")} noValidate>
+    <form
+      onSubmit={(event) => void onSubmit(event)}
+      onInput={() => {
+        if (status === "invalid" || status === "error") setStatus("idle");
+      }}
+      className={cn("relative", boxed ? "rounded-[1.25rem] bg-white p-6 md:p-8" : "surface-card")}
+      noValidate
+    >
       {boxed ? null : (
         <>
           <h2 className="text-h3 text-ink">{title}</h2>

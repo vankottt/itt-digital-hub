@@ -43,6 +43,7 @@ export interface AiActSession {
   buildStep?: string;
   ctaInteractions: string[];
   leadCaptured: boolean;
+  gateToken?: string;
   messages: ChatTurn[];
   locale?: Locale;
 }

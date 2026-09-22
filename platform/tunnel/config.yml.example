@@ -1,0 +1,10 @@
+# Copy to platform/tunnel/config.yml (gitignored) after `cloudflared tunnel create`.
+# Replace <TUNNEL_ID> with the UUID cloudflared prints.
+# Keep the credentials file in ~/.cloudflared. Do not commit it.
+tunnel: <TUNNEL_ID>
+credentials-file: ~/.cloudflared/<TUNNEL_ID>.json
+
+ingress:
+  - hostname: agent.ittdigitalhub.org
+    service: http://127.0.0.1:8788
+  - service: http_status:404

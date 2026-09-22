@@ -1,0 +1,16 @@
+{
+  "id": "example",
+  "name": "Example agent",
+  "version": "0.1.0",
+  "enabled": false,
+  "locales": ["bg", "en"],
+  "visibility": "public",
+  "modelPolicy": {
+    "provider": "mock",
+    "model": "mock-1"
+  },
+  "tools": [],
+  "logging": {
+    "conversation": "none"
+  }
+}

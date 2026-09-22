@@ -9,9 +9,25 @@ export const leadFieldLimits = {
   role: 120,
 } as const;
 
+/** Bulgarian typewriter layout, so an email typed with the wrong keyboard still validates. */
+const BULGARIAN_KEYBOARD_TO_LATIN: Record<string, string> = {
+  я: "q", в: "w", е: "e", р: "r", т: "t", ъ: "y", у: "u", и: "i", о: "o", п: "p", ч: "[",
+  а: "a", с: "s", д: "d", ф: "f", г: "g", х: "h", й: "j", к: "k", л: "l",
+  з: "z", ь: "x", ц: "c", ж: "v", б: "b", н: "n", м: "m",
+  Я: "Q", В: "W", Е: "E", Р: "R", Т: "T", Ъ: "Y", У: "U", И: "I", О: "O", П: "P", Ч: "{",
+  А: "A", С: "S", Д: "D", Ф: "F", Г: "G", Х: "H", Й: "J", К: "K", Л: "L",
+  З: "Z", Ь: "X", Ц: "C", Ж: "V", Б: "B", Н: "N", М: "M",
+};
+
+export function normalizeWorkEmail(value: string): string {
+  return value
+    .trim()
+    .replace(/[А-Яа-яЁё]/g, (letter) => BULGARIAN_KEYBOARD_TO_LATIN[letter] ?? letter);
+}
+
 const leadSchema = z.object({
   name: z.string().trim().min(1).max(leadFieldLimits.name),
-  workEmail: z.string().trim().email().max(leadFieldLimits.workEmail),
+  workEmail: z.string().trim().transform(normalizeWorkEmail).pipe(z.string().email().max(leadFieldLimits.workEmail)),
   company: z.string().trim().min(1).max(leadFieldLimits.company),
   role: z.string().trim().min(1).max(leadFieldLimits.role),
   marketingConsent: z.boolean(),

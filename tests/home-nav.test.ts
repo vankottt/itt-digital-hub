@@ -113,6 +113,8 @@ describe("path-based current item", () => {
     expect(isNavItemActive("/bg/ai-act-agent", "tools", "/bg/tools")).toBe(true);
     expect(isNavItemActive("/bg/ai-act-agent/build", "tools", "/bg/tools")).toBe(true);
     expect(isNavItemActive("/en/settlement-analyzer", "tools", "/en/tools")).toBe(true);
+    expect(isNavItemActive("/bg/pipe-thermal-analysis", "tools", "/bg/tools")).toBe(true);
+    expect(isNavItemActive("/en/pipe-thermal-analysis", "tools", "/en/tools")).toBe(true);
     expect(isNavItemActive("/bg/projects", "tools", "/bg/tools")).toBe(false);
   });
 });

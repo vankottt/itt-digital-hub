@@ -4,10 +4,10 @@ import { useEffect, useId, useRef, useState } from "react";
 import type { Locale } from "@/lib/i18n";
 import { aiActAgent as copy } from "@/content/ai-act-agent";
 import { trackAiActEvent } from "@/lib/ai-act/analytics";
+import { mapPlatformError, postAgent, type AiActPlatformState } from "@/lib/agent-platform/client";
 import {
   AI_ACT_MESSAGE_MAX_LENGTH,
   ANONYMOUS_QUESTION_LIMIT,
-  type AiActChatResponse,
   type AiActErrorCode,
   type ChatTurn,
 } from "@/lib/ai-act/types";
@@ -17,6 +17,23 @@ import { Button } from "@/components/ui/ButtonLink";
 import { ProductChrome } from "./ProductChrome";
 import { LeadCapture } from "./LeadCapture";
 import { useAiActSession } from "./AiActSessionProvider";
+
+function AnswerBody({ text }: { text: string }) {
+  const parts = text.replace(/^#{1,6} /gm, "").split(/(\*\*[^*]+\*\*)/g);
+  return (
+    <p className="mt-2 max-w-[60ch] text-body text-ink whitespace-pre-wrap">
+      {parts.map((part, index) =>
+        part.startsWith("**") && part.endsWith("**") && part.length > 4 ? (
+          <strong key={index} className="font-medium">
+            {part.slice(2, -2)}
+          </strong>
+        ) : (
+          <span key={index}>{part}</span>
+        ),
+      )}
+    </p>
+  );
+}
 
 function errorCopy(locale: Locale, code?: AiActErrorCode): string {
   if (!code) return copy.chat.errors.generic[locale];
@@ -100,43 +117,54 @@ export function HostedAssistant({ locale }: { locale: Locale }) {
     setDraft("");
     trackAiActEvent("ai_act_question_started", { locale, retry: Boolean(options?.retryOf) });
 
+    const live = ensure();
     const completeTurns = session.messages.filter((turn) => turn.status === "complete");
     const historyTurns = completeTurns.some((turn) => turn.id === userTurn.id) ? completeTurns : [...completeTurns, userTurn];
     const history = historyTurns.map((turn) => ({
       role: turn.role,
       content: turn.content,
     }));
+    const latest = history[history.length - 1];
+    if (!latest) return;
 
     try {
-      const response = await fetch("/api/ai-act/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sessionId: ensure().anonymousSessionId,
-          locale,
-          messages: history,
-        }),
+      const response = await postAgent("/v1/agents/ai-act/chat", {
+        sessionId: live.anonymousSessionId,
+        locale,
+        message: latest.content,
+        history: history.slice(0, -1),
+        ...(live.gateToken ? { clientState: { gate: live.gateToken } } : {}),
       });
-      const data = (await response.json()) as AiActChatResponse;
-      if (!data.ok && data.error.code === "lead_required") {
+      const data = (await response.json()) as {
+        answer?: string;
+        state?: AiActPlatformState;
+        error?: { code?: string };
+      };
+      const errorCode = response.ok ? undefined : mapPlatformError(data.error?.code);
+      if (errorCode === "lead_required") {
         setDraft(content);
         update((current) => ({
           ...current,
           questionsAsked: Math.max(current.questionsAsked, ANONYMOUS_QUESTION_LIMIT),
+          leadCaptured: false,
           messages: current.messages.filter((turn) => turn.id !== pendingTurn.id && turn.id !== userTurn.id),
         }));
         return;
       }
       update((current) => ({
         ...current,
-        questionsAsked: data.ok ? current.questionsAsked + 1 : current.questionsAsked,
+        ...(response.ok && typeof data.state?.questionsAsked === "number"
+          ? { questionsAsked: data.state.questionsAsked }
+          : {}),
+        ...(response.ok && data.state?.gate ? { gateToken: data.state.gate } : {}),
+        ...(response.ok && data.state?.leadCaptured ? { leadCaptured: true } : {}),
         messages: current.messages.map((turn) => {
           if (turn.id !== pendingTurn.id) return turn;
-          if (data.ok) return { ...turn, status: "complete" as const, content: data.message.content };
-          return { ...turn, status: "error" as const, errorCode: data.error.code, content: "" };
+          if (response.ok && data.answer) return { ...turn, status: "complete" as const, content: data.answer };
+          return { ...turn, status: "error" as const, errorCode: errorCode ?? "provider_error", content: "" };
         }),
       }));
-      if (!data.ok) setDraft(content);
+      if (!response.ok || !data.answer) setDraft(content);
     } catch {
       setDraft(content);
       update((current) => ({
@@ -210,7 +238,7 @@ export function HostedAssistant({ locale }: { locale: Locale }) {
                       </button>
                     </div>
                   ) : (
-                    <p className="mt-2 max-w-[60ch] text-body text-ink whitespace-pre-wrap">{turn.content}</p>
+                    <AnswerBody text={turn.content} />
                   )}
                 </li>
               ))}

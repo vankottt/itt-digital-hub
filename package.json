@@ -8,8 +8,15 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "typecheck": "next typegen && tsc --noEmit",
+    "typecheck": "next typegen && tsc --noEmit && tsc --noEmit -p platform/gateway/tsconfig.json",
     "test": "vitest run",
+    "agent-hub:dev": "tsx platform/agent-hub/src/main.ts",
+    "agent-hub:start": "NODE_ENV=production tsx platform/agent-hub/src/main.ts",
+    "agent-gateway:dev": "wrangler dev --config platform/gateway/wrangler.jsonc --var AGENT_HUB_ORIGIN:http://127.0.0.1:8788 --var GATEWAY_ENV:development",
+    "agent-gateway:types": "wrangler types platform/gateway/worker-configuration.d.ts --config platform/gateway/wrangler.jsonc --include-runtime false",
+    "agent-gateway:deploy": "wrangler deploy --config platform/gateway/wrangler.jsonc",
+    "agent-platform:test": "vitest run tests/agent-platform",
+    "ai-act:eval": "tsx scripts/ai-act-model-eval.ts",
     "seed": "tsx scripts/seed-cms.ts",
     "build:registry": "tsx scripts/build-settlement-registry.ts",
     "build:packs": "tsx scripts/build-settlement-packs.ts",
@@ -31,6 +38,7 @@
     "zod": "^4.5.4"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260921.1",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/geojson": "^7946.0.16",
     "@types/leaflet": "^1.9.22",
@@ -44,7 +52,8 @@
     "tailwindcss": "^4.3.3",
     "tsx": "^4.23.13",
     "typescript": "^5.9",
-    "vitest": "^5.0.0"
+    "vitest": "^5.0.0",
+    "wrangler": "^4.136.1"
   },
   "overrides": {
     "@xmldom/xmldom": "^0.8.13"

@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
 import { buildAgentKitZip } from "@/lib/ai-act/kit";
 import { readGateCookie } from "@/lib/ai-act/gate";
+import { gateAllowsKitDownload } from "@/lib/ai-act/kit-auth";
 
 export const runtime = "nodejs";
 
-export async function GET() {
-  const gate = await readGateCookie();
-  if (!gate?.lead) {
+export async function GET(request: Request) {
+  const token = request.headers.get("x-itt-gate")?.trim();
+  const allowed = token ? await gateAllowsKitDownload(token) : Boolean((await readGateCookie())?.lead);
+  if (!allowed) {
     return NextResponse.json({ ok: false, error: { code: "lead_required" } }, { status: 403 });
   }
 

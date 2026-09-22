@@ -1,0 +1,175 @@
+import type { L } from "@/lib/i18n";
+
+export const pipeThermalAnalysis = {
+  meta: {
+    title: { bg: "Топлинен анализ на тръбопроводи", en: "Pipe Thermal Analysis" } satisfies L,
+    description: {
+      bg: "Интерактивен инженерен инструмент за анализ на температурните изменения и топлинните загуби при изолирани PE тръбопроводи.",
+      en: "Interactive engineering tool for analysing temperature change and heat loss in insulated PE pipelines.",
+    } satisfies L,
+  },
+  label: { bg: "Инструмент", en: "Tool" } satisfies L,
+  back: { bg: "Инструменти", en: "Tools" } satisfies L,
+  heading: { bg: "Топлинен анализ на тръбопроводи", en: "Pipe Thermal Analysis" } satisfies L,
+  lead: {
+    bg: "Оценява как водата в изолирана полиетиленова тръба изстива с времето и кога се появява риск от замръзване.",
+    en: "Estimates how water in an insulated polyethylene pipe cools over time and when freezing risk appears.",
+  } satisfies L,
+  support: {
+    bg: "Лумпиран топлинен модел за 1 m тръба.",
+    en: "Lumped thermal model for 1 m of pipe.",
+  } satisfies L,
+  heroImageAlt: {
+    bg: "Изолиран полиетиленов тръбопровод върху стоманени опори.",
+    en: "Insulated polyethylene pipeline on steel supports.",
+  } satisfies L,
+  inputsTitle: { bg: "Входни параметри", en: "Input parameters" } satisfies L,
+  resultsTitle: { bg: "Резултати", en: "Results" } satisfies L,
+  liveNote: {
+    bg: "Резултатите се преизчисляват автоматично при всяка валидна промяна.",
+    en: "Results recalculate automatically with every valid change.",
+  } satisfies L,
+  groups: {
+    pipe: { bg: "Тръбопровод", en: "Pipe" },
+    insulation: { bg: "Изолация", en: "Insulation" },
+    fluid: { bg: "Флуид", en: "Fluid" },
+    conditions: { bg: "Работни условия", en: "Operating conditions" },
+    advanced: { bg: "Допълнителни параметри", en: "Additional parameters" },
+  },
+  fields: {
+    dOutMm: { bg: "Външен диаметър", en: "Outer diameter" },
+    tPeMm: { bg: "Дебелина на стената (PE)", en: "PE wall thickness" },
+    kPe: { bg: "Топлопроводимост на PE", en: "PE thermal conductivity" },
+    tInsMm: { bg: "Дебелина", en: "Thickness" },
+    kIns: { bg: "Топлопроводимост", en: "Thermal conductivity" },
+    flowM3h: { bg: "Обемен дебит", en: "Volumetric flow rate" },
+    t0C: { bg: "Начална температура на водата", en: "Initial water temperature" },
+    toutC: { bg: "Околна температура", en: "Ambient temperature" },
+    hOutMode: { bg: "Външно топлоотдаване", en: "External convection" },
+    wind: { bg: "Клас вятър", en: "Wind class" },
+    windSpeedMs: { bg: "Скорост на вятъра", en: "Wind speed" },
+    hManual: { bg: "Коефициент h", en: "Coefficient h" },
+    includePeCapacity: { bg: "Включи топлоемкостта на PE стената", en: "Include PE wall heat capacity" },
+    kWater: { bg: "Топлопроводимост на водата", en: "Water thermal conductivity" },
+    muWater: { bg: "Динамичен вискозитет", en: "Dynamic viscosity" },
+    prWater: { bg: "Число на Прандтл", en: "Prandtl number" },
+    kAir: { bg: "Топлопроводимост на въздуха", en: "Air thermal conductivity" },
+    rhoWater: { bg: "Плътност на водата", en: "Water density" },
+    cpWater: { bg: "Специфичен топлинен капацитет", en: "Specific heat" },
+    rhoPe: { bg: "Плътност на PE", en: "PE density" },
+    cpPe: { bg: "Специфичен топлинен капацитет на PE", en: "PE specific heat" },
+  },
+  units: {
+    mm: "mm",
+    mK: "W/m·K",
+    m3h: "m³/h",
+    c: "°C",
+    ms: "m/s",
+    wm2k: "W/m²·K",
+    kgm3: "kg/m³",
+    jkgk: "J/kg·K",
+    pas: "Pa·s",
+  },
+  hints: {
+    kIns: {
+      bg: "Суха минерална вата обикновено е около 0.035–0.045.",
+      en: "Dry mineral wool is typically around 0.035–0.045.",
+    },
+    flowM3h: {
+      bg: "0 означава застояла, добре смесена вода.",
+      en: "0 means stagnant, well-mixed water.",
+    },
+    hOutMode: {
+      bg: "Клас вятър следва Excel селектора. Скоростта използва корелацията на Churchill–Bernstein.",
+      en: "Wind class follows the Excel selector. Wind speed uses the Churchill–Bernstein correlation.",
+    },
+  },
+  modes: {
+    wind: { bg: "Клас вятър", en: "Wind class" },
+    physics: { bg: "По скорост на вятъра", en: "From wind speed" },
+    manual: { bg: "Ръчна стойност", en: "Manual value" },
+  },
+  wind: {
+    calm: { bg: "Безветрено", en: "Calm" },
+    breeze: { bg: "Лек вятър", en: "Breeze" },
+    windy: { bg: "Силен вятър", en: "Windy" },
+  },
+  kpis: {
+    tau: { bg: "Времеконстанта τ", en: "Time constant τ" },
+    t24: { bg: "След 24 h", en: "After 24 h" },
+    tZero: { bg: "До 0 °C", en: "Time to 0 °C" },
+    heat: { bg: "Топлинна загуба", en: "Initial heat loss" },
+  },
+  kpiUnits: {
+    tau: "h",
+    t24: "°C",
+    tZero: "h",
+    heat: "W",
+  },
+  kpiHint: {
+    tau: {
+      bg: "Колкото по-голяма е стойността, толкова по-бавно изстива.",
+      en: "A larger value means the water cools more slowly.",
+    },
+    tZero: {
+      bg: "Приблизително време, за което водата достига 0 °C.",
+      en: "Approximate time for the water to reach 0 °C.",
+    },
+    t24: {
+      bg: "Очаквана температура на водата след 24 часа.",
+      en: "Expected water temperature after 24 hours.",
+    },
+    heat: {
+      bg: "За 1 m тръба при зададените условия.",
+      en: "For 1 m of pipe at the given conditions.",
+    },
+  },
+  none: { bg: "няма", en: "none" } satisfies L,
+  chart: {
+    title: { bg: "Температура с времето", en: "Temperature over time" },
+    y: { bg: "Температура (°C)", en: "Temperature (°C)" },
+    x: { bg: "Време (h)", en: "Time (h)" },
+    series: { bg: "Температура на водата", en: "Water temperature" },
+    seriesCurrent: { bg: "текуща", en: "current" },
+    zero: { bg: "0 °C", en: "0 °C" },
+    tooltipTime: { bg: "Време", en: "Time" },
+    tooltipTemp: { bg: "Температура", en: "Temperature" },
+  },
+  compare: {
+    title: { bg: "Сравнение по дебелина на изолацията", en: "Comparison by insulation thickness" },
+    thickness: { bg: "Изолация", en: "Insulation" },
+    tau: { bg: "τ", en: "τ" },
+    t24: { bg: "T (24 h)", en: "T (24 h)" },
+    tZero: { bg: "До 0 °C", en: "To 0 °C" },
+    current: { bg: "текуща", en: "current" },
+    hint: {
+      bg: "Натиснете ред, за да сравните кривата. Текущата дебелина не се променя.",
+      en: "Select a row to compare its curve. The current thickness does not change.",
+    },
+    show: { bg: "Покажи кривата", en: "Show curve" },
+    hide: { bg: "Скрий кривата", en: "Hide curve" },
+  },
+  details: {
+    hOut: { bg: "h външно", en: "External h" },
+    hIn: { bg: "h вътрешно", en: "Internal h" },
+    ua: { bg: "UA", en: "UA" },
+  },
+  contextTitle: { bg: "Какво изчислява моделът", en: "What the model calculates" } satisfies L,
+  context: {
+    bg: "Инструментът описва изстиването на добре смесена вода в един метър изолирана PE тръба. Топлинното съпротивление включва вътрешна конвекция, проводимост през стената и изолацията и външна конвекция. Температурата следва T(t) = T_out + (T0 − T_out) · exp(−t / τ). Замръзването след 0 °C не се моделира; оценката за пълно замръзване е долна граница при постоянно UA.",
+    en: "The tool describes cooling of well-mixed water in one metre of insulated PE pipe. Thermal resistance includes internal convection, conduction through the wall and insulation, and external convection. Temperature follows T(t) = T_out + (T0 − T_out) · exp(−t / τ). Freezing after 0 °C is not modelled; the full-freeze estimate is a lower bound at constant UA.",
+  } satisfies L,
+  storyTitle: { bg: "От инженерен модел към цифров инструмент", en: "From an engineering model to a digital tool" } satisfies L,
+  story: {
+    bg: "Този инструмент показва как съществуващ инженерен модел и изчислителен процес могат да бъдат превърнати в достъпно цифрово приложение, без да се губи логиката зад тях.",
+    en: "This tool shows how an existing engineering model and calculation workflow can become an accessible digital application without losing the logic behind them.",
+  } satisfies L,
+  disclaimer: {
+    bg: "Резултатите зависят от въведените параметри и от лумпирания топлинен модел. Не заместват проектна проверка за конкретна инсталация.",
+    en: "Results depend on the entered parameters and on the lumped thermal model. They do not replace a design check for a specific installation.",
+  } satisfies L,
+  invalidSummary: {
+    bg: "Коригирайте отбелязаните полета, за да видите резултатите.",
+    en: "Correct the highlighted fields to see the results.",
+  } satisfies L,
+} as const;

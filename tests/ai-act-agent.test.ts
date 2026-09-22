@@ -88,6 +88,20 @@ describe("lead payload", () => {
     expect(parsed.kind).toBe("ok");
   });
 
+  it("accepts a work email typed with the Bulgarian keyboard", () => {
+    const parsed = parseLeadPayload({
+      name: "йхг",
+      workEmail: "гфдгд@гфхд.цом",
+      company: "гфдхфд",
+      role: "гфхфдх",
+      marketingConsent: true,
+      locale: "bg",
+      anonymousSessionId: "sess-12345678",
+    });
+    expect(parsed.kind).toBe("ok");
+    if (parsed.kind === "ok") expect(parsed.data.workEmail).toBe("gfdgd@gfhd.com");
+  });
+
   it("treats a filled honeypot as spam", () => {
     expect(
       parseLeadPayload({
@@ -308,7 +322,10 @@ describe("knowledge and agent kit", () => {
 describe("product copy", () => {
   it("keeps the compact chat notice exact in Bulgarian", () => {
     expect(aiActAgent.chat.notice.bg).toBe(
-      "При използваната конфигурация въведеното съдържание може да бъде използвано от AI доставчика за подобряване на услугите му. Не споделяйте лична, поверителна или чувствителна информация.",
+      "Въпросите може да се обработват от външни доставчици на AI модели. Не споделяйте лична, поверителна или чувствителна информация.",
+    );
+    expect(aiActAgent.chat.notice.en).toBe(
+      "Questions may be processed by external AI model providers. Do not share personal, confidential or sensitive information.",
     );
   });
 

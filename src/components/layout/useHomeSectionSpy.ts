@@ -88,12 +88,13 @@ function restoreScrollBehavior(root: HTMLElement, previous: string) {
  * `scrollIntoView({ block: "start" })` uses the section box plus `scroll-padding-top`,
  * so the section's own `py-section` reads as empty space and the lower content is clipped.
  */
-export function scrollToHomeHash(href: string): boolean {
+export function scrollToHomeHash(href: string, options?: { instant?: boolean }): boolean {
   const id = href.split("#")[1];
   if (!id) return false;
   const el = document.getElementById(id);
   if (!el) return false;
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const instant = Boolean(options?.instant) || reduce;
   const next = href.startsWith("/") ? href : `${window.location.pathname}#${id}`;
   history.replaceState(null, "", next);
   const headerH = stickyHeaderHeight();
@@ -102,8 +103,8 @@ export function scrollToHomeHash(href: string): boolean {
   const root = document.documentElement;
   const previous = root.style.scrollBehavior;
   root.style.scrollBehavior = "auto";
-  window.scrollTo({ top, behavior: reduce ? "auto" : "smooth" });
-  if (reduce) {
+  window.scrollTo({ top, behavior: instant ? "auto" : "smooth" });
+  if (instant) {
     restoreScrollBehavior(root, previous);
   } else {
     const restore = () => restoreScrollBehavior(root, previous);

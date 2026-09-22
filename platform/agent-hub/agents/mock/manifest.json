@@ -1,0 +1,22 @@
+{
+  "id": "mock",
+  "name": "Mock agent",
+  "version": "0.1.0",
+  "enabled": true,
+  "locales": ["bg", "en"],
+  "visibility": "public",
+  "modelPolicy": {
+    "provider": "mock",
+    "model": "mock-1"
+  },
+  "tools": [],
+  "knowledge": {
+    "directory": "knowledge"
+  },
+  "limits": {
+    "maxMessageChars": 4000
+  },
+  "logging": {
+    "conversation": "none"
+  }
+}

@@ -74,8 +74,8 @@ export const aiActAgent = {
       open: { bg: "Можете да продължите разговора.", en: "You can continue the conversation." },
     },
     notice: {
-      bg: "При използваната конфигурация въведеното съдържание може да бъде използвано от AI доставчика за подобряване на услугите му. Не споделяйте лична, поверителна или чувствителна информация.",
-      en: "With the configuration in use, entered content may be used by the AI provider to improve its services. Do not share personal, confidential or sensitive information.",
+      bg: "Въпросите може да се обработват от външни доставчици на AI модели. Не споделяйте лична, поверителна или чувствителна информация.",
+      en: "Questions may be processed by external AI model providers. Do not share personal, confidential or sensitive information.",
     },
     errors: {
       not_configured: {
@@ -361,6 +361,7 @@ export const aiActAgent = {
   },
   journey: {
     progress: { bg: "Маршрут", en: "Route" },
+    goToStep: { bg: "Отиди на стъпка", en: "Go to step" },
     stops: [
       { bg: "План", en: "Plan" },
       { bg: "Части", en: "Parts" },

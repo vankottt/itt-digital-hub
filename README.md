@@ -21,6 +21,21 @@ npm run check   # typecheck, lint, tests, production build
 
 Copy `.env.example` to `.env.local`. Do not commit secrets.
 
+## Agent platform
+
+The public site stays on Vercel. Agent calls go through the Cloudflare Worker at `api.ittdigitalhub.org` to the local Agent Hub. Setup, tunnel, and deploy steps are in `docs/agent-platform-runbook.md`.
+
+```sh
+cp platform/agent-hub/.env.example platform/agent-hub/.env
+cp platform/gateway/.dev.vars.example platform/gateway/.dev.vars
+npm run agent-hub:dev
+npm run agent-hub:start
+npm run agent-gateway:dev
+npm run agent-platform:test
+```
+
+Replace the placeholder shared secret in both files before exposing the tunnel. `openssl rand -hex 32` prints one.
+
 Preview/staging remain `noindex,nofollow` unless `ITT_ALLOW_INDEXING=true` on an explicit production deployment.
 
 ## Content

@@ -33,6 +33,8 @@ describe("locale routing", () => {
     expect(href("en", "ai-act-agent", "use")).toBe("/en/ai-act-agent/use");
     expect(href("bg", "tools")).toBe("/bg/tools");
     expect(href("en", "tools")).toBe("/en/tools");
+    expect(href("bg", "pipe-thermal-analysis")).toBe("/bg/pipe-thermal-analysis");
+    expect(href("en", "pipe-thermal-analysis")).toBe("/en/pipe-thermal-analysis");
   });
   it("switches locale prefix", () => {
     expect(switchLocalePath("/bg/methodology", "en")).toBe("/en/methodology");

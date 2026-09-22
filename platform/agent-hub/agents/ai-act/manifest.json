@@ -1,0 +1,26 @@
+{
+  "id": "ai-act",
+  "name": "AI Act assistant",
+  "version": "1.0.0",
+  "enabled": true,
+  "locales": ["bg", "en"],
+  "visibility": "public",
+  "modelPolicy": {
+    "provider": "openrouter",
+    "model": "z-ai/glm-5.3-flash",
+    "fallback": {
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    }
+  },
+  "tools": [],
+  "knowledge": {
+    "directory": "knowledge"
+  },
+  "limits": {
+    "maxMessageChars": 4000
+  },
+  "logging": {
+    "conversation": "none"
+  }
+}

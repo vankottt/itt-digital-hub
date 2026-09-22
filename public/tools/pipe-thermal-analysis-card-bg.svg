@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-hidden="true">
+  <rect width="1600" height="900" fill="#edf0fb"/>
+  <text x="72" y="92" fill="#5b6780" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="20" letter-spacing="2.2">???????????</text>
+  <text x="72" y="148" fill="#3a4660" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="22">?????? ????????</text>
+  <text x="72" y="198" fill="#040e31" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="44">90</text>
+  <text x="178" y="198" fill="#5b6780" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="22">mm</text>
+  <line x1="72" y1="216" x2="470" y2="216" stroke="#dce2ee"/>
+  <text x="72" y="276" fill="#3a4660" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="22">????????</text>
+  <text x="72" y="326" fill="#040e31" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="44">50</text>
+  <text x="178" y="326" fill="#5b6780" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="22">mm</text>
+  <line x1="72" y1="344" x2="470" y2="344" stroke="#dce2ee"/>
+  <text x="560" y="92" fill="#5b6780" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="20">?????????????? ?</text>
+  <text x="560" y="168" fill="#040e31" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="64">16.8</text>
+  <text x="760" y="168" fill="#5b6780" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="24">h</text>
+  <text x="980" y="92" fill="#5b6780" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="20">???? 24 h</text>
+  <text x="980" y="168" fill="#040e31" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="64">-21.2</text>
+  <text x="1210" y="168" fill="#5b6780" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="24">°C</text>
+  <text x="560" y="240" fill="#5b6780" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="22">??????????? ? ???????</text>
+  <line x1="560" y1="560" x2="1528" y2="560" stroke="#dce2ee"/>
+  <line x1="560" y1="440" x2="1528" y2="440" stroke="#dce2ee"/>
+  <line x1="560" y1="680" x2="1528" y2="680" stroke="#b4bdc9" stroke-dasharray="6 8"/>
+  <path d="M560 300 C 760 340, 980 520, 1528 760" fill="none" stroke="#040e31" stroke-width="4"/>
+  <circle cx="820" cy="392" r="8" fill="#002cff"/>
+  <text x="840" y="386" fill="#040e31" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="22">3.5 h · 0 °C</text>
+</svg>

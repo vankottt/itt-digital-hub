@@ -55,3 +55,16 @@ Tools/**/dist/
 Tools/**/.wrangler/
 Tools/**/.playwright-cli/
 Tools/**/coverage/
+
+# Agent platform: local secrets, Wrangler state, and tunnel credentials.
+# Examples (*.example) stay tracked.
+platform/gateway/.dev.vars
+platform/gateway/.dev.vars.*
+!platform/gateway/.dev.vars.example
+platform/gateway/.wrangler/
+platform/agent-hub/.env
+platform/agent-hub/eval-reports/
+platform/tunnel/config.yml
+platform/tunnel/*.json
+.cloudflared/
+**/*-credentials.json

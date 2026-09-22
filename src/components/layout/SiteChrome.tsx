@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import type { Locale } from "@/lib/i18n";
 import { SiteHeader } from "./SiteHeader";
 import { SiteFooterGate } from "./SiteFooterGate";
+import { ResetWindowScroll } from "./ResetWindowScroll";
 
 export function SiteChrome({
   locale,
@@ -23,10 +24,11 @@ export function SiteChrome({
         {skipLabel}
       </a>
       <SiteHeader locale={locale} />
-      <main id="main" className="flex-1">
+      <main id="main" className="min-w-0 w-full flex-1">
         {children}
       </main>
       <SiteFooterGate locale={locale} />
+      <ResetWindowScroll />
     </>
   );
 }

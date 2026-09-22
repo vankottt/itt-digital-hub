@@ -9,7 +9,7 @@ type ToolSource = {
   description: L;
   image: L;
   imageAlt: L;
-  hrefKey?: "ai-act-agent" | "settlement-analyzer";
+  hrefKey?: "ai-act-agent" | "settlement-analyzer" | "pipe-thermal-analysis";
   status?: L;
   external?: boolean;
 };
@@ -56,6 +56,21 @@ const catalog: ToolSource[] = [
       en: "Settlement Analyzer: map and spatial results.",
     },
     hrefKey: "settlement-analyzer",
+  },
+  {
+    id: "pipe-thermal-analysis",
+    title: { bg: "Топлинен анализ на тръбопроводи", en: "Pipe Thermal Analysis" },
+    category: { bg: "Инженерство · Модели", en: "Engineering · Models" },
+    description: {
+      bg: "Анализира изстиването и топлинните загуби в изолиран PE тръбопровод и показва как температурата се променя с времето.",
+      en: "Analyses cooling and heat loss in an insulated PE pipeline and shows how temperature changes over time.",
+    },
+    image: { bg: "/tools/pipe-thermal-analysis-card-bg.svg", en: "/tools/pipe-thermal-analysis-card-en.svg" },
+    imageAlt: {
+      bg: "Интерфейс на топлинния анализ: параметри, показатели и крива на температурата с времето.",
+      en: "Pipe Thermal Analysis interface: parameters, indicators and a temperature-over-time curve.",
+    },
+    hrefKey: "pipe-thermal-analysis",
   },
 ];
 

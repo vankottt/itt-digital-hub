@@ -147,7 +147,9 @@ export function BuildJourney({
     update((current) => ({ ...current, kitDownloadRequested: true }));
     trackAiActEvent("ai_act_kit_download_clicked", { locale });
     try {
-      const response = await fetch("/api/ai-act/kit");
+      const response = await fetch("/api/ai-act/kit", {
+        headers: session.gateToken ? { "x-itt-gate": session.gateToken } : {},
+      });
       const type = response.headers.get("content-type") ?? "";
       if (!response.ok || !type.includes("zip")) {
         setDownloadMessage(

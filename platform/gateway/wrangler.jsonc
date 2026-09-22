@@ -1,0 +1,25 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "itt-agent-gateway",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-21",
+  "compatibility_flags": ["nodejs_compat"],
+  // No public hostname until the custom domain is attached on purpose.
+  // workers.dev would be a second public entry. A route would create DNS.
+  "workers_dev": false,
+  "preview_urls": false,
+  "vars": {
+    "GATEWAY_ENV": "production",
+    "AGENT_HUB_ORIGIN": "https://agent.ittdigitalhub.org",
+    "ALLOWED_ORIGINS": "https://ittdigitalhub.org,http://localhost:3000",
+    "UPSTREAM_TIMEOUT_MS": "45000"
+  },
+  "secrets": {
+    "required": ["AGENT_HUB_SHARED_SECRET"]
+  },
+  "dev": {
+    "port": 8787,
+    "local_protocol": "http"
+  },
+  "routes": [{ "pattern": "api.ittdigitalhub.org", "custom_domain": true }]
+}

@@ -1,12 +1,16 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import type { Locale } from "@/lib/i18n";
-import { primaryNavHref } from "@/lib/home-nav";
+import { homeHashHref, isHomePath, primaryNavHref } from "@/lib/home-nav";
 import { contactPhones, footerNav, site } from "@/content/site";
 import { t } from "@/content/messages";
 import { ContactEmailLink } from "@/components/contact/ContactEmailLink";
 import { Container } from "./Container";
 import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { scrollToHomeHash } from "./useHomeSectionSpy";
 
 function PhoneLink({ phone }: { phone: string }) {
   return (
@@ -21,11 +25,13 @@ function PhoneLink({ phone }: { phone: string }) {
 
 export function SiteFooter({ locale }: { locale: Locale }) {
   const m = t(locale);
+  const pathname = usePathname() ?? "";
+  const onHome = isHomePath(pathname);
   const year = new Date().getFullYear();
   const copyright = `© ${year} ${site.name[locale]}`;
 
   return (
-    <footer className="bg-marine text-on-dark" data-surface="dark">
+    <footer className="w-full min-w-0 bg-marine text-on-dark" data-surface="dark">
       <Container className="py-14 md:py-16">
         <div className="grid gap-10 md:grid-cols-12">
           <div className="md:col-span-5">
@@ -36,12 +42,16 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           <nav aria-label={m.footerNav} className="md:col-span-3">
             <ul className="grid gap-2.5 text-small">
               {footerNav.map((item) => {
+                const hashHref = homeHashHref(locale, item.key);
                 const to = primaryNavHref(locale, item.key);
                 return (
                 <li key={item.key}>
                   <Link
                     href={to}
-                    scroll={!to.includes("#")}
+                    scroll={!hashHref}
+                    onClick={(e) => {
+                      if (onHome && hashHref && scrollToHomeHash(hashHref)) e.preventDefault();
+                    }}
                     className="text-on-dark-muted transition-colors duration-150 hover:text-on-dark hover:underline hover:decoration-amber hover:underline-offset-[4px]"
                   >
                     {item.label[locale]}

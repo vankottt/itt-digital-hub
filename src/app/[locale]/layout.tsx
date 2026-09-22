@@ -8,7 +8,6 @@ import { siteUrl } from "@/lib/site-url";
 import { site } from "@/content/site";
 import { t } from "@/content/messages";
 import { SiteChrome } from "@/components/layout/SiteChrome";
-import { ResetWindowScroll } from "@/components/layout/ResetWindowScroll";
 import { OrganizationJsonLd } from "@/components/layout/OrganizationJsonLd";
 import { allowPublicIndexing, robotsDirective } from "@/lib/indexing";
 import { Analytics } from "@vercel/analytics/next";
@@ -45,8 +44,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={localeLabels[locale].htmlLang} className={fontClassName}>
-      <body className="flex min-h-svh flex-col">
-        <ResetWindowScroll />
+      <body className="flex min-h-svh w-full min-w-0 flex-col">
         <SiteChrome locale={locale} skipLabel={m.skipToContent}>
           {children}
         </SiteChrome>
