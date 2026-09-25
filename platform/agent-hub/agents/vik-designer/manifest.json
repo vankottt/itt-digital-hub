@@ -1,0 +1,23 @@
+{
+  "id": "vik-designer",
+  "name": "ВиК Проектант",
+  "version": "1.0.0",
+  "enabled": true,
+  "locales": ["bg", "en"],
+  "visibility": "public",
+  "modelPolicy": {
+    "provider": "openrouter",
+    "model": "z-ai/glm-5.3-flash",
+    "fallback": {
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    }
+  },
+  "tools": [],
+  "limits": {
+    "maxMessageChars": 4000
+  },
+  "logging": {
+    "conversation": "none"
+  }
+}

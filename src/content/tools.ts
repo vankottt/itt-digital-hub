@@ -9,7 +9,7 @@ type ToolSource = {
   description: L;
   image: L;
   imageAlt: L;
-  hrefKey?: "ai-act-agent" | "settlement-analyzer" | "pipe-thermal-analysis";
+  hrefKey?: "ai-act-agent" | "settlement-analyzer" | "pipe-thermal-analysis" | "vik-designer";
   status?: L;
   external?: boolean;
 };
@@ -71,6 +71,21 @@ const catalog: ToolSource[] = [
       en: "Pipe Thermal Analysis interface: parameters, indicators and a temperature-over-time curve.",
     },
     hrefKey: "pipe-thermal-analysis",
+  },
+  {
+    id: "vik-designer",
+    title: { bg: "ВиК Проектант", en: "WSS Designer" },
+    category: { bg: "ВиК · Норми", en: "WSS · Rules" },
+    description: {
+      bg: "Нормативен асистент за справка във ВиК наредбите: водоснабдяване, канализация, присъединяване и свързани изисквания.",
+      en: "A normative assistant for Bulgarian water and sewerage rules: supply, sewerage, connections and related requirements.",
+    },
+    image: { bg: "/tools/vik-designer-card.svg", en: "/tools/vik-designer-card.svg" },
+    imageAlt: {
+      bg: "Геометрична схема на водопроводна мрежа върху тъмен фон.",
+      en: "Geometric diagram of a water network on a dark background.",
+    },
+    hrefKey: "vik-designer",
   },
 ];
 

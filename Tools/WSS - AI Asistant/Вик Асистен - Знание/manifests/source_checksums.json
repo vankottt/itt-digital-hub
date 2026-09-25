@@ -1,0 +1,221 @@
+{
+  "files": [
+    {
+      "path": "_source/originals/4_0f6748bdc66651849c3c41596b2368e35.docx",
+      "sha256": "708489c51d75bf2df8e32e2fe7d8359ab4cd237393cac77062f2ec057937aff7",
+      "bytes": 197775,
+      "role": "original",
+      "canonical_id": "rd-02-20-8-2013"
+    },
+    {
+      "path": "_source/originals/6ef4c283138e140f9958d8db5250e93f.rar",
+      "sha256": "da39bdd9a6c80caa49e5ddbd24a3c25c3652f6b30810497383edc00ac02a8dd5",
+      "bytes": 120071,
+      "role": "archive",
+      "canonical_id": "naredba-4-2005-sgradni-vik"
+    },
+    {
+      "path": "_source/originals/N3_SOZ.pdf",
+      "sha256": "c01a35b9e2210c56db49b669e8fc20f7be62d2d3ae29d4ac4999064dc4de27f6",
+      "bytes": 1725960,
+      "role": "original",
+      "canonical_id": "naredba-3-2000-soz"
+    },
+    {
+      "path": "_source/originals/d7911f2fda86c3946344b87f54765247.rar",
+      "sha256": "db2e160dba694b6e39ae0355ddeb79f91b267236a40cd33b4b04ada2f828a871",
+      "bytes": 131349,
+      "role": "archive",
+      "canonical_id": "naredba-4-2005-sgradni-vik"
+    },
+    {
+      "path": "_source/originals/naredba1-ot-10-10-2007g-prouchvane-polzvane-opzvane-podzemni-vodi.doc",
+      "sha256": "bb09f9b891d76335f7cf8a3767b8df456e782609cef5d86a3e6407849ec9c2e1",
+      "bytes": 1013603,
+      "role": "original",
+      "canonical_id": "naredba-1-2007-podzemni-vodi"
+    },
+    {
+      "path": "_source/originals/naredba_9_dop_23_01_2026.pdf",
+      "sha256": "948a65bc2cee0bfca8f671fb732a36816a1847e5a21bbfd22fcab603b1959a4e",
+      "bytes": 348089,
+      "role": "original",
+      "canonical_id": "naredba-9-2001"
+    },
+    {
+      "path": "_source/originals/zakon_za_vodite_16062026.pdf",
+      "sha256": "3e053eadc66a382d3beb0c948645f43fc864677b7ae5620d10b459806b48df5a",
+      "bytes": 1363421,
+      "role": "original",
+      "canonical_id": "zakon-za-vodite"
+    },
+    {
+      "path": "_source/originals/Държавен вестник 2.pdf",
+      "sha256": "0ad3f4206e4bb6dead36200d44c6ddb15c6a4e97d0e4c8bb1f11e8884a74cbde",
+      "bytes": 557282,
+      "role": "original",
+      "canonical_id": "naredba-2-2011-razreshitelni-zaustvane"
+    },
+    {
+      "path": "_source/originals/Държавен вестник.pdf",
+      "sha256": "d0fedc675ec78ac609e9a79a307f0df5b69bf90b288fbb20b6207a42f43f1f2d",
+      "bytes": 261837,
+      "role": "original",
+      "canonical_id": "rd-02-20-1-2020"
+    },
+    {
+      "path": "_source/originals/ЗАКОН ЗА УСТРОЙСТВО НА ТЕРИТОРИЯТА1db4631404ede7c63c35e70ecdc31498.docx",
+      "sha256": "cf73202156baf7ec1731f684044b53b52d208ce4515378cabdd5c9e0fcef5f6a",
+      "bytes": 328127,
+      "role": "original",
+      "canonical_id": "zut"
+    },
+    {
+      "path": "_source/originals/НАРЕДБА № 1 от 30 юли 2003 г. за номенклатурата на видовете строежиf004bb4d7d70fda218fd000e7d57e0a5.docx",
+      "sha256": "b41a4c7c49e7ec3d840c0c0af97230fbf1fb834e8199b41f02b8554a09442a08",
+      "bytes": 31097,
+      "role": "original",
+      "canonical_id": "naredba-1-2003-nomenklatura-stroeji"
+    },
+    {
+      "path": "_source/originals/НАРЕДБА № Iз-1971 ОТ 29 ОКТОМВРИ 2009 Г. ЗА СТРОИТЕЛНО-ТЕХНИЧЕСКИ ПРАВИЛА И НОРМИ ЗА ОСИГУРЯВАНЕ НА b492fc78d245f9a373fc8de4a3036d28.docx",
+      "sha256": "475e8fca23f56aefdb7be9f0d37d8bba97f5527db3310b53cf6a29d63920bb35",
+      "bytes": 756741,
+      "role": "original",
+      "canonical_id": "naredba-iz-1971-2009"
+    },
+    {
+      "path": "_source/originals/Наредба инветиционни проекти70ae1836aabe37bd404232174c1799f2.doc",
+      "sha256": "c7b2e416691ad6bbf8d1a468539659b3e2382449b4fbea4246957923b7c024c7",
+      "bytes": 336384,
+      "role": "original",
+      "canonical_id": "naredba-4-2001-investicionni-proekti"
+    },
+    {
+      "path": "_source/originals/Наредба № 3 от 31 юли 2003 г. за съставяне на актове и протоколи по време на строителствотоf1e6837254f5655698280f20ab74e0f7.docx",
+      "sha256": "5883a910f90ef8360217fa03363e89b70a9c2f975661f0e7fdc24bd97ce1ed63",
+      "bytes": 100652,
+      "role": "original",
+      "canonical_id": "naredba-3-2003-aktove-protokoli"
+    },
+    {
+      "path": "_source/originals/Наредба № 4 от 14 септември 2004 г. за условията и реда за присъединяване на потребителите и за ползване н1a36d2c1833c86cffe802a330e26bb12.docx",
+      "sha256": "6c02eba629850efe0cc81a05561a5582bd42f9540e2a1e10b38395cfddfb1f20",
+      "bytes": 44377,
+      "role": "original",
+      "canonical_id": "naredba-4-2004-prisaedinyavane"
+    },
+    {
+      "path": "_source/originals/Наредба_№6_за_емисионни_норми_за_допустимото_съдържание_на_вредни_и_опасни_вещества_в_отпадъчните_води,_зауствани_във_водни_обекти.pdf",
+      "sha256": "54934c36a8fa790fb8e482917295b53a5f9941d11a31d96aaf8de714db111981",
+      "bytes": 369381,
+      "role": "original",
+      "canonical_id": "naredba-6-2000"
+    },
+    {
+      "path": "_source/originals/Наредба_№7_за_условията_и_реда_за_заустване_на_производствени_отпадъчни_води_в_канализационните_системи_на_населените_места.pdf",
+      "sha256": "ce4bd3d09bd4322252138e7be5fcfa570f4a3c71828984338f334089458d20bb",
+      "bytes": 164246,
+      "role": "original",
+      "canonical_id": "naredba-7-2000"
+    },
+    {
+      "path": "_source/originals/наредба-8-от-1999-г-за-правила-и-норми-за-разполагане-на-технически-проводи-и-съоръжения-в-населени-места.pdf",
+      "sha256": "dfadf623a7bc042ac3099b6ff5fc0e6a0892080f8a05813049c8d89e0cfce042",
+      "bytes": 285981,
+      "role": "original",
+      "canonical_id": "naredba-8-1999"
+    },
+    {
+      "path": "_source/extracted/ViK sgradi 17.06.DV.doc",
+      "sha256": "84bd585c7439b348c2ec66dd00bc69551c839e0aa5507563978650614e417b5f",
+      "bytes": 711168,
+      "role": "extracted",
+      "canonical_id": "naredba-4-2005-sgradni-vik"
+    },
+    {
+      "path": "_source/extracted/Приложения към Наредба №4/ViKpril 8 DV.doc",
+      "sha256": "62f21a22421894867b51db7ba6d745e5d1c1532692de2cbf6dece51bda98f3fa",
+      "bytes": 34816,
+      "role": "extracted",
+      "canonical_id": "naredba-4-2005-sgradni-vik"
+    },
+    {
+      "path": "_source/extracted/Приложения към Наредба №4/ViKpril 11 DV.doc",
+      "sha256": "1a5539a097c1a94c192eb4fddb457c3a3beeec2cc5f23fc00f92d0aa72ec3f0b",
+      "bytes": 32256,
+      "role": "extracted",
+      "canonical_id": "naredba-4-2005-sgradni-vik"
+    },
+    {
+      "path": "_source/extracted/Приложения към Наредба №4/ViKpril 4 DV.doc",
+      "sha256": "6053c2b13390d552e49087d74da8d6e0873fc631118e96d32ea2536a7974782a",
+      "bytes": 41472,
+      "role": "extracted",
+      "canonical_id": "naredba-4-2005-sgradni-vik"
+    },
+    {
+      "path": "_source/extracted/Приложения към Наредба №4/ViKpril 6 DV.doc",
+      "sha256": "884339c08a1b4a8153d26cd2cab3cc80d3ec10ca3929c75fa620436d5937c251",
+      "bytes": 104448,
+      "role": "extracted",
+      "canonical_id": "naredba-4-2005-sgradni-vik"
+    },
+    {
+      "path": "_source/extracted/Приложения към Наредба №4/ViKpril 1DV.doc",
+      "sha256": "6265be9880c5540c98b594f2537f1eed07506f96ff2659ed05b291fb7c05aa74",
+      "bytes": 52224,
+      "role": "extracted",
+      "canonical_id": "naredba-4-2005-sgradni-vik"
+    },
+    {
+      "path": "_source/extracted/Приложения към Наредба №4/ViKpril 2 DV.doc",
+      "sha256": "e93b6c524763b39389cd303f59803cb90f35c529a2ab91539b5c581cc86b330a",
+      "bytes": 33792,
+      "role": "extracted",
+      "canonical_id": "naredba-4-2005-sgradni-vik"
+    },
+    {
+      "path": "_source/extracted/Приложения към Наредба №4/ViKpril 3DV.doc",
+      "sha256": "92b35bd498346aa29acb3899c06a906b70d56741bfe97f12874164b86c3a10d9",
+      "bytes": 126976,
+      "role": "extracted",
+      "canonical_id": "naredba-4-2005-sgradni-vik"
+    },
+    {
+      "path": "_source/extracted/Приложения към Наредба №4/ViKpril 9 DV.doc",
+      "sha256": "9705914476cfab8d40fc1af480d5a5aa01cba48cc5059ee5fd68b6346dddc919",
+      "bytes": 74240,
+      "role": "extracted",
+      "canonical_id": "naredba-4-2005-sgradni-vik"
+    },
+    {
+      "path": "_source/extracted/Приложения към Наредба №4/ViKpril 5 DV.doc",
+      "sha256": "7407e7315061eac911deb695bf5cbcd60356a6f567d1e4034caf9517e18a49ac",
+      "bytes": 47104,
+      "role": "extracted",
+      "canonical_id": "naredba-4-2005-sgradni-vik"
+    },
+    {
+      "path": "_source/extracted/Приложения към Наредба №4/ViKpril 10 DV.doc",
+      "sha256": "43771920b0cf0f42e53a68b278e6b83232a481dc1ad769ebf1e8be3b2dc7ff4a",
+      "bytes": 52736,
+      "role": "extracted",
+      "canonical_id": "naredba-4-2005-sgradni-vik"
+    },
+    {
+      "path": "_source/extracted/Приложения към Наредба №4/ViKpril 7 DV.doc",
+      "sha256": "d1dc11a7ed3149e3b5fc4db32a003a2267b9d8e58a7ce40da701078e1454182e",
+      "bytes": 174592,
+      "role": "extracted",
+      "canonical_id": "naredba-4-2005-sgradni-vik"
+    },
+    {
+      "path": "_source/extracted/Приложения към Наредба №4/ViKpril 12 DV.doc",
+      "sha256": "e9263beb3bc0c57c1e6adaf9da2dc3338ad19e6f6133eccb7fa884217026bb72",
+      "bytes": 121856,
+      "role": "extracted",
+      "canonical_id": "naredba-4-2005-sgradni-vik"
+    }
+  ]
+}

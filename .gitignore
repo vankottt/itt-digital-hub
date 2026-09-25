@@ -50,11 +50,14 @@ yarn-error.log*
 supabase/.temp/
 
 # Build artifacts only. Tools/Land Scope is part of this site.
+# The ВиК knowledge base under Tools/WSS - AI Asistant/ is tracked.
 Tools/**/node_modules/
 Tools/**/dist/
 Tools/**/.wrangler/
 Tools/**/.playwright-cli/
 Tools/**/coverage/
+Tools/**/__pycache__/
+Tools/**/_cache/
 
 # Agent platform: local secrets, Wrangler state, and tunnel credentials.
 # Examples (*.example) stay tracked.

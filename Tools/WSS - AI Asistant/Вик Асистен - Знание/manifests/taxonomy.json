@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "description": "Контролиран речник за ВиК knowledge base. Един документ може да има повече от един domain.",
+  "domains": [
+    {
+      "id": "building_water",
+      "label_bg": "Сградни водопроводни инсталации",
+      "label_en": "Building water supply"
+    },
+    {
+      "id": "building_drainage",
+      "label_bg": "Сградни канализационни инсталации",
+      "label_en": "Building drainage"
+    },
+    {
+      "id": "external_water",
+      "label_bg": "Външни водоснабдителни мрежи",
+      "label_en": "External water supply"
+    },
+    {
+      "id": "external_sewer",
+      "label_bg": "Външни канализационни системи",
+      "label_en": "External sewerage"
+    },
+    {
+      "id": "stormwater",
+      "label_bg": "Дъждовни води",
+      "label_en": "Stormwater"
+    },
+    {
+      "id": "wastewater",
+      "label_bg": "Отпадъчни води",
+      "label_en": "Wastewater"
+    },
+    {
+      "id": "drinking_water",
+      "label_bg": "Питейна вода",
+      "label_en": "Drinking water"
+    },
+    {
+      "id": "groundwater",
+      "label_bg": "Подземни води",
+      "label_en": "Groundwater"
+    },
+    {
+      "id": "water_sources",
+      "label_bg": "Водоизточници",
+      "label_en": "Water sources"
+    },
+    {
+      "id": "sanitary_protection",
+      "label_bg": "Санитарно-охранителни зони",
+      "label_en": "Sanitary protection zones"
+    },
+    {
+      "id": "fire_water",
+      "label_bg": "Пожарогасене и противопожарна безопасност",
+      "label_en": "Fire safety"
+    },
+    {
+      "id": "utility_layout",
+      "label_bg": "Разполагане на технически проводи",
+      "label_en": "Utility layout"
+    },
+    {
+      "id": "easements",
+      "label_bg": "Сервитути",
+      "label_en": "Easements"
+    },
+    {
+      "id": "connections",
+      "label_bg": "Присъединяване към ВиК системи",
+      "label_en": "Service connections"
+    },
+    {
+      "id": "investment_design",
+      "label_bg": "Инвестиционно проектиране",
+      "label_en": "Investment design"
+    },
+    {
+      "id": "construction",
+      "label_bg": "Строителство и устройство на територията",
+      "label_en": "Construction"
+    },
+    {
+      "id": "permits",
+      "label_bg": "Разрешителни режими",
+      "label_en": "Permits"
+    },
+    {
+      "id": "discharge",
+      "label_bg": "Заустване",
+      "label_en": "Discharge"
+    },
+    {
+      "id": "water_supply",
+      "label_bg": "Водоснабдителни системи",
+      "label_en": "Water supply systems"
+    },
+    {
+      "id": "pumping",
+      "label_bg": "Помпени станции",
+      "label_en": "Pumping stations"
+    },
+    {
+      "id": "reservoirs",
+      "label_bg": "Регулиращи водонапорни съоръжения",
+      "label_en": "Storage reservoirs"
+    }
+  ]
+}

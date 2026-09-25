@@ -1,0 +1,125 @@
+{
+  "documents": 17,
+  "problems": [],
+  "article_counts": [
+    {
+      "id": "naredba-4-2005-sgradni-vik",
+      "source": 263,
+      "knowledge": 263,
+      "formulas": 41,
+      "tables": 18
+    },
+    {
+      "id": "rd-02-20-8-2013",
+      "source": 208,
+      "knowledge": 208,
+      "formulas": 0,
+      "tables": 26
+    },
+    {
+      "id": "naredba-8-1999",
+      "source": 13,
+      "knowledge": 13,
+      "formulas": 0,
+      "tables": 0
+    },
+    {
+      "id": "rd-02-20-1-2020",
+      "source": 17,
+      "knowledge": 17,
+      "formulas": 0,
+      "tables": 3
+    },
+    {
+      "id": "naredba-4-2004-prisaedinyavane",
+      "source": 57,
+      "knowledge": 57,
+      "formulas": 0,
+      "tables": 0
+    },
+    {
+      "id": "naredba-4-2001-investicionni-proekti",
+      "source": 150,
+      "knowledge": 150,
+      "formulas": 0,
+      "tables": 0
+    },
+    {
+      "id": "zut",
+      "source": 285,
+      "knowledge": 285,
+      "formulas": 0,
+      "tables": 0
+    },
+    {
+      "id": "naredba-1-2003-nomenklatura-stroeji",
+      "source": 15,
+      "knowledge": 15,
+      "formulas": 0,
+      "tables": 0
+    },
+    {
+      "id": "naredba-3-2003-aktove-protokoli",
+      "source": 10,
+      "knowledge": 10,
+      "formulas": 0,
+      "tables": 18
+    },
+    {
+      "id": "zakon-za-vodite",
+      "source": 338,
+      "knowledge": 338,
+      "formulas": 0,
+      "tables": 0
+    },
+    {
+      "id": "naredba-iz-1971-2009",
+      "source": 676,
+      "knowledge": 676,
+      "formulas": 0,
+      "tables": 150
+    },
+    {
+      "id": "naredba-9-2001",
+      "source": 37,
+      "knowledge": 37,
+      "formulas": 0,
+      "tables": 23
+    },
+    {
+      "id": "naredba-3-2000-soz",
+      "source": 55,
+      "knowledge": 55,
+      "formulas": 0,
+      "tables": 6
+    },
+    {
+      "id": "naredba-6-2000",
+      "source": 21,
+      "knowledge": 21,
+      "formulas": 0,
+      "tables": 6
+    },
+    {
+      "id": "naredba-7-2000",
+      "source": 10,
+      "knowledge": 10,
+      "formulas": 0,
+      "tables": 0
+    },
+    {
+      "id": "naredba-2-2011-razreshitelni-zaustvane",
+      "source": 40,
+      "knowledge": 40,
+      "formulas": 0,
+      "tables": 5
+    },
+    {
+      "id": "naredba-1-2007-podzemni-vodi",
+      "source": 184,
+      "knowledge": 184,
+      "formulas": 0,
+      "tables": 2
+    }
+  ]
+}

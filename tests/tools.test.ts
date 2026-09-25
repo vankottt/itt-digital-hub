@@ -30,6 +30,10 @@ describe("tools catalogue", () => {
     expect(toolsFor("en")[2]?.href).toBe("/en/pipe-thermal-analysis");
     expect(toolsFor("en")[2]?.image).toContain("pipe-thermal-analysis-card-en");
     expect(toolsFor("bg")[2]?.image).toContain("pipe-thermal-analysis-card-bg");
+    expect(toolsFor("bg")[3]?.id).toBe("vik-designer");
+    expect(toolsFor("bg")[3]?.href).toBe("/bg/vik-designer");
+    expect(toolsFor("en")[3]?.href).toBe("/en/vik-designer");
+    expect(toolsFor("bg")[3]?.image).toBe("/tools/vik-designer-card.svg");
   });
 
   it("does not point the analyzer card at an external site", () => {

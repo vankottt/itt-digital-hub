@@ -1,0 +1,440 @@
+{
+  "version": 1,
+  "documents": [
+    {
+      "document_id": "naredba-3-2000-soz",
+      "limitations": [
+        {
+          "location": "графични приложения",
+          "type": "diagram",
+          "status": "image_only",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false,
+          "note": "Числовите стойности не са преписвани от изображението."
+        }
+      ]
+    },
+    {
+      "document_id": "naredba-4-2005-sgradni-vik",
+      "limitations": [
+        {
+          "location": "Чл. 33.",
+          "type": "equation",
+          "count": 1,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Чл. 84.",
+          "type": "equation",
+          "count": 1,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Чл. 85.",
+          "type": "equation",
+          "count": 1,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Чл. 103.",
+          "type": "equation",
+          "count": 1,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Чл. 107.",
+          "type": "equation",
+          "count": 3,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Приложение № 4",
+          "type": "equation",
+          "count": 5,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Приложение № 5",
+          "type": "equation",
+          "count": 5,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Приложение № 6",
+          "type": "equation",
+          "count": 1,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Приложение № 8",
+          "type": "equation",
+          "count": 1,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Приложение № 11",
+          "type": "equation",
+          "count": 2,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "приложения с клетъчен текст",
+          "type": "table",
+          "status": "preserved_as_cell_text",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false,
+          "note": "Автоматичната решетка губеше стойности, затова клетките са запазени без подравняване."
+        }
+      ]
+    },
+    {
+      "document_id": "naredba-8-1999",
+      "limitations": [
+        {
+          "location": "графични приложения",
+          "type": "diagram",
+          "status": "image_only",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false,
+          "note": "Числовите стойности не са преписвани от изображението."
+        }
+      ]
+    },
+    {
+      "document_id": "rd-02-20-2-2024",
+      "limitations": [
+        {
+          "location": "графични приложения",
+          "type": "diagram",
+          "status": "image_only",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false,
+          "note": "Числовите стойности не са преписвани от изображението."
+        }
+      ]
+    },
+    {
+      "document_id": "rd-02-20-8-2013",
+      "limitations": [
+        {
+          "location": "Чл. 16.",
+          "type": "figure",
+          "count": 4,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Чл. 17.",
+          "type": "figure",
+          "count": 1,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Чл. 19.",
+          "type": "figure",
+          "count": 1,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Приложение № 2 към чл. 6, ал. 2, чл. 18 и чл. 156, т. 3",
+          "type": "figure",
+          "count": 3,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Приложение № 9 към чл. 39, ал. 2",
+          "type": "figure",
+          "count": 1,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Приложение № 12а към чл. 138 и чл. 141, ал. 1",
+          "type": "figure",
+          "count": 1,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Приложение № 13 към чл. 152, ал. 1",
+          "type": "figure",
+          "count": 1,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        }
+      ]
+    },
+    {
+      "document_id": "naredba-iz-1971-2009",
+      "limitations": [
+        {
+          "location": "Чл. 14.",
+          "type": "figure",
+          "count": 10,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Чл. 16.",
+          "type": "figure",
+          "count": 1,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Чл. 19.",
+          "type": "figure",
+          "count": 1,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Чл. 20.",
+          "type": "figure",
+          "count": 4,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Чл. 27.",
+          "type": "figure",
+          "count": 1,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Чл. 30.",
+          "type": "figure",
+          "count": 1,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Чл. 37.",
+          "type": "figure",
+          "count": 2,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Чл. 40.",
+          "type": "figure",
+          "count": 2,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Чл. 44.",
+          "type": "figure",
+          "count": 6,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Чл. 45.",
+          "type": "figure",
+          "count": 4,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Чл. 48.",
+          "type": "figure",
+          "count": 1,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Чл. 52.",
+          "type": "figure",
+          "count": 2,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Чл. 64.",
+          "type": "figure",
+          "count": 2,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Чл. 76.",
+          "type": "figure",
+          "count": 5,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Чл. 120.",
+          "type": "figure",
+          "count": 1,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Чл. 274.",
+          "type": "figure",
+          "count": 1,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Чл. 335.",
+          "type": "figure",
+          "count": 1,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Чл. 350а.",
+          "type": "figure",
+          "count": 1,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Приложение № 6 към чл. 14, ал. 8",
+          "type": "figure",
+          "count": 2,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Приложение № 8 към чл. 12, ал. 8, чл. 14, ал. 31 и 32, чл. 16, ал. 11, чл. 19, ал. 3, т. 4 и чл. 330, ал. 5",
+          "type": "figure",
+          "count": 6,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Приложение № 8а към чл. 58, ал. 2",
+          "type": "figure",
+          "count": 9,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Приложение № 9 към чл. 123, ал. 4",
+          "type": "figure",
+          "count": 1,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Приложение № 10 към чл. 253, ал. 2",
+          "type": "figure",
+          "count": 1,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        },
+        {
+          "location": "Приложение № 11 към чл. 308, ал. 2",
+          "type": "figure",
+          "count": 15,
+          "status": "not_machine_extracted",
+          "source_asset_available": true,
+          "safe_for_text_answer": true,
+          "safe_for_numeric_answer": false
+        }
+      ]
+    }
+  ]
+}

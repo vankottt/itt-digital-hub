@@ -1,0 +1,27 @@
+{
+  "retrieved_at": "2026-09-24",
+  "documents": {
+    "rd-02-20-2-2024": {
+      "source_url": "https://www.mrrb.bg/static/media/ups/articles/attachments/Наредба РД-02-20-21971393f81f5a9c7410c89bba59bd1ef.pdf",
+      "source_page": "https://www.mrrb.bg/bg/naredba-rd-02-20-2-ot-2024-g-za-proektirane-izgrajdane-i-eksploataciya-na-vodosnabditelni-sistemi/",
+      "source_domain": "mrrb.bg",
+      "source_type": "official",
+      "institution": "Министерство на регионалното развитие и благоустройството",
+      "retrieved_at": "2026-09-24",
+      "filename": "naredba-rd-02-20-2-2024-mrrb.pdf",
+      "sha256": "04320d798c4bf628930b5b63ce265f800f39a895eb59310c7fbd15474b0f9caf",
+      "why_canonical": "Официален файл на издателя. В прегледа не е намерено по-ново изменение на тази наредба."
+    },
+    "naredba-1-2007-podzemni-vodi": {
+      "source_url": "https://www.moew.government.bg/static/media/ups/tiny/Vodi/zakonodatelstvo/Naredba%201%20podzemni%20vodi%202007.pdf",
+      "source_page": "https://www.moew.government.bg/",
+      "source_domain": "moew.government.bg",
+      "source_type": "official",
+      "institution": "Министерство на околната среда и водите",
+      "retrieved_at": "2026-09-24",
+      "filename": "naredba-1-2007-podzemni-vodi-moew.pdf",
+      "sha256": "d898a1bfcd18575b33165a85ce683786f1c829bf0dbe863a2c909f565a5cde54",
+      "why_canonical": "Официален PDF с изменения до ДВ, бр. 102 от 23.12.2016 г. Заменя локалния текст само с първоначалното обнародване."
+    }
+  }
+}
