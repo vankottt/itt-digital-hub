@@ -7,6 +7,7 @@ import { href } from "@/lib/paths";
 import { vikDesigner as copy } from "@/content/vik-designer";
 import { mapPlatformError, postAgent } from "@/lib/agent-platform/client";
 import { VIK_CHAT_PATH, VIK_HISTORY_LIMIT, VIK_SESSION_STORAGE_KEY } from "@/lib/vik-designer/client";
+import { AnswerBody } from "@/components/vik-designer/AnswerBody";
 import { Container } from "@/components/layout/Container";
 import { Button } from "@/components/ui/ButtonLink";
 import { ArrowRight } from "@/components/ui/Icons";
@@ -125,7 +126,7 @@ export function VikDesignerAssistant({ locale }: { locale: Locale }) {
             <ArrowRight className="shrink-0 rotate-180" />
             <span className="underline decoration-line-strong underline-offset-[4px] group-hover:decoration-amber">{copy.back[locale]}</span>
           </Link>
-          <p className="mt-3 text-h3 text-pretty text-ink">{copy.title[locale]}</p>
+          <h1 className="mt-3 text-h3 text-pretty text-ink">{copy.title[locale]}</h1>
           <p className="mt-1 text-small text-ink-2">{copy.subtitle[locale]}</p>
         </Container>
       </div>
@@ -166,7 +167,9 @@ export function VikDesignerAssistant({ locale }: { locale: Locale }) {
                       <div className="rounded-[1.25rem] border border-line bg-white px-4 py-4 shadow-[inset_3px_0_0_0_var(--color-signal)] md:px-5">
                         <p className="label text-signal">{copy.assistant[locale]}</p>
                         {turn.status === "pending" ? (
-                          <p className="mt-2 text-small text-ink-3">{copy.generating[locale]}</p>
+                          <p className="mt-2 text-small text-ink-3" role="status">
+                            {copy.generating[locale]}
+                          </p>
                         ) : turn.status === "error" ? (
                           <div className="mt-2">
                             <p className="text-small text-ink-2">{errorCopy(locale, turn.errorCode)}</p>
@@ -175,7 +178,7 @@ export function VikDesignerAssistant({ locale }: { locale: Locale }) {
                             </button>
                           </div>
                         ) : (
-                          <p className="mt-2 whitespace-pre-wrap text-body text-ink">{turn.content}</p>
+                          <AnswerBody markdown={turn.content} sourceLabel={copy.source[locale]} />
                         )}
                       </div>
                     </li>

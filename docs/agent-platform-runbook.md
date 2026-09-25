@@ -161,3 +161,19 @@ curl -sS -X POST https://api.ittdigitalhub.org/v1/agents/mock/chat \
 6. Run `npm run agent-platform:test`.
 
 `mock` and `example` are the reference skeletons. `example` is disabled so dispatch must not call it.
+
+## Restore the production hub
+
+`https://api.ittdigitalhub.org` already proxies to `https://agent.ittdigitalhub.org`. That hostname reaches the hub on this machine through the existing tunnel. No DNS change is required. From the repository root:
+
+```sh
+npm run agent-hub:start
+curl -sS http://127.0.0.1:8788/health
+cloudflared tunnel --config platform/tunnel/config.yml run
+curl -sS https://agent.ittdigitalhub.org/health
+curl -sS https://api.ittdigitalhub.org/v1/health
+```
+
+Expected hub and gateway bodies are `{"status":"ok","service":"itt-agent-hub"}` and `{"status":"ok","service":"itt-agent-gateway"}`.
+
+To restart, stop the hub process listening on `127.0.0.1:8788` and the `cloudflared` process started with `platform/tunnel/config.yml`, then run the same two start commands. Check the two health URLs before a demonstration. A Cloudflare `1033` on `agent.ittdigitalhub.org` means the tunnel is not connected.

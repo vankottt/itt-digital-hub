@@ -77,13 +77,13 @@ const catalog: ToolSource[] = [
     title: { bg: "ВиК Проектант", en: "WSS Designer" },
     category: { bg: "ВиК · Норми", en: "WSS · Rules" },
     description: {
-      bg: "Нормативен асистент за справка във ВиК наредбите: водоснабдяване, канализация, присъединяване и свързани изисквания.",
-      en: "A normative assistant for Bulgarian water and sewerage rules: supply, sewerage, connections and related requirements.",
+      bg: "Нормативна справка за водоснабдяване, канализация, присъединяване и свързани изисквания.",
+      en: "A normative lookup for water supply, sewerage, connections and related requirements.",
     },
     image: { bg: "/tools/vik-designer-card.svg", en: "/tools/vik-designer-card.svg" },
     imageAlt: {
-      bg: "Геометрична схема на водопроводна мрежа върху тъмен фон.",
-      en: "Geometric diagram of a water network on a dark background.",
+      bg: "Техническа схема на водопроводна мрежа: магистрали, отклонения и възли.",
+      en: "Technical drawing of a water network: mains, branches and nodes.",
     },
     hrefKey: "vik-designer",
   },
