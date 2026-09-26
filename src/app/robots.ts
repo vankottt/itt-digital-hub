@@ -10,7 +10,16 @@ export default function robots(): MetadataRoute.Robots {
         ? {
             userAgent: "*",
             allow: "/",
-            disallow: ["/admin", "/admin/", "/preview", "/preview/"],
+            disallow: [
+              "/admin",
+              "/admin/",
+              "/preview",
+              "/preview/",
+              "/bg/vik-designer",
+              "/en/vik-designer",
+              "/bg/ai-act-agent",
+              "/en/ai-act-agent",
+            ],
           }
         : {
             userAgent: "*",

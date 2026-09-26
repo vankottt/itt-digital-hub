@@ -15,5 +15,6 @@ export function robotsDirective(indexable: boolean): { index: boolean; follow: b
 }
 
 export function isAlwaysNoIndexPath(pathname: string): boolean {
-  return pathname === "/admin" || pathname.startsWith("/admin/") || pathname === "/preview" || pathname.startsWith("/preview/");
+  if (pathname === "/admin" || pathname.startsWith("/admin/") || pathname === "/preview" || pathname.startsWith("/preview/")) return true;
+  return /^\/(bg|en)\/ai-act-agent(?:\/|$)/.test(pathname);
 }

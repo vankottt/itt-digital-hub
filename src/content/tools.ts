@@ -9,9 +9,13 @@ type ToolSource = {
   description: L;
   image: L;
   imageAlt: L;
-  hrefKey?: "ai-act-agent" | "settlement-analyzer" | "pipe-thermal-analysis" | "vik-designer" | "vik-proektant";
+  hrefKey?: "ai-act" | "ai-act-agent" | "settlement-analyzer" | "pipe-thermal-analysis" | "vik-designer" | "vik-proektant";
   status?: L;
   external?: boolean;
+  /** Kept in source, omitted from the public catalogue. */
+  hidden?: boolean;
+  /** Extra path segment, so a card can open a nested page directly. */
+  hrefSlug?: string;
 };
 
 export type ToolItem = {
@@ -28,19 +32,50 @@ export type ToolItem = {
 
 const catalog: ToolSource[] = [
   {
+    id: "vik-proektant",
+    title: { bg: "ВиК Проектант", en: "ViK Projektant" },
+    category: { bg: "ВиК · Работен процес", en: "WSS · Workflow" },
+    description: {
+      bg: "Помага при въпроси за водоснабдяване и канализация. Намира изискванията в наредбите и смята по подадените данни.",
+      en: "Helps with water supply and sewerage questions. Finds the requirements in the ordinances and calculates from the data you provide.",
+    },
+    image: { bg: "/tools/vik-proektant-card.jpg", en: "/tools/vik-proektant-card.jpg" },
+    imageAlt: {
+      bg: "Илюстрация на ВиК Проектант: нормативна уредба, водопровод и канализационна шахта.",
+      en: "ViK Projektant illustration: a regulation, water pipes and a sewer manhole.",
+    },
+    hrefKey: "vik-proektant",
+    hrefSlug: "compare",
+  },
+  {
+    id: "pipe-thermal-analysis",
+    title: { bg: "Топлинен анализ на тръбопроводи", en: "Pipe Thermal Analysis" },
+    category: { bg: "Инженерство · Модели", en: "Engineering · Models" },
+    description: {
+      bg: "Анализира изстиването и топлинните загуби в изолиран PE тръбопровод и показва как температурата се променя с времето.",
+      en: "Analyses cooling and heat loss in an insulated PE pipeline and shows how temperature changes over time.",
+    },
+    image: { bg: "/tools/pipe-thermal-analysis-hero.jpg", en: "/tools/pipe-thermal-analysis-hero.jpg" },
+    imageAlt: {
+      bg: "Изолиран полиетиленов тръбопровод върху стоманени опори.",
+      en: "Insulated polyethylene pipeline on steel supports.",
+    },
+    hrefKey: "pipe-thermal-analysis",
+  },
+  {
     id: "ai-act-assistant",
     title: { bg: "AI Act асистент", en: "AI Act Assistant" },
     category: { bg: "AI · Регулации", en: "AI · Regulation" },
     description: {
-      bg: "Практически асистент за ориентиране в AI Act и пример как се изгражда специализиран AI агент със собствени инструкции, източници и проверки.",
-      en: "A practical AI Act assistant and an example of how a specialized AI agent is built with its own instructions, sources and validation.",
+      bg: "Сравнява общ AI модел със специализиран ход за AI Act: нормативни източници, роли и приложимост.",
+      en: "Compares a general AI model with a specialized AI Act workflow: authoritative sources, roles and applicability.",
     },
     image: { bg: "/tools/ai-act-assistant-card-bg.png", en: "/tools/ai-act-assistant-card-en.png" },
     imageAlt: {
       bg: "Интерфейс на AI Act асистента с примерни въпроси и поле за въвеждане.",
       en: "AI Act Assistant interface with starter questions and an input field.",
     },
-    hrefKey: "ai-act-agent",
+    hrefKey: "ai-act",
   },
   {
     id: "settlement-analyzer",
@@ -58,21 +93,6 @@ const catalog: ToolSource[] = [
     hrefKey: "settlement-analyzer",
   },
   {
-    id: "pipe-thermal-analysis",
-    title: { bg: "Топлинен анализ на тръбопроводи", en: "Pipe Thermal Analysis" },
-    category: { bg: "Инженерство · Модели", en: "Engineering · Models" },
-    description: {
-      bg: "Анализира изстиването и топлинните загуби в изолиран PE тръбопровод и показва как температурата се променя с времето.",
-      en: "Analyses cooling and heat loss in an insulated PE pipeline and shows how temperature changes over time.",
-    },
-    image: { bg: "/tools/pipe-thermal-analysis-card-bg.svg", en: "/tools/pipe-thermal-analysis-card-en.svg" },
-    imageAlt: {
-      bg: "Интерфейс на топлинния анализ: параметри, показатели и крива на температурата с времето.",
-      en: "Pipe Thermal Analysis interface: parameters, indicators and a temperature-over-time curve.",
-    },
-    hrefKey: "pipe-thermal-analysis",
-  },
-  {
     id: "vik-designer",
     title: { bg: "ВиК Проектант", en: "WSS Designer" },
     category: { bg: "ВиК · Норми", en: "WSS · Rules" },
@@ -86,33 +106,19 @@ const catalog: ToolSource[] = [
       en: "Technical drawing of a water network: mains, branches and nodes.",
     },
     hrefKey: "vik-designer",
-  },
-  {
-    id: "vik-proektant",
-    title: { bg: "ВиК Проектант V2", en: "ViK Projektant V2" },
-    category: { bg: "ВиК · Работен процес", en: "WSS · Workflow" },
-    description: {
-      bg: "Специализиран ход за ВиК проектиране върху общ AI модел: източници, проверки и изчисления. Съществуващата нормативна справка остава отделно.",
-      en: "A specialized water and sewerage workflow on a general AI model: sources, checks and calculations. The existing normative lookup stays separate.",
-    },
-    image: { bg: "/tools/vik-proektant-card.jpg", en: "/tools/vik-proektant-card.jpg" },
-    imageAlt: {
-      bg: "Илюстрация на ВиК Проектант: нормативна уредба, водопровод и канализационна шахта.",
-      en: "ViK Projektant illustration: a regulation, water pipes and a sewer manhole.",
-    },
-    hrefKey: "vik-proektant",
+    hidden: true,
   },
 ];
 
 export function toolsFor(locale: Locale): ToolItem[] {
-  return catalog.map((item) => ({
+  return catalog.filter((item) => !item.hidden).map((item) => ({
     id: item.id,
     title: item.title[locale],
     category: item.category[locale],
     description: item.description[locale],
     image: item.image[locale],
     imageAlt: item.imageAlt[locale],
-    href: item.hrefKey ? href(locale, item.hrefKey) : undefined,
+    href: item.hrefKey ? href(locale, item.hrefKey, item.hrefSlug) : undefined,
     status: item.status?.[locale],
     external: item.external,
   }));

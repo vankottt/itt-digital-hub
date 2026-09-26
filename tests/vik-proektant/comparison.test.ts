@@ -35,6 +35,7 @@ describe("comparison fairness", () => {
     expect(control).not.toContain("calculate_pipe_diameter");
     expect(control).not.toContain("/api/mcp/vik");
     expect(requests.control.instructions).toBe(CONTROL_INSTRUCTIONS);
+    expect(requests.control.instructions.toLowerCase()).not.toMatch(/vik|itt|наредба|водопровод/);
     expect(expert).toContain("search_vik_knowledge");
     expect(requests.expert.tools?.[0]?.server_url).toBe("https://ittdigitalhub.org/api/mcp/vik");
     expect(requests.expert.tools?.[0]?.allowed_tools).toContain("get_vik_reference");

@@ -14,6 +14,9 @@ describe("indexing policy", () => {
     expect(isAlwaysNoIndexPath("/admin/projects/x")).toBe(true);
     expect(isAlwaysNoIndexPath("/preview/en/x")).toBe(true);
     expect(isAlwaysNoIndexPath("/en")).toBe(false);
+    expect(isAlwaysNoIndexPath("/bg/ai-act-agent")).toBe(true);
+    expect(isAlwaysNoIndexPath("/en/ai-act-agent/use")).toBe(true);
+    expect(isAlwaysNoIndexPath("/bg/ai-act")).toBe(false);
   });
 
   it("maps to robots metadata", () => {

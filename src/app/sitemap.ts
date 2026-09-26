@@ -14,11 +14,9 @@ const staticRoutes: Array<{ key: RouteKey; priority: number }> = [
   { key: "people", priority: 0.8 },
   { key: "work-with-us", priority: 0.8 },
   { key: "privacy", priority: 0.3 },
-  { key: "ai-act-agent", priority: 0.8 },
+  { key: "ai-act", priority: 0.8 },
   { key: "settlement-analyzer", priority: 0.8 },
   { key: "pipe-thermal-analysis", priority: 0.8 },
-  { key: "vik-designer", priority: 0.8 },
-  { key: "vik-proektant", priority: 0.8 },
 ];
 
 function entry(key: RouteKey, priority: number, slug?: string): MetadataRoute.Sitemap {
@@ -38,10 +36,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const projects = (await listPublishedProjects().catch(() => seedProjects)) ?? seedProjects;
   return [
     ...staticRoutes.flatMap((r) => entry(r.key, r.priority)),
-    ...entry("ai-act-agent", 0.7, "use"),
-    ...entry("ai-act-agent", 0.7, "build"),
+    ...entry("ai-act", 0.8, "compare"),
     ...entry("settlement-analyzer", 0.5, "privacy"),
-    ...entry("vik-proektant", 0.7, "compare"),
+    ...entry("vik-proektant", 0.8, "compare"),
     ...projects.flatMap((p) => entry("projects", 0.7, p.slug)),
   ];
 }

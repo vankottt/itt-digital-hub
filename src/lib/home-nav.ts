@@ -1,5 +1,5 @@
 import type { Locale } from "./i18n";
-import { href, isAiActAgentPath, isPipeThermalAnalysisPath, isSettlementAnalyzerPath, isToolsPath, isVikDesignerPath, isVikProektantPath, type RouteKey } from "./paths";
+import { href, isAiActAgentPath, isAiActPath, isPipeThermalAnalysisPath, isSettlementAnalyzerPath, isToolsPath, isVikDesignerPath, isVikProektantPath, type RouteKey } from "./paths";
 
 /** Homepage section ids in document order, for scroll spy. */
 export const homeSpySectionIds = [
@@ -85,6 +85,7 @@ export function isNavItemActive(pathname: string, navKey: RouteKey, linkHref: st
     navKey === "tools" &&
     (isToolsPath(pathname) ||
       isAiActAgentPath(pathname) ||
+      isAiActPath(pathname) ||
       isSettlementAnalyzerPath(pathname) ||
       isPipeThermalAnalysisPath(pathname) ||
       isVikDesignerPath(pathname) ||

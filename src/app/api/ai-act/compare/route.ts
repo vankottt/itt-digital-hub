@@ -1,0 +1,88 @@
+import { exampleById } from "@/content/ai-act";
+import { clientKey, promptHash, takeToken } from "@/vik-proektant/comparison/limits";
+import { comparisonModel } from "@/ai-act/comparison/config";
+import { logAiAct } from "@/ai-act/comparison/observe";
+import { runComparison } from "@/ai-act/comparison/run";
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const maxDuration = 60;
+
+const MAX_PROMPT = 4000;
+export const COMPARE_LIMIT = 20;
+export const COMPARE_WINDOW_MS = 10 * 60_000;
+
+export async function POST(request: Request): Promise<Response> {
+  const requestId = crypto.randomUUID();
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return Response.json({ error: "invalid_prompt", requestId }, { status: 400 });
+  }
+  if (!isRecord(body) || typeof body.prompt !== "string") {
+    return Response.json({ error: "invalid_prompt", requestId }, { status: 400 });
+  }
+  const prompt = body.prompt.trim();
+  if (prompt.length < 2 || prompt.length > MAX_PROMPT) {
+    return Response.json({ error: "invalid_prompt", requestId }, { status: 400 });
+  }
+  const exampleId = typeof body.exampleId === "string" && exampleById(body.exampleId) ? body.exampleId : null;
+  const locale = body.locale === "en" ? "en" : "bg";
+  const slot = takeToken(`ai-act-compare:${clientKey(request)}`, COMPARE_LIMIT, COMPARE_WINDOW_MS);
+  if (!slot.ok) {
+    const retryAfterSeconds = Math.max(1, Math.ceil(slot.retryAfterMs / 1000));
+    return Response.json(
+      { error: "rate_limited", retryAfterMs: slot.retryAfterMs, requestId },
+      { status: 429, headers: { "retry-after": String(retryAfterSeconds) } },
+    );
+  }
+  const started = Date.now();
+  const result = await runComparison(prompt);
+  logAiAct({
+    event: "comparison_completed",
+    requestId,
+    path: "control+expert",
+    model: comparisonModel(),
+    locale,
+    exampleId,
+    customPrompt: exampleId === null,
+    promptHash: promptHash(prompt),
+    controlOk: result.control.ok,
+    expertOk: result.expert.ok,
+    controlLatencyMs: result.control.latencyMs,
+    expertLatencyMs: result.expert.latencyMs,
+    controlError: result.control.ok ? null : result.control.error,
+    expertError: result.expert.ok ? null : result.expert.error,
+    retrievalCount: result.expert.ok ? result.expert.retrievalCount : 0,
+    sourceCount: result.summary.sourceCount,
+    toolNames: result.expert.ok ? result.expert.toolNames.join(",") : "",
+    fair: result.fair,
+    durationMs: Date.now() - started,
+    deployment: process.env.VERCEL_GIT_COMMIT_SHA ?? "local",
+  });
+  return Response.json({
+    requestId,
+    fair: result.fair,
+    control: publicSide(result.control, false),
+    expert: publicSide(result.expert, true),
+    summary: result.summary,
+  });
+}
+
+function publicSide(side: Awaited<ReturnType<typeof runComparison>>["control"], revealExecution: boolean) {
+  if (!side.ok) return { ok: false as const, error: side.error };
+  if (!revealExecution) return { ok: true as const, text: side.text };
+  return {
+    ok: true as const,
+    text: side.text,
+    sourceCount: side.sources.length,
+    retrievalUsed: side.retrievalCount > 0,
+    sources: side.sources,
+    toolKinds: side.toolKinds,
+  };
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}

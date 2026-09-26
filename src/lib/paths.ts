@@ -12,6 +12,7 @@ export type RouteKey =
   | "work-with-us"
   | "privacy"
   | "ai-act-agent"
+  | "ai-act"
   | "tools"
   | "settlement-analyzer"
   | "pipe-thermal-analysis"
@@ -29,6 +30,7 @@ const segments: Record<RouteKey, string> = {
   "work-with-us": "work-with-us",
   privacy: "privacy",
   "ai-act-agent": "ai-act-agent",
+  "ai-act": "ai-act",
   tools: "tools",
   "settlement-analyzer": "settlement-analyzer",
   "pipe-thermal-analysis": "pipe-thermal-analysis",
@@ -56,6 +58,11 @@ export function switchLocalePath(pathname: string, to: Locale): string {
 /** Entry and nested journeys for the AI Act product. */
 export function isAiActAgentPath(pathname: string): boolean {
   return /^\/(bg|en)\/ai-act-agent(?:\/.*)?$/.test(pathname);
+}
+
+/** Public AI Act Assistant product and Comparison Lab. */
+export function isAiActPath(pathname: string): boolean {
+  return /^\/(bg|en)\/ai-act(?:\/.*)?$/.test(pathname);
 }
 
 /** Dark first-viewport overlay, same header treatment as the homepage. */

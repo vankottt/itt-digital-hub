@@ -55,15 +55,14 @@ describe("itt digital hub plugin package", () => {
 });
 
 describe("vik proektant site wiring", () => {
-  it("adds V2 routes without moving the V1 catalogue entry", () => {
+  it("lists V2 in the catalogue and keeps V1 off the public site", () => {
     expect(href("bg", "vik-proektant")).toBe("/bg/vik-proektant");
     expect(href("en", "vik-proektant", "compare")).toBe("/en/vik-proektant/compare");
-    expect(toolsFor("bg")[3]?.id).toBe("vik-designer");
-    expect(toolsFor("bg")[3]?.href).toBe("/bg/vik-designer");
-    expect(toolsFor("bg")[4]?.id).toBe("vik-proektant");
-    expect(toolsFor("bg")[4]?.image).toBe("/tools/vik-proektant-card.jpg");
-    expect(toolsFor("en")[4]?.image).toBe("/tools/vik-proektant-card.jpg");
-    expect(toolsFor("en")[4]?.href).toBe("/en/vik-proektant");
+    expect(toolsFor("bg").map((tool) => tool.id)).not.toContain("vik-designer");
+    expect(toolsFor("bg")[0]?.id).toBe("vik-proektant");
+    expect(toolsFor("bg")[0]?.image).toBe("/tools/vik-proektant-card.jpg");
+    expect(toolsFor("en")[0]?.image).toBe("/tools/vik-proektant-card.jpg");
+    expect(toolsFor("en")[0]?.href).toBe("/en/vik-proektant/compare");
     expect(isNavItemActive("/bg/vik-proektant/compare", "tools", "/bg/tools")).toBe(true);
     expect(isNavItemActive("/bg/vik-designer", "tools", "/bg/tools")).toBe(true);
   });

@@ -6,7 +6,7 @@ export const COMPARISON_MAX_OUTPUT_TOKENS = 2200;
 export const COMPARISON_TIMEOUT_MS = 45_000;
 
 export const CONTROL_INSTRUCTIONS =
-  "Answer the user's question helpfully and accurately using your general model capabilities. No external ViK-specific tools or ITT domain knowledge are available.";
+  "You are a general-purpose assistant. Answer the user's question helpfully and accurately from general knowledge and from what the question itself states. Do not add a specialized procedure, a private document collection, or external tools unless the question calls for them.";
 
 type Env = Record<string, string | undefined>;
 
