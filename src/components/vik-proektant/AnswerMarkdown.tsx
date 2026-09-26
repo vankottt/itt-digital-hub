@@ -65,6 +65,13 @@ function MarkdownBlockView({ block, expert }: { block: MarkdownBlock; expert: bo
       </div>
     );
   }
+  if (block.type === "math") {
+    return (
+      <div className="overflow-x-auto py-1 text-ink">
+        <Formula tex={block.tex} display />
+      </div>
+    );
+  }
   if (block.type === "code" && expert) {
     return (
       <pre className="overflow-x-auto rounded-2xl bg-paper px-3 py-2 text-meta text-ink">
@@ -92,6 +99,7 @@ function InlineView({ nodes }: { nodes: Inline[] }) {
 function InlineNode({ node }: { node: Inline }): ReactNode {
   if (node.type === "strong") return <strong className="font-medium text-ink"><InlineView nodes={node.children} /></strong>;
   if (node.type === "em") return <em><InlineView nodes={node.children} /></em>;
+  if (node.type === "math") return <Formula tex={node.tex} display={node.display} />;
   if (node.type === "code") return <code className="rounded bg-paper px-1 py-0.5 text-meta text-ink">{node.text}</code>;
   if (node.type === "link") {
     return (
@@ -101,4 +109,144 @@ function InlineNode({ node }: { node: Inline }): ReactNode {
     );
   }
   return node.text;
+}
+
+function Formula({ tex, display }: { tex: string; display: boolean }) {
+  return (
+    <span className={display ? "my-1 block overflow-x-auto text-center text-ink" : "mx-0.5 inline-block max-w-full align-middle text-ink"}>
+      <span className="inline-block font-serif text-[1.05em] leading-tight">{renderFormula(tex)}</span>
+    </span>
+  );
+}
+
+function renderFormula(tex: string): ReactNode {
+  const tokens = tokenizeFormula(tex);
+  const cursor = { index: 0 };
+  return <>{parseFormula(tokens, cursor, false)}</>;
+}
+
+type FormulaToken =
+  | { kind: "command"; name: string }
+  | { kind: "char"; value: string }
+  | { kind: "open" }
+  | { kind: "close" }
+  | { kind: "sup" }
+  | { kind: "sub" };
+
+function tokenizeFormula(tex: string): FormulaToken[] {
+  const tokens: FormulaToken[] = [];
+  let index = 0;
+  while (index < tex.length) {
+    const char = tex[index] ?? "";
+    if (char === "\\") {
+      const next = tex[index + 1] ?? "";
+      if (/[a-zA-Z]/.test(next)) {
+        let end = index + 1;
+        while (end < tex.length && /[a-zA-Z]/.test(tex[end] ?? "")) end += 1;
+        tokens.push({ kind: "command", name: tex.slice(index + 1, end) });
+        index = end;
+        continue;
+      }
+      if (next) tokens.push({ kind: "char", value: next });
+      index += next ? 2 : 1;
+      continue;
+    }
+    if (char === "{") tokens.push({ kind: "open" });
+    else if (char === "}") tokens.push({ kind: "close" });
+    else if (char === "^") tokens.push({ kind: "sup" });
+    else if (char === "_") tokens.push({ kind: "sub" });
+    else if (char !== " " && char !== "\n") tokens.push({ kind: "char", value: char });
+    index += 1;
+  }
+  return tokens;
+}
+
+function parseFormula(tokens: FormulaToken[], cursor: { index: number }, untilClose: boolean): ReactNode[] {
+  const parts: ReactNode[] = [];
+  while (cursor.index < tokens.length) {
+    const token = tokens[cursor.index];
+    if (!token) break;
+    if (untilClose && token.kind === "close") {
+      cursor.index += 1;
+      break;
+    }
+    if (token.kind === "sup" || token.kind === "sub") {
+      cursor.index += 1;
+      const script = parseAtom(tokens, cursor);
+      const base = parts.pop();
+      const Tag = token.kind === "sup" ? "sup" : "sub";
+      parts.push(
+        <span key={parts.length} className="inline-flex items-start">
+          {base}
+          <Tag className="text-[0.72em] leading-none">{script}</Tag>
+        </span>,
+      );
+      continue;
+    }
+    parts.push(<span key={parts.length}>{parseAtom(tokens, cursor)}</span>);
+  }
+  return parts;
+}
+
+function parseAtom(tokens: FormulaToken[], cursor: { index: number }): ReactNode {
+  const token = tokens[cursor.index];
+  if (!token) return null;
+  cursor.index += 1;
+  if (token.kind === "open") return <>{parseFormula(tokens, cursor, true)}</>;
+  if (token.kind === "char") return token.value;
+  if (token.kind === "command") {
+    if (token.name === "frac") return <Fraction num={parseAtom(tokens, cursor)} den={parseAtom(tokens, cursor)} />;
+    if (token.name === "sqrt") return <SquareRoot>{parseAtom(tokens, cursor)}</SquareRoot>;
+    if (token.name === "text" || token.name === "mathrm" || token.name === "textrm") {
+      return <span className="font-sans text-[0.92em]">{parseAtom(tokens, cursor)}</span>;
+    }
+    if (token.name === "left" || token.name === "right") return null;
+    return formulaSymbol(token.name);
+  }
+  return null;
+}
+
+function Fraction({ num, den }: { num: ReactNode; den: ReactNode }) {
+  return (
+    <span className="mx-0.5 inline-flex flex-col items-center align-middle leading-none">
+      <span className="border-b border-current px-1 pb-0.5">{num}</span>
+      <span className="px-1 pt-0.5">{den}</span>
+    </span>
+  );
+}
+
+function SquareRoot({ children }: { children: ReactNode }) {
+  return (
+    <span className="inline-flex items-stretch align-middle">
+      <span aria-hidden="true">√</span>
+      <span className="border-t border-current px-0.5">{children}</span>
+    </span>
+  );
+}
+
+function formulaSymbol(name: string): string {
+  const symbols: Record<string, string> = {
+    cdot: "·",
+    times: "×",
+    pi: "π",
+    alpha: "α",
+    beta: "β",
+    gamma: "γ",
+    Delta: "Δ",
+    theta: "θ",
+    lambda: "λ",
+    mu: "μ",
+    rho: "ρ",
+    sigma: "σ",
+    phi: "φ",
+    omega: "ω",
+    leq: "≤",
+    geq: "≥",
+    neq: "≠",
+    approx: "≈",
+    pm: "±",
+    infty: "∞",
+    quad: " ",
+  };
+  return symbols[name] ?? name;
 }

@@ -154,8 +154,8 @@ export const vikProektant = {
     back: { bg: "ВиК Проектант", en: "ViK Projektant" },
     heading: { bg: "Един въпрос. Два начина на работа.", en: "One question. Two ways of working." },
     lead: {
-      bg: "Един и същ AI модел. Отдясно е специализираният ВиК работен процес на ITT Digital Hub, с професионални стъпки, източници и изчисления.",
-      en: "The same AI model. The right side uses ITT Digital Hub's specialized water and sewerage workflow, with professional steps, sources and calculations.",
+      bg: "И двата отговора идват от GPT‑6 Sol, върху един и същ въпрос. Отдясно ITT Digital Hub добавя специализирания ВиК процес: стъпки, източници и изчисления.",
+      en: "Both answers come from GPT‑6 Sol, on the same question. On the right, ITT Digital Hub adds the specialized water and sewerage workflow: steps, sources and calculations.",
     },
     promptLabel: { bg: "Въпрос", en: "Question" },
     promptPlaceholder: {
@@ -166,9 +166,10 @@ export const vikProektant = {
     fairness: { bg: "Един и същ модел · Един и същ въпрос", en: "Same model · Same question" },
     submit: { bg: "Сравни отговорите", en: "Compare the answers" },
     pending: { bg: "Сравнението тече", en: "Comparison in progress" },
-    controlTitle: { bg: "Общ AI модел", en: "General AI model" },
-    expertTitle: { bg: "ВиК Проектант", en: "ViK Projektant" },
+    controlTitle: { bg: "Стандартен GPT‑6 Sol AI модел", en: "Standard GPT‑6 Sol AI model" },
+    expertTitle: { bg: "ВиК Асистент от ITT Digital Hub", en: "ViK Assistant from ITT Digital Hub" },
     controlNote: { bg: "Без специализирана ВиК база", en: "Without the specialized water and sewerage collection" },
+    expertNote: { bg: "Със специализирана ВиК база и инструкции.", en: "With a specialized water and sewerage collection and instructions." },
     controlWaiting: { bg: "Генерира отговор…", en: "Generating an answer…" },
     expertWaiting: { bg: "Подготвя професионален отговор…", en: "Preparing a professional answer…" },
     idle: { bg: "Отговорът ще се появи тук.", en: "The answer will appear here." },

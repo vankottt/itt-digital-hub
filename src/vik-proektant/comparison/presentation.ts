@@ -263,7 +263,8 @@ export type Inline =
   | { type: "strong"; children: Inline[] }
   | { type: "em"; children: Inline[] }
   | { type: "code"; text: string }
-  | { type: "link"; text: string; href: string };
+  | { type: "link"; text: string; href: string }
+  | { type: "math"; tex: string; display: boolean };
 
 export type MarkdownBlock =
   | { type: "paragraph"; children: Inline[] }
@@ -271,7 +272,8 @@ export type MarkdownBlock =
   | { type: "list"; ordered: boolean; items: Inline[][] }
   | { type: "quote"; children: Inline[] }
   | { type: "table"; headers: string[]; rows: string[][] }
-  | { type: "code"; text: string };
+  | { type: "code"; text: string }
+  | { type: "math"; tex: string };
 
 export function parseMarkdown(source: string, mode: "control" | "expert"): MarkdownBlock[] {
   const lines = source.replace(/\r\n/g, "\n").split("\n");
@@ -293,6 +295,7 @@ export function parseMarkdown(source: string, mode: "control" | "expert"): Markd
       blocks.push({ type: "code", text: code.join("\n") });
       continue;
     }
+    const math = mode === "expert";
     const table = readTable(lines, index);
     if (table) {
       if (mode === "expert") blocks.push(table.block);
@@ -303,7 +306,7 @@ export function parseMarkdown(source: string, mode: "control" | "expert"): Markd
       index = table.next;
       continue;
     }
-    const list = readList(lines, index);
+    const list = readList(lines, index, math);
     if (list) {
       blocks.push(list.block);
       index = list.next;
@@ -311,7 +314,7 @@ export function parseMarkdown(source: string, mode: "control" | "expert"): Markd
     }
     const quote = readQuote(lines, index);
     if (quote) {
-      const children = inline(quote.text);
+      const children = inline(quote.text, math);
       blocks.push(mode === "expert" ? { type: "quote", children } : { type: "paragraph", children });
       index = quote.next;
       continue;
@@ -327,7 +330,7 @@ export function parseMarkdown(source: string, mode: "control" | "expert"): Markd
       paragraph.push(lines[index] ?? "");
       index += 1;
     }
-    blocks.push({ type: "paragraph", children: inline(paragraph.join(" ")) });
+    appendInline(blocks, inline(paragraph.join(" "), math));
   }
   return blocks;
 }
@@ -344,7 +347,7 @@ function isBoundary(lines: string[], index: number): boolean {
   return looksLikeTable(lines, index);
 }
 
-function readList(lines: string[], start: number): { block: MarkdownBlock; next: number } | null {
+function readList(lines: string[], start: number, math: boolean): { block: MarkdownBlock; next: number } | null {
   const ordered = /^\d+\.\s+/.test(lines[start] ?? "");
   const unordered = /^[-*]\s+/.test(lines[start] ?? "");
   if (!ordered && !unordered) return null;
@@ -354,7 +357,7 @@ function readList(lines: string[], start: number): { block: MarkdownBlock; next:
   while (index < lines.length) {
     const match = pattern.exec(lines[index] ?? "");
     if (!match) break;
-    items.push(inline(match[1] ?? ""));
+    items.push(inline(match[1] ?? "", math));
     index += 1;
   }
   return { block: { type: "list", ordered, items }, next: index };
@@ -394,7 +397,63 @@ function splitRow(line: string): string[] {
   return line.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map((cell) => cell.trim());
 }
 
-function inline(source: string): Inline[] {
+function appendInline(blocks: MarkdownBlock[], children: Inline[]): void {
+  let buffer: Inline[] = [];
+  const flush = () => {
+    if (buffer.length === 0) return;
+    blocks.push({ type: "paragraph", children: buffer });
+    buffer = [];
+  };
+  for (const node of children) {
+    if (node.type === "math" && node.display) {
+      flush();
+      blocks.push({ type: "math", tex: node.tex });
+    } else buffer.push(node);
+  }
+  flush();
+}
+
+function inline(source: string, math = false): Inline[] {
+  if (!math) return inlinePlain(source);
+  const nodes: Inline[] = [];
+  let buffer = "";
+  let index = 0;
+  const flush = () => {
+    if (!buffer) return;
+    nodes.push(...inlinePlain(buffer));
+    buffer = "";
+  };
+  while (index < source.length) {
+    const display = readDelimited(source, index, "\\[", "\\]") ?? readDelimited(source, index, "$$", "$$");
+    if (display) {
+      flush();
+      nodes.push({ type: "math", tex: display.tex, display: true });
+      index = display.next;
+      continue;
+    }
+    const inlineMath = readDelimited(source, index, "\\(", "\\)");
+    if (inlineMath) {
+      flush();
+      nodes.push({ type: "math", tex: inlineMath.tex, display: false });
+      index = inlineMath.next;
+      continue;
+    }
+    buffer += source[index];
+    index += 1;
+  }
+  flush();
+  return nodes.length > 0 ? nodes : [{ type: "text", text: source }];
+}
+
+function readDelimited(source: string, index: number, open: string, close: string): { tex: string; next: number } | null {
+  if (!source.startsWith(open, index)) return null;
+  const start = index + open.length;
+  const end = source.indexOf(close, start);
+  if (end === -1) return null;
+  return { tex: source.slice(start, end).trim(), next: end + close.length };
+}
+
+function inlinePlain(source: string): Inline[] {
   const nodes: Inline[] = [];
   const pattern = /(`[^`]+`)|(\*\*([^*]+)\*\*)|(\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\))|(\*([^*\n]+)\*)/g;
   let cursor = 0;

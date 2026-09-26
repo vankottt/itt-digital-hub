@@ -25,6 +25,25 @@ describe("answer markdown rendering", () => {
     expect(html).toContain("Диаметър");
   });
 
+  it("typesets expert formulas and leaves control as plain text", () => {
+    const source = "Формулата е \\(Q=v\\cdot\\pi D^2/4\\), откъдето:\n\\[ D=\\sqrt{\\frac{4Q}{\\pi v}} \\]";
+    const expert = renderToStaticMarkup(<AnswerMarkdown text={source} mode="expert" />);
+    const control = renderToStaticMarkup(<AnswerMarkdown text={source} mode="control" />);
+    expect(expert).toContain("√");
+    expect(expert).toContain("border-b");
+    expect(expert).not.toContain("\\frac");
+    expect(expert).not.toContain("\\(");
+    expect(expert).toContain("overflow-x-auto");
+    expect(control).not.toContain("√");
+    expect(control).toContain("Q=v");
+  });
+
+  it("does not turn a formula command into a script or link", () => {
+    const html = renderToStaticMarkup(<AnswerMarkdown text={"\\(\\href{javascript:alert(1)}{x}\\)"} mode="expert" />);
+    expect(html.toLowerCase()).not.toContain("<script");
+    expect(html).not.toContain("<a ");
+  });
+
   it("does not turn raw html into elements", () => {
     const html = renderToStaticMarkup(<AnswerMarkdown text={'<img src=x onerror="alert(1)">'} mode="expert" />);
     expect(html).not.toContain("<img");
