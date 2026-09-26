@@ -5,7 +5,7 @@ import { parseMarkdown } from "@/vik-proektant/comparison/presentation";
 export function AnswerMarkdown({ text, mode }: { text: string; mode: "control" | "expert" }) {
   const blocks = parseMarkdown(text, mode);
   return (
-    <div className={`max-w-[65ch] break-words text-small text-ink-2 ${mode === "expert" ? "space-y-4" : "space-y-3"}`}>
+    <div className={`max-w-[65ch] text-small leading-[1.7] break-words text-ink-2 ${mode === "expert" ? "space-y-4" : "space-y-3"}`}>
       {blocks.map((block, index) => (
         <MarkdownBlockView key={index} block={block} expert={mode === "expert"} />
       ))}
@@ -67,7 +67,7 @@ function MarkdownBlockView({ block, expert }: { block: MarkdownBlock; expert: bo
   }
   if (block.type === "math") {
     return (
-      <div className="overflow-x-auto py-1 text-ink">
+      <div className="my-3 overflow-x-auto rounded-xl bg-white px-3 py-3 text-ink">
         <Formula tex={block.tex} display />
       </div>
     );
@@ -113,7 +113,7 @@ function InlineNode({ node }: { node: Inline }): ReactNode {
 
 function Formula({ tex, display }: { tex: string; display: boolean }) {
   return (
-    <span className={display ? "my-1 block overflow-x-auto text-center text-ink" : "mx-0.5 inline-block max-w-full align-middle text-ink"}>
+    <span className={display ? "block text-center text-[1.12em] text-ink" : "mx-0.5 inline-block max-w-full align-[-0.15em] text-ink"}>
       <span className="inline-block font-serif text-[1.05em] leading-tight">{renderFormula(tex)}</span>
     </span>
   );
@@ -147,6 +147,11 @@ function tokenizeFormula(tex: string): FormulaToken[] {
         index = end;
         continue;
       }
+      if (next === "," || next === ";" || next === ":" || next === " ") {
+        tokens.push({ kind: "char", value: "\u2009" });
+        index += 2;
+        continue;
+      }
       if (next) tokens.push({ kind: "char", value: next });
       index += next ? 2 : 1;
       continue;
@@ -176,7 +181,7 @@ function parseFormula(tokens: FormulaToken[], cursor: { index: number }, untilCl
       const base = parts.pop();
       const Tag = token.kind === "sup" ? "sup" : "sub";
       parts.push(
-        <span key={parts.length} className="inline-flex items-start">
+        <span key={parts.length} className="inline-flex items-baseline">
           {base}
           <Tag className="text-[0.72em] leading-none">{script}</Tag>
         </span>,
@@ -195,7 +200,7 @@ function parseAtom(tokens: FormulaToken[], cursor: { index: number }): ReactNode
   if (token.kind === "open") return <>{parseFormula(tokens, cursor, true)}</>;
   if (token.kind === "char") return token.value;
   if (token.kind === "command") {
-    if (token.name === "frac") return <Fraction num={parseAtom(tokens, cursor)} den={parseAtom(tokens, cursor)} />;
+    if (token.name === "frac" || token.name === "dfrac" || token.name === "tfrac") return <Fraction num={parseAtom(tokens, cursor)} den={parseAtom(tokens, cursor)} />;
     if (token.name === "sqrt") return <SquareRoot>{parseAtom(tokens, cursor)}</SquareRoot>;
     if (token.name === "text" || token.name === "mathrm" || token.name === "textrm") {
       return <span className="font-sans text-[0.92em]">{parseAtom(tokens, cursor)}</span>;

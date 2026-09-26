@@ -45,8 +45,19 @@ export default async function VikComparePage({ params }: Params) {
           >
             {text.back[locale]}
           </BackLink>
-          <h1 className="mt-3 max-w-[16ch] text-h1 text-pretty text-on-dark md:max-w-[20ch]">{text.heading[locale]}</h1>
-          <p className="mt-3 max-w-[48ch] text-body text-on-dark-muted">{text.lead[locale]}</p>
+          <h1 className="mt-3 whitespace-pre-line text-h1 text-on-dark">{text.heading[locale]}</h1>
+          <p className="mt-3 text-body text-on-dark-muted md:whitespace-nowrap">
+            {text.lead[locale].split("GPT‑6 Sol")[0]}
+            <strong className="font-medium text-on-dark">GPT‑6 Sol</strong>
+            {text.lead[locale].split("GPT‑6 Sol")[1]}
+          </p>
+          <ul className="mt-3 list-disc space-y-1.5 pl-5 text-small text-on-dark-muted">
+            {text.leadPoints.map((point) => (
+              <li key={point.label.en} className="lg:whitespace-nowrap">
+                <strong className="font-medium text-on-dark">{point.label[locale]}</strong> {point.text[locale]}
+              </li>
+            ))}
+          </ul>
         </Container>
       </section>
       <div className="bg-paper">

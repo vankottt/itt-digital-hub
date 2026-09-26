@@ -26,16 +26,19 @@ describe("answer markdown rendering", () => {
   });
 
   it("typesets expert formulas and leaves control as plain text", () => {
-    const source = "Формулата е \\(Q=v\\cdot\\pi D^2/4\\), откъдето:\n\\[ D=\\sqrt{\\frac{4Q}{\\pi v}} \\]";
+    const source = "Формулата е \\(Q=v\\cdot\\pi D^2/4\\), откъдето:\n\\[ d=\\sqrt{\\frac{4(0{,}012)}{\\pi(1{,}0)}}\\approx 0{,}1236\\ \\mathrm{m} \\]";
     const expert = renderToStaticMarkup(<AnswerMarkdown text={source} mode="expert" />);
     const control = renderToStaticMarkup(<AnswerMarkdown text={source} mode="control" />);
     expect(expert).toContain("√");
     expect(expert).toContain("border-b");
+    expect(expert).toContain("≈");
     expect(expert).not.toContain("\\frac");
     expect(expert).not.toContain("\\(");
     expect(expert).toContain("overflow-x-auto");
-    expect(control).not.toContain("√");
-    expect(control).toContain("Q=v");
+    expect(control).toContain("√");
+    expect(control).not.toContain("\\frac");
+    expect(control).not.toContain("<h3");
+    expect(control).not.toContain("<table");
   });
 
   it("does not turn a formula command into a script or link", () => {

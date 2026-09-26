@@ -127,10 +127,25 @@ export function CompareLab({ locale }: { locale: Locale }) {
                     setPrompt(example.prompt[locale]);
                   }}
                   className={cn(
-                    "min-h-11 rounded-xl border px-3 py-2 text-left text-small text-ink transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal",
-                    selected ? "border-ink bg-paper" : "border-line bg-white hover:border-ink",
+                    "relative min-h-11 rounded-xl border px-3 py-2 text-left text-small text-ink transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal",
+                    selected ? "border-transparent bg-paper font-semibold" : "border-line bg-white hover:border-ink",
                   )}
                 >
+                  {selected ? (
+                    <svg className="pointer-events-none absolute inset-0 size-full text-signal" aria-hidden="true">
+                      <rect
+                        x="1"
+                        y="1"
+                        width="calc(100% - 2px)"
+                        height="calc(100% - 2px)"
+                        rx="11"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeDasharray="6 6"
+                      />
+                    </svg>
+                  ) : null}
                   {example.title[locale]}
                 </button>
               );
