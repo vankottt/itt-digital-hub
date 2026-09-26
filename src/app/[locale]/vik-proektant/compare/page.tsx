@@ -36,17 +36,24 @@ export default async function VikComparePage({ params }: Params) {
   const locale: Locale = isLocale(raw) ? raw : "bg";
   const text = vikProektant.compare;
   return (
-    <div className="bg-paper">
-      <Container className="pt-4 pb-12 md:pt-5 md:pb-16">
-        <BackLink href={href(locale, "vik-proektant")}>{text.back[locale]}</BackLink>
-        <header className="mt-4 max-w-[42rem]">
-          <h1 className="text-h1 text-pretty">{text.heading[locale]}</h1>
-          <p className="mt-3 text-body text-ink-2">{text.lead[locale]}</p>
-        </header>
-        <div className="mt-6">
+    <div>
+      <section className="hero-atmosphere -mt-[5.5rem] text-on-dark" data-surface="dark">
+        <Container className="pt-24 pb-12 md:pt-28 md:pb-14">
+          <BackLink
+            href={href(locale, "vik-proektant")}
+            className="text-on-dark decoration-on-dark/35 hover:text-on-dark"
+          >
+            {text.back[locale]}
+          </BackLink>
+          <h1 className="mt-3 max-w-[16ch] text-h1 text-pretty text-on-dark md:max-w-[20ch]">{text.heading[locale]}</h1>
+          <p className="mt-3 max-w-[48ch] text-body text-on-dark-muted">{text.lead[locale]}</p>
+        </Container>
+      </section>
+      <div className="bg-paper">
+        <Container className="relative z-10 -mt-8 pb-16 md:-mt-10 md:pb-24">
           <CompareLab locale={locale} />
-        </div>
-      </Container>
+        </Container>
+      </div>
     </div>
   );
 }

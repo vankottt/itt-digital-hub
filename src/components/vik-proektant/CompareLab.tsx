@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { track } from "@vercel/analytics";
 import type { Locale } from "@/lib/i18n";
+import { cn } from "@/lib/cn";
 import { comparisonExamples, vikProektant as copy, type ExampleId } from "@/content/vik-proektant";
 import type { PublicCalculation, PublicSource, ToolKind } from "@/vik-proektant/comparison/presentation";
 import { AnswerMarkdown } from "@/components/vik-proektant/AnswerMarkdown";
+import { Button } from "@/components/ui/ButtonLink";
 
 type ErrorCode = "timeout" | "upstream" | "configuration" | "model_mismatch" | "empty" | "rate_limited" | "invalid_prompt";
 
@@ -46,6 +48,14 @@ export function CompareLab({ locale }: { locale: Locale }) {
   const [formError, setFormError] = useState<ErrorCode | null>(null);
   const [retryAfterMs, setRetryAfterMs] = useState<number | null>(null);
   const [result, setResult] = useState<Payload | null>(null);
+  const fieldRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    const node = fieldRef.current;
+    if (!node) return;
+    node.style.height = "auto";
+    node.style.height = `${Math.min(node.scrollHeight, 220)}px`;
+  }, [prompt]);
 
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
@@ -84,54 +94,65 @@ export function CompareLab({ locale }: { locale: Locale }) {
   }
 
   return (
-    <div>
-      <form onSubmit={onSubmit} className="rounded-[1.25rem] bg-white p-5 md:p-6">
+    <div className="rounded-[1.5rem] border border-line bg-white px-4 py-4 shadow-[0_16px_40px_rgba(4,14,49,0.06)] md:px-6 md:py-5">
+      <form onSubmit={onSubmit}>
         <label htmlFor="vik-prompt" className="text-small font-medium text-ink">
           {text.promptLabel[locale]}
         </label>
         <textarea
+          ref={fieldRef}
           id="vik-prompt"
           value={prompt}
           maxLength={4000}
-          rows={5}
+          rows={2}
           onChange={(event) => {
             setPrompt(event.target.value);
             setExampleId(null);
           }}
           placeholder={text.promptPlaceholder[locale]}
-          className="mt-2 w-full resize-y rounded-2xl border border-line bg-paper px-4 py-3 text-body text-ink outline-none focus:border-ink"
+          className="mt-2 w-full resize-none overflow-hidden rounded-2xl border border-line bg-paper px-4 py-2.5 text-body text-ink outline-none focus-visible:border-signal focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal"
         />
-        <div className="mt-4">
+        <div className="mt-3">
           <p className="text-meta text-ink-3">{text.examples[locale]}</p>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {comparisonExamples.map((example) => (
-              <button
-                key={example.id}
-                type="button"
-                onClick={() => {
-                  setExampleId(example.id);
-                  setPrompt(example.prompt[locale]);
-                }}
-                className="rounded-full border border-line bg-paper px-3 py-1.5 text-meta text-ink hover:border-ink"
-              >
-                {example.title[locale]}
-              </button>
-            ))}
+          <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            {comparisonExamples.map((example) => {
+              const selected = exampleId === example.id;
+              return (
+                <button
+                  key={example.id}
+                  type="button"
+                  aria-pressed={selected}
+                  onClick={() => {
+                    setExampleId(example.id);
+                    setPrompt(example.prompt[locale]);
+                  }}
+                  className={cn(
+                    "min-h-11 rounded-xl border px-3 py-2 text-left text-small text-ink transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal",
+                    selected ? "border-ink bg-paper" : "border-line bg-white hover:border-ink",
+                  )}
+                >
+                  {example.title[locale]}
+                </button>
+              );
+            })}
           </div>
         </div>
-        <button
-          type="submit"
-          disabled={pending || prompt.trim().length < 2}
-          className="mt-5 inline-flex items-center justify-center rounded-full bg-marine px-5 py-3 text-small font-medium text-on-dark transition-colors hover:bg-marine-2 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          {pending ? text.pending[locale] : text.submit[locale]}
-        </button>
-        {formError ? <p className="mt-3 text-small text-ink-2">{formMessage(locale, formError, retryAfterMs)}</p> : null}
+        <div className="mt-4 flex flex-wrap items-center gap-3">
+          <Button type="submit" variant="primary" arrow disabled={pending || prompt.trim().length < 2}>
+            {pending ? text.pending[locale] : text.submit[locale]}
+          </Button>
+        </div>
+        {formError ? (
+          <p role="status" className="mt-3 max-w-[62ch] rounded-xl border border-line bg-paper px-4 py-3 text-small text-ink">
+            {formMessage(locale, formError, retryAfterMs)}
+          </p>
+        ) : null}
       </form>
 
       {result && !result.fair ? <p className="mt-4 text-small text-ink-2">{text.unfair[locale]}</p> : null}
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-2" aria-busy={pending}>
+      <p className="mt-5 border-t border-line pt-4 text-meta text-ink-3">{text.fairness[locale]}</p>
+      <div className="mt-3 grid min-h-[22rem] items-start gap-3 lg:min-h-[24rem] lg:grid-cols-2" aria-busy={pending}>
         <ResultCard locale={locale} title={text.controlTitle[locale]} note={text.controlNote[locale]} pending={pending} pendingLabel={text.controlWaiting[locale]}>
           {!pending && result?.control.ok ? <AnswerMarkdown text={result.control.text} mode="control" /> : null}
           {!pending && result && !result.control.ok ? <p>{text.errors[result.control.error][locale]}</p> : null}
@@ -163,12 +184,22 @@ function ResultCard({
 }) {
   const text = copy.compare;
   return (
-    <article className="min-w-0 rounded-[1.25rem] bg-white p-5 md:p-6">
+    <article className="min-w-0 rounded-[1.25rem] border border-line bg-paper p-4 md:p-5">
       <h2 className="text-h4 text-pretty text-ink">{title}</h2>
-      {note ? <p className="mt-2 text-meta text-ink-3">{note}</p> : null}
-      <div className="mt-4 text-small text-ink-2">
-        {pending ? pendingLabel : null}
-        {!pending && !hasContent(children) ? text.idle[locale] : null}
+      {note ? <p className="mt-1.5 text-meta text-ink-3">{note}</p> : null}
+      <div className="mt-3 min-h-28 text-small text-ink-2">
+        {pending ? (
+          <div>
+            <p>{pendingLabel}</p>
+            <SkeletonLines />
+          </div>
+        ) : null}
+        {!pending && !hasContent(children) ? (
+          <div>
+            <p className="sr-only">{text.idle[locale]}</p>
+            <SkeletonLines />
+          </div>
+        ) : null}
         {!pending ? children : null}
       </div>
     </article>
@@ -228,7 +259,7 @@ function formMessage(locale: Locale, error: ErrorCode, retryAfterMs: number | nu
 function SourceBlock({ locale, sources }: { locale: Locale; sources: PublicSource[] }) {
   const text = copy.compare;
   return (
-    <details className="mt-6 border-t border-line pt-4">
+    <details className="mt-5 border-t border-line pt-4">
       <summary className="flex cursor-pointer items-center gap-2 text-small font-medium text-ink">
         <DocumentIcon />
         {text.sourcesTitle[locale]} ({sources.length})
@@ -277,7 +308,7 @@ function CalculationBlock({ locale, calculation }: { locale: Locale; calculation
   const primary = calculation.results[0];
   const rest = calculation.results.slice(1);
   return (
-    <section className="mt-6 border-t border-line pt-4">
+    <section className="mt-5 border-t border-line pt-4">
       <h3 className="flex items-center gap-2 text-small font-medium text-ink">
         <CalculatorIcon />
         {text.result[locale]}
@@ -340,6 +371,16 @@ function ToolDetails({ locale, kinds }: { locale: Locale; kinds: ToolKind[] }) {
         ))}
       </ul>
     </details>
+  );
+}
+
+function SkeletonLines() {
+  return (
+    <div aria-hidden="true" className="mt-3 space-y-2">
+      <div className="h-2.5 w-11/12 rounded-full bg-line" />
+      <div className="h-2.5 w-full rounded-full bg-line/80" />
+      <div className="h-2.5 w-2/3 rounded-full bg-line/70" />
+    </div>
   );
 }
 
