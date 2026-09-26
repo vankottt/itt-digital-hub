@@ -6,14 +6,18 @@ const STOP = new Set([
   "the", "and", "for", "with", "that", "this", "what", "does", "about", "from", "into", "are", "our", "your",
 ]);
 
-const ALIASES: Array<{ pattern: RegExp; articles: string[]; terms: string[] }> = [
-  { pattern: /грамотност|literacy/iu, articles: ["4", "3"], terms: ["literacy"] },
-  { pattern: /high[-\s]?risk|висок[ао]? риск|високорисков/iu, articles: ["6", "5"], terms: ["high-risk"] },
-  { pattern: /chatbot|чатбот|чат\s*бот/iu, articles: ["5", "50", "6"], terms: ["chatbot"] },
-  { pattern: /provider|deployer|доставчик|внедрител|ползвател|\bроля\b|\bроли\b/iu, articles: ["3", "2"], terms: ["provider", "deployer"] },
-  { pattern: /кандидат|подбор|наемане|recruit|employment|работ/iu, articles: ["6", "26", "5"], terms: ["workplace", "workers", "high-risk"] },
-  { pattern: /срок|timeline|прилагат|влизат в сила|по-късно|already apply|enter into force/iu, articles: ["113"], terms: ["august", "february", "application"] },
-  { pattern: /прозрачност|transparency/iu, articles: ["50"], terms: ["transparency", "interacting"] },
+const ALIASES: Array<{ pattern: RegExp; articles: string[]; annexes: string[]; terms: string[] }> = [
+  { pattern: /грамотност|literacy/iu, articles: ["4"], annexes: [], terms: ["грамотността"] },
+  { pattern: /висок[ао]? риск|високорисков|high[-\s]?risk/iu, articles: ["6"], annexes: ["III"], terms: ["високорискови"] },
+  { pattern: /забранен|prohibited/iu, articles: ["5"], annexes: [], terms: ["забранени практики"] },
+  { pattern: /доставчик|внедрител|вносител|дистрибутор|упълномощен представител|provider|deployer|importer|distributor/iu, articles: ["3"], annexes: [], terms: ["доставчик", "внедрител"] },
+  { pattern: /подбор|кандидат|наемане|заетост|recruit/iu, articles: ["6"], annexes: ["III"], terms: ["подбор", "заетост"] },
+  { pattern: /помп|наляган|водоснабд|инфраструктур/iu, articles: ["6"], annexes: ["III"], terms: ["водоснабдяването", "защитни елементи"] },
+  { pattern: /прозрачност|transparency/iu, articles: ["50"], annexes: [], terms: ["прозрачност"] },
+  { pattern: /срок|прилага се|влиза в сила|приложение на регламента|timeline/iu, articles: ["113"], annexes: [], terms: ["август", "февруари"] },
+  { pattern: /регистрац/iu, articles: ["49"], annexes: ["VIII"], terms: ["регистрация"] },
+  { pattern: /общо предназначение|general-purpose|gpai/iu, articles: ["51", "53"], annexes: [], terms: ["общо предназначение"] },
+  { pattern: /оразмеряване|техническ[ао] документац|проектант|инвестицион/iu, articles: ["4", "6"], annexes: [], terms: ["грамотността"] },
 ];
 
 const DEFAULT_LIMIT = 5;
@@ -35,19 +39,21 @@ export function searchKnowledge(input: {
   const corpus = getCorpus();
   const documents = new Map(corpus.documents.map((document) => [document.documentId, document]));
   const article = articleMention(query);
+  const annex = annexMention(query);
   const alias = aliasFor(query);
   const unique = corpus.chunks.filter((chunk) => chunk.duplicateOf === null);
 
-  if (article) {
+  if (article || annex) {
     const hits = unique
-      .filter((chunk) => chunk.article === article)
+      .filter((chunk) => (article ? chunk.article === article : chunk.annex === annex))
+      .filter((chunk) => chunk.kind === "law" || chunk.kind === "guidance")
       .sort((a, b) => rankKind(a.kind) - rankKind(b.kind) || a.referenceId.localeCompare(b.referenceId));
     return { ok: true, results: hits.slice(0, limit).map((chunk, index) => toHit(chunk, documents.get(chunk.documentId), index + 1)) };
   }
 
   const tokens = [...new Set([...tokenize(query), ...alias.terms])];
   const scored = unique
-    .map((chunk) => ({ chunk, score: scoreChunk(chunk, tokens, alias.articles) }))
+    .map((chunk) => ({ chunk, score: scoreChunk(chunk, tokens, alias.articles, alias.annexes) }))
     .filter((item) => item.score >= 5)
     .sort((a, b) => b.score - a.score || a.chunk.referenceId.localeCompare(b.chunk.referenceId));
   const collapsed = collapse(scored);
@@ -101,6 +107,25 @@ export function getArticle(article: string, point?: string):
   };
 }
 
+export function getAnnex(annex: string):
+  | { ok: true; data: Record<string, unknown> }
+  | { ok: false; code: string; message: string } {
+  const normalized = annex.trim().toUpperCase();
+  if (!/^(?:XIV|XIII|XII|XI|X|IX|VIII|VII|VI|V|IV|III|II|I)$/.test(normalized)) {
+    return { ok: false, code: "invalid_input", message: "Номерът на приложението е невалиден." };
+  }
+  const corpus = getCorpus();
+  const documents = new Map(corpus.documents.map((document) => [document.documentId, document]));
+  const matches = corpus.chunks.filter((chunk) => chunk.duplicateOf === null && chunk.annex === normalized && chunk.kind === "law");
+  if (matches.length === 0) {
+    return { ok: true, data: { found: false, annex: normalized, references: [], message: "Няма такова приложение в заредената колекция." } };
+  }
+  return {
+    ok: true,
+    data: { found: true, annex: normalized, references: matches.map((chunk) => present(chunk, documents.get(chunk.documentId))) },
+  };
+}
+
 export function getReference(referenceId: string):
   | { ok: true; data: { reference: Record<string, unknown> } }
   | { ok: false; code: string; message: string } {
@@ -131,8 +156,20 @@ export function isReferenceId(value: string): boolean {
 }
 
 export function articleMention(query: string): string | null {
-  const match = query.match(/(?:членове|член|чл\.?|articles|article|art\.?)\s*(\d{1,4})\b/iu);
-  return match?.[1] ?? null;
+  const match = query.match(/(?:членове|член|чл\.?|articles|article|art\.?)\s*(\d{1,4})\s*([а-яa-z])?(?!\d)/iu);
+  if (!match?.[1]) return null;
+  return `${match[1]}${letterSuffix(match[2])}`;
+}
+
+export function annexMention(query: string): string | null {
+  const match = query.match(/(?:приложение|annex)\s*(XIV|XIII|XII|XI|X|IX|VIII|VII|VI|V|IV|III|II|I)\b/iu);
+  return match?.[1]?.toUpperCase() ?? null;
+}
+
+function letterSuffix(letter: string | undefined): string {
+  if (!letter) return "";
+  const map: Record<string, string> = { а: "a", б: "b", в: "v", г: "g", a: "a", b: "b" };
+  return map[letter.toLowerCase()] ?? "";
 }
 
 function present(chunk: AiActChunk, document: AiActDocument | undefined): Record<string, unknown> {
@@ -141,6 +178,7 @@ function present(chunk: AiActChunk, document: AiActDocument | undefined): Record
     title: document?.title ?? chunk.heading,
     instrument: document?.instrument ?? "",
     article: chunk.article,
+    annex: chunk.annex,
     point: chunk.point,
     heading: chunk.heading,
     kind: chunk.kind,
@@ -158,6 +196,7 @@ function toHit(chunk: AiActChunk, document: AiActDocument | undefined, rank: num
     documentId: chunk.documentId,
     title: document?.title ?? chunk.heading,
     article: chunk.article,
+    annex: chunk.annex,
     point: chunk.point,
     heading: chunk.heading,
     kind: chunk.kind,
@@ -168,16 +207,20 @@ function toHit(chunk: AiActChunk, document: AiActDocument | undefined, rank: num
   };
 }
 
-function scoreChunk(chunk: AiActChunk, tokens: string[], articles: string[]): number {
+function scoreChunk(chunk: AiActChunk, tokens: string[], articles: string[], annexes: string[]): number {
   const hay = chunk.searchText;
   let overlap = 0;
   for (const token of tokens) {
-    if (hay.includes(token)) overlap += 1;
+    if (token.length >= 3 && hay.includes(token.toLowerCase())) overlap += 1;
   }
   let score = overlap * 2;
-  if (chunk.article && articles.includes(chunk.article)) score += chunk.kind === "law" ? 8 : 5;
-  if (chunk.kind === "interpretation") score *= 0.35;
-  if (overlap === 0 && !(chunk.article && articles.includes(chunk.article))) return 0;
+  const articleHit = Boolean(chunk.article && articles.includes(chunk.article));
+  const annexHit = Boolean(chunk.annex && annexes.includes(chunk.annex));
+  if (articleHit) score += chunk.kind === "law" ? 8 : 4;
+  if (annexHit) score += chunk.kind === "law" ? 8 : 3;
+  if (chunk.kind === "engineering" && overlap > 0) score += 3;
+  if (chunk.kind === "interpretation") score *= 0.3;
+  if (overlap === 0 && !articleHit && !annexHit) return 0;
   return score;
 }
 
@@ -191,15 +234,17 @@ function collapse(scored: Array<{ chunk: AiActChunk; score: number }>): Array<{ 
   return [...best.values()].sort((a, b) => b.score - a.score || a.chunk.referenceId.localeCompare(b.chunk.referenceId));
 }
 
-function aliasFor(query: string): { articles: string[]; terms: string[] } {
+function aliasFor(query: string): { articles: string[]; annexes: string[]; terms: string[] } {
   const articles: string[] = [];
+  const annexes: string[] = [];
   const terms: string[] = [];
   for (const alias of ALIASES) {
     if (!alias.pattern.test(query)) continue;
     articles.push(...alias.articles);
+    annexes.push(...alias.annexes);
     terms.push(...alias.terms);
   }
-  return { articles, terms };
+  return { articles, annexes, terms };
 }
 
 function tokenize(query: string): string[] {
@@ -213,5 +258,6 @@ function tokenize(query: string): string[] {
 function rankKind(kind: AiActChunk["kind"]): number {
   if (kind === "law") return 0;
   if (kind === "guidance") return 1;
-  return 2;
+  if (kind === "engineering") return 2;
+  return 3;
 }

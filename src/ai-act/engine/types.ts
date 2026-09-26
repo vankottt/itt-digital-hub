@@ -1,14 +1,15 @@
-export type SourceKind = "law" | "guidance" | "interpretation";
+export type SourceKind = "law" | "guidance" | "engineering" | "interpretation";
 
 export type AiActDocument = {
   documentId: string;
   filename: string;
   title: string;
-  authority: "eur-lex" | "european-commission";
+  authority: "eur-lex" | "european-commission" | "itt";
+  kind: SourceKind;
   instrument: string;
   version: string;
   url: string;
-  completeness: "extract";
+  completeness: "consolidated" | "context" | "extract";
   missingNote: string;
 };
 
@@ -16,6 +17,7 @@ export type AiActChunk = {
   referenceId: string;
   documentId: string;
   article: string | null;
+  annex: string | null;
   point: string | null;
   heading: string;
   kind: SourceKind;
@@ -37,6 +39,7 @@ export type SearchHit = {
   documentId: string;
   title: string;
   article: string | null;
+  annex: string | null;
   point: string | null;
   heading: string;
   kind: SourceKind;

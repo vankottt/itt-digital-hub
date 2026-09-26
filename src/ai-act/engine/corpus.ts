@@ -3,68 +3,12 @@ import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import type { AiActChunk, AiActDocument, CorpusIndex, SourceKind } from "./types";
 
-const CATALOG: Record<string, Omit<AiActDocument, "documentId" | "filename">> = {
-  "01-scope-and-roles.md": {
-    title: "Regulation (EU) 2024/1689, Articles 2 and 3 (extract)",
-    authority: "eur-lex",
-    instrument: "Regulation (EU) 2024/1689",
-    version: "consolidated 27 July 2026",
-    url: "https://eur-lex.europa.eu/eli/reg/2024/1689/2026-07-27",
-    completeness: "extract",
-    missingNote:
-      "Extract of Articles 2 and 3 only. Importer, distributor and authorised representative definitions are not in this file.",
-  },
-  "02-article-4-ai-literacy.md": {
-    title: "Regulation (EU) 2024/1689, Articles 3(56) and 4 (extract)",
-    authority: "eur-lex",
-    instrument: "Regulation (EU) 2024/1689",
-    version: "consolidated 27 July 2026",
-    url: "https://eur-lex.europa.eu/eli/reg/2024/1689/2026-07-27",
-    completeness: "extract",
-    missingNote: "Extract of the AI literacy definition and Article 4. It is not the full regulation.",
-  },
-  "03-risk-classification.md": {
-    title: "Regulation (EU) 2024/1689, Articles 5, 6 and 26 (extract)",
-    authority: "eur-lex",
-    instrument: "Regulation (EU) 2024/1689",
-    version: "consolidated 27 July 2026",
-    url: "https://eur-lex.europa.eu/eli/reg/2024/1689/2026-07-27",
-    completeness: "extract",
-    missingNote: "Screening extract. Annex III is not reproduced, and Article 5 exceptions are not complete.",
-  },
-  "04-transparency.md": {
-    title: "Regulation (EU) 2024/1689, Article 50 (extract)",
-    authority: "eur-lex",
-    instrument: "Regulation (EU) 2024/1689",
-    version: "consolidated 27 July 2026",
-    url: "https://eur-lex.europa.eu/eli/reg/2024/1689/2026-07-27",
-    completeness: "extract",
-    missingNote: "Extract of Article 50. It is not the full transparency chapter.",
-  },
-  "05-application-timeline.md": {
-    title: "Regulation (EU) 2024/1689, Article 113 (extract)",
-    authority: "eur-lex",
-    instrument: "Regulation (EU) 2024/1689",
-    version: "consolidated 27 July 2026",
-    url: "https://eur-lex.europa.eu/eli/reg/2024/1689/2026-07-27",
-    completeness: "extract",
-    missingNote: "Extract of Article 113 dates of application as consolidated on 27 July 2026.",
-  },
-  "06-commission-ai-literacy-qa.md": {
-    title: "European Commission, AI literacy questions and answers (selected)",
-    authority: "european-commission",
-    instrument: "Commission AI literacy Q&A",
-    version: "selected Commission Q&A",
-    url: "https://digital-strategy.ec.europa.eu/en/faqs/ai-literacy-questions-answers",
-    completeness: "extract",
-    missingNote: "Selected official Q&A. It is guidance, not the regulation, and may use older wording than the consolidated Article 4.",
-  },
-};
+const ROOTS = ["regulation", "engineering", "interpretation"] as const;
 
 let cached: CorpusIndex | null = null;
 
-export function knowledgeDir(cwd = process.cwd()): string {
-  return path.join(cwd, "src/content/ai-act-kit/sources");
+export function knowledgeRoot(cwd = process.cwd()): string {
+  return path.join(cwd, "src/ai-act/knowledge");
 }
 
 export function resetCorpusCache(): void {
@@ -77,49 +21,104 @@ export function getCorpus(cwd = process.cwd()): CorpusIndex {
 }
 
 export function buildCorpus(cwd = process.cwd()): CorpusIndex {
-  const dir = knowledgeDir(cwd);
-  const files = readdirSync(dir)
-    .filter((name) => name.endsWith(".md") && name !== "00-source-index.md")
-    .sort((a, b) => a.localeCompare(b, "en"));
   const documents: AiActDocument[] = [];
   const chunks: AiActChunk[] = [];
-  for (const filename of files) {
-    const meta = CATALOG[filename];
-    if (!meta) continue;
-    const documentId = filename.replace(/\.md$/, "");
-    const document: AiActDocument = { documentId, filename, ...meta };
-    documents.push(document);
-    const raw = readFileSync(path.join(dir, filename), "utf8");
-    chunks.push(...chunkDocument(document, raw));
+  const root = knowledgeRoot(cwd);
+  for (const folder of ROOTS) {
+    const dir = path.join(root, folder);
+    for (const filename of readdirSync(dir).filter((name) => name.endsWith(".md")).sort((a, b) => a.localeCompare(b, "en"))) {
+      addFile(documents, chunks, path.join(dir, filename), filename);
+    }
   }
+  addFile(
+    documents,
+    chunks,
+    path.join(cwd, "src/content/ai-act-kit/sources/06-commission-ai-literacy-qa.md"),
+    "06-commission-ai-literacy-qa.md",
+    "guidance",
+  );
   markDuplicates(chunks);
   return { documents, chunks, byId: new Map(chunks.map((chunk) => [chunk.referenceId, chunk])) };
 }
 
-function chunkDocument(document: AiActDocument, raw: string): AiActChunk[] {
-  const sections = splitSections(raw);
-  return sections.map((section, index) => {
-    const article = articleFromHeading(section.heading);
-    const point = pointFromHeading(section.heading);
-    const kind = kindFor(document.filename, section.heading);
+function addFile(
+  documents: AiActDocument[],
+  chunks: AiActChunk[],
+  file: string,
+  filename: string,
+  forcedKind?: SourceKind,
+): void {
+  const raw = readFileSync(file, "utf8");
+  const { data, body } = parseFrontmatter(raw);
+  const kind = forcedKind ?? kindOf(data.kind) ?? "law";
+  const documentId = filename.replace(/\.md$/, "");
+  const article = data.article?.trim() || null;
+  const annex = data.annex?.trim() || null;
+  const heading = data.heading?.trim() || filename;
+  const document: AiActDocument = {
+    documentId,
+    filename,
+    title: documentTitle(kind, article, annex, heading),
+    authority: data.authority === "european-commission" || kind === "guidance" ? "european-commission" : data.authority === "itt" || kind !== "law" ? "itt" : "eur-lex",
+    instrument: kind === "law" ? "Регламент (ЕС) 2024/1689" : kind === "guidance" ? "Commission AI literacy Q&A" : "ITT Digital Hub",
+    version: data.version?.trim() || (kind === "guidance" ? "selected Commission Q&A" : "2026-09-26"),
+    url:
+      data.url?.trim() ||
+      (kind === "guidance"
+        ? "https://digital-strategy.ec.europa.eu/en/faqs/ai-literacy-questions-answers"
+        : kind === "law"
+          ? "https://eur-lex.europa.eu/eli/reg/2024/1689/2026-07-27"
+          : ""),
+    completeness: kind === "law" ? "consolidated" : "context",
+    missingNote: kind === "law" ? "" : "Този запис не е текст на регламента.",
+    kind,
+  };
+  documents.push(document);
+  const sections = splitSections(body);
+  sections.forEach((section, index) => {
+    const point = /^\d+$/.test(section.heading) ? section.heading : null;
+    const sectionArticle = article || articleFromHeading(section.heading);
     const text = section.text.trim();
-    return {
-      referenceId: `aia_${document.documentId.replace(/^\d+-/, "").replace(/[^a-z0-9]+/g, "-")}_p${index + 1}`,
-      documentId: document.documentId,
-      article,
+    if (!text) return;
+    chunks.push({
+      referenceId: `aia_${documentId.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "").toLowerCase()}_p${index + 1}`,
+      documentId,
+      article: sectionArticle,
+      annex,
       point,
-      heading: section.heading,
+      heading: point ? `${document.title}, точка ${point}` : section.heading || heading,
       kind,
       text,
       searchText: `${section.heading}\n${text}`.toLowerCase(),
-      contentHash: createHash("sha256").update(text).digest("hex"),
+      contentHash: createHash("sha256").update(`${kind}\n${text}`).digest("hex"),
       duplicateOf: null,
-    };
+    });
   });
 }
 
-function splitSections(raw: string): Array<{ heading: string; text: string }> {
-  const lines = raw.replace(/\r\n/g, "\n").split("\n");
+function documentTitle(kind: SourceKind, article: string | null, annex: string | null, heading: string): string {
+  if (kind === "law" && article) return `Регламент (ЕС) 2024/1689, член ${article}`;
+  if (kind === "law" && annex) return `Регламент (ЕС) 2024/1689, приложение ${annex}`;
+  if (kind === "guidance") return "European Commission, AI literacy questions and answers (selected)";
+  if (kind === "engineering") return "Професионален контекст за инженерна и проектантска работа";
+  return heading;
+}
+
+function parseFrontmatter(raw: string): { data: Record<string, string>; body: string } {
+  const match = raw.match(/^---\n([\s\S]*?)\n---\n?/);
+  const block = match?.[1];
+  if (!match || !block) return { data: {}, body: raw };
+  const data: Record<string, string> = {};
+  for (const line of block.split("\n")) {
+    const split = line.indexOf(":");
+    if (split === -1) continue;
+    data[line.slice(0, split).trim()] = line.slice(split + 1).trim();
+  }
+  return { data, body: raw.slice(match[0].length) };
+}
+
+function splitSections(body: string): Array<{ heading: string; text: string }> {
+  const lines = body.replace(/\r\n/g, "\n").split("\n");
   const sections: Array<{ heading: string; text: string[] }> = [];
   let current: { heading: string; text: string[] } | null = null;
   for (const line of lines) {
@@ -129,23 +128,25 @@ function splitSections(raw: string): Array<{ heading: string; text: string }> {
     } else if (current) current.text.push(line);
   }
   if (current && current.text.join("\n").trim()) sections.push(current);
+  if (sections.length === 0 && body.trim()) return [{ heading: "", text: body.trim() }];
   return sections.map((section) => ({ heading: section.heading, text: section.text.join("\n").trim() }));
 }
 
 function articleFromHeading(heading: string): string | null {
-  const match = heading.match(/\b(?:Article|Член|чл\.)\s*(\d{1,4})\b/i);
-  return match?.[1] ?? null;
+  const match = heading.match(/\b(?:Article|Член|чл\.)\s*(\d{1,4})\s*([а-яa-z])?/i);
+  if (!match) return null;
+  return `${match[1]}${suffix(match[2])}`;
 }
 
-function pointFromHeading(heading: string): string | null {
-  const match = heading.match(/\bArticle\s+\d{1,4}\((\d{1,3})\)/i);
-  return match?.[1] ?? null;
+function suffix(letter: string | undefined): string {
+  if (!letter) return "";
+  const map: Record<string, string> = { а: "a", б: "b", в: "v", г: "g", a: "a", b: "b" };
+  return map[letter.toLowerCase()] ?? "";
 }
 
-function kindFor(filename: string, heading: string): SourceKind {
-  if (/ITT note|Practical reading|How to use this file|Reading for this assistant/i.test(heading)) return "interpretation";
-  if (filename.startsWith("06-")) return "guidance";
-  return "law";
+function kindOf(value: string | undefined): SourceKind | null {
+  if (value === "law" || value === "guidance" || value === "engineering" || value === "interpretation") return value;
+  return null;
 }
 
 function markDuplicates(chunks: AiActChunk[]): void {

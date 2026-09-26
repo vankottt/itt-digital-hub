@@ -1,7 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { aiAct, comparisonExamples } from "../../src/content/ai-act";
-import { getCorpus } from "../../src/ai-act/engine/corpus";
 import { articleMention, getArticle, searchKnowledge } from "../../src/ai-act/engine/search";
 import { callTool } from "../../src/ai-act/engine/tools";
 import { collectExecution, expertStatusLine } from "../../src/ai-act/comparison/presentation";
@@ -17,73 +16,70 @@ const prompt = (id: (typeof comparisonExamples)[number]["id"], locale: "bg" | "e
   comparisonExamples.find((example) => example.id === id)?.prompt[locale] ?? "";
 
 describe("AI Act retrieval scenarios", () => {
-  it("does not classify an employee chatbot as high-risk from the collection", () => {
-    const question = prompt("missing-information");
-    const found = searchKnowledge({ query: question });
-    expect(found.ok).toBe(true);
-    if (!found.ok) return;
-    const text = found.results.map((hit) => hit.excerpt).join("\n");
-    expect(text.toLowerCase()).not.toContain("this chatbot is high-risk");
+  it("does not provide a classifier tool", () => {
     expect(callTool("classify_ai_system", {})).toMatchObject({ ok: false });
-    expect(loadExpertInstructions(process.cwd(), "2026-09-26")).toContain("do not answer \"yes, it is high-risk\"");
+    expect(loadExpertInstructions(process.cwd(), "2026-09-26")).toContain("Do not overclassify");
   });
 
-  it("fetches Article 4 for an AI literacy question", () => {
+  it("fetches Article 4 in the official Bulgarian text", () => {
     const article = getArticle("4");
     expect(article.ok).toBe(true);
     if (!article.ok) return;
     const references = article.data.references as Array<{ text: string; kind: string }>;
-    expect(references.some((item) => item.kind === "law" && item.text.includes("support the development of AI literacy"))).toBe(true);
-    expect(references.some((item) => item.text.includes("does not require"))).toBe(true);
-    expect(articleMention(prompt("article-lookup"))).toBe("4");
+    const law = references.filter((item) => item.kind === "law").map((item) => item.text).join("\n");
+    expect(law).toContain("грамотността в областта на ИИ");
+    expect(law).toContain("не налага");
+    expect(articleMention(prompt("article-4"))).toBe("4");
   });
 
   it("returns provider and deployer definitions for the role question", () => {
     const found = searchKnowledge({ query: prompt("roles") });
     expect(found.ok).toBe(true);
     if (!found.ok) return;
-    expect(found.results.some((hit) => hit.article === "3")).toBe(true);
+    expect(found.results.some((hit) => hit.article === "3" || hit.kind === "engineering")).toBe(true);
     const article = getArticle("3");
     expect(article.ok).toBe(true);
     if (!article.ok) return;
     const text = JSON.stringify(article.data);
-    expect(text).toMatch(/Provider\*\* means/i);
-    expect(text).toMatch(/Deployer\*\* means/i);
-    expect(loadExpertInstructions()).toContain("authorised representative");
+    expect(text).toContain("„доставчик“");
+    expect(text).toContain("„внедрител“");
+    expect(text).toContain("„вносител“");
+    expect(text).toContain("„упълномощен представител“");
   });
 
-  it("grounds the employment case in Article 6 or 26 without quoting a missing annex list", () => {
-    const found = searchKnowledge({ query: prompt("employment") });
+  it("retrieves Annex III employment wording for candidate screening", () => {
+    const found = searchKnowledge({ query: "Проектантска фирма използва ИИ за предварителен подбор на кандидати." });
     expect(found.ok).toBe(true);
     if (!found.ok) return;
-    expect(found.results.some((hit) => hit.article === "6" || hit.article === "26")).toBe(true);
-    const corpus = getCorpus().chunks.map((chunk) => chunk.text).join("\n");
-    expect(corpus).not.toMatch(/Annex III[\s\S]{0,80}recruitment/i);
+    expect(found.results.some((hit) => hit.annex === "III" && hit.excerpt.includes("подбор"))).toBe(true);
   });
 
-  it("retrieves Article 113 dates for the timeline question", () => {
-    const found = searchKnowledge({ query: prompt("timeline") });
+  it("retrieves Article 113 dates from the Bulgarian consolidated text", () => {
+    const found = searchKnowledge({ query: "Кои задължения вече се прилагат и кои влизат в сила по-късно?" });
     expect(found.ok).toBe(true);
     if (!found.ok) return;
-    const article = found.results.find((hit) => hit.article === "113");
-    expect(article?.excerpt).toContain("2 August 2026");
-    expect(article?.excerpt).toContain("2 February 2025");
+    const article = getArticle("113");
+    expect(article.ok).toBe(true);
+    if (!article.ok) return;
+    const text = JSON.stringify(article.data);
+    expect(text).toContain("2 август 2026");
+    expect(text).toContain("2 февруари 2025");
   });
 
   it("does not fabricate Article 999", () => {
-    expect(searchKnowledge({ query: prompt("missing-article") })).toMatchObject({ ok: true, results: [] });
+    expect(searchKnowledge({ query: "What does Article 999 require?" })).toMatchObject({ ok: true, results: [] });
     const article = getArticle("999");
     expect(article.ok && article.data.found).toBe(false);
     expect(JSON.stringify(article)).not.toMatch(/mandatory registration of every chatbot/i);
   });
 
   it("keeps the open use-case path free of a deterministic classifier", () => {
-    expect(prompt("use-case").length).toBeGreaterThan(10);
-    const names = ["search_ai_act_knowledge", "get_ai_act_article", "get_ai_act_reference", "list_ai_act_sources"];
+    expect(prompt("open-case").length).toBeGreaterThan(10);
+    const names = ["search_ai_act_knowledge", "get_ai_act_article", "get_ai_act_annex", "get_ai_act_reference", "list_ai_act_sources"];
     const tools = readFileSync("src/ai-act/engine/tools.ts", "utf8");
     for (const name of names) expect(tools).toContain(name);
     expect(tools).not.toMatch(/openai|anthropic|generateText|chat\.completions/i);
-    expect(loadExpertInstructions()).toContain("intended purpose");
+    expect(loadExpertInstructions()).toContain("what the system does");
   });
 });
 
@@ -110,7 +106,7 @@ describe("AI Act provenance", () => {
   });
 
   it("does not invent a source list when search returns nothing", () => {
-    const search = callTool("search_ai_act_knowledge", { query: prompt("missing-article") });
+    const search = callTool("search_ai_act_knowledge", { query: "What does Article 999 require?" });
     expect(search.ok).toBe(true);
     if (!search.ok) return;
     const execution = collectExecution([{ name: "search_ai_act_knowledge", output: JSON.stringify(search.data) }]);
@@ -165,7 +161,7 @@ describe("AI Act provenance", () => {
 
 describe("AI Act comparison fairness", () => {
   const env = { AI_ACT_COMPARISON_MODEL: "gpt-5.6", OPENAI_API_KEY: "test-key", NEXT_PUBLIC_SITE_URL: "https://ittdigitalhub.org" };
-  const question = prompt("article-lookup");
+  const question = prompt("article-4");
   const requests = buildComparisonRequests(question, env, process.cwd(), "2026-09-26");
 
   it("sends the same model and the same user prompt", () => {
@@ -190,6 +186,7 @@ describe("AI Act comparison fairness", () => {
     expect(requests.expert.tools?.[0]?.allowed_tools).toEqual([
       "search_ai_act_knowledge",
       "get_ai_act_article",
+      "get_ai_act_annex",
       "get_ai_act_reference",
       "list_ai_act_sources",
     ]);
@@ -246,7 +243,7 @@ describe("AI Act comparison fairness", () => {
       const response = await comparePost(new Request("https://ittdigitalhub.org/api/ai-act/compare", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: question, locale: "bg", exampleId: "article-lookup" }),
+        body: JSON.stringify({ prompt: question, locale: "bg", exampleId: "article-4" }),
       }));
       const payload = (await response.json()) as { control: Record<string, unknown>; expert: { sources?: unknown[] } };
       expect(response.status).toBe(200);

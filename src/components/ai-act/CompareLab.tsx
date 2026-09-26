@@ -257,7 +257,14 @@ function SourceBlock({ locale, sources }: { locale: Locale; sources: PublicSourc
 
 function sourceMeta(locale: Locale, source: PublicSource): string {
   const text = copy.compare;
-  const kind = source.kind === "law" ? text.kindLaw[locale] : source.kind === "guidance" ? text.kindGuidance[locale] : text.kindNote[locale];
+  const kind =
+    source.kind === "law"
+      ? text.kindLaw[locale]
+      : source.kind === "guidance"
+        ? text.kindGuidance[locale]
+        : source.kind === "engineering"
+          ? text.kindEngineering[locale]
+          : text.kindNote[locale];
   return [kind, source.authority, source.version].filter(Boolean).join(" · ");
 }
 

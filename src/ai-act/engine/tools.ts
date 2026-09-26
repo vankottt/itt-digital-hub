@@ -1,8 +1,9 @@
-import { getArticle, getReference, isReferenceId, listSources, searchKnowledge } from "./search";
+import { getAnnex, getArticle, getReference, isReferenceId, listSources, searchKnowledge } from "./search";
 
 export const AI_ACT_TOOL_NAMES = [
   "search_ai_act_knowledge",
   "get_ai_act_article",
+  "get_ai_act_annex",
   "get_ai_act_reference",
   "list_ai_act_sources",
 ] as const;
@@ -47,6 +48,17 @@ export const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
+    name: "get_ai_act_annex",
+    description:
+      "Fetches one annex of Regulation (EU) 2024/1689 from the loaded Bulgarian consolidated text. Returns found:false when that annex is not in the collection.",
+    inputSchema: {
+      type: "object",
+      additionalProperties: false,
+      properties: { annex: { type: "string", minLength: 1, maxLength: 6 } },
+      required: ["annex"],
+    },
+  },
+  {
     name: "get_ai_act_reference",
     description: "Fetches one candidate by referenceId, including whether the passage is law, official guidance, or an ITT note.",
     inputSchema: {
@@ -88,6 +100,10 @@ export function callTool(name: string, args: unknown): ToolCallResult {
     const article = typeof input.article === "string" ? input.article : "";
     const point = typeof input.point === "string" ? input.point : undefined;
     const result = getArticle(article, point);
+    return result.ok ? { ok: true, data: result.data } : result;
+  }
+  if (name === "get_ai_act_annex") {
+    const result = getAnnex(typeof input.annex === "string" ? input.annex : "");
     return result.ok ? { ok: true, data: result.data } : result;
   }
   if (name === "get_ai_act_reference") {

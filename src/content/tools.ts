@@ -64,15 +64,15 @@ const catalog: ToolSource[] = [
   },
   {
     id: "ai-act-assistant",
-    title: { bg: "AI Act асистент", en: "AI Act Assistant" },
+    title: { bg: "Акт за изкуствения интелект", en: "AI Act Assistant" },
     category: { bg: "AI · Регулации", en: "AI · Regulation" },
     description: {
-      bg: "Сравнява общ AI модел със специализиран ход за AI Act: нормативни източници, роли и приложимост.",
-      en: "Compares a general AI model with a specialized AI Act workflow: authoritative sources, roles and applicability.",
+      bg: "Сравнява общ модел със специализиран асистент за Акта за изкуствения интелект: нормативен текст, роли и приложимост.",
+      en: "Compares a general model with a specialist assistant for the Artificial Intelligence Act: the regulation, roles and applicability.",
     },
     image: { bg: "/tools/ai-act-assistant-card-bg.png", en: "/tools/ai-act-assistant-card-en.png" },
     imageAlt: {
-      bg: "Интерфейс на AI Act асистента с примерни въпроси и поле за въвеждане.",
+      bg: "Интерфейс на асистента за Акта за изкуствения интелект с примерни въпроси и поле за въвеждане.",
       en: "AI Act Assistant interface with starter questions and an input field.",
     },
     hrefKey: "ai-act",

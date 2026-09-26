@@ -60,6 +60,10 @@ export default async function AiActPage({ params }: Params) {
                 </section>
               ))}
             </div>
+            <div className="mt-8 border-t border-line pt-6">
+              <h2 className="text-h4 text-ink">{aiAct.audienceTitle[locale]}</h2>
+              <p className="mt-3 max-w-[68ch] text-small leading-[1.7] text-ink-2">{aiAct.audience[locale]}</p>
+            </div>
             <div className="mt-8 flex flex-wrap items-center gap-4 border-t border-line pt-6">
               <ButtonLink href={href(locale, "ai-act", "compare")}>{aiAct.compareCta[locale]}</ButtonLink>
               <p className="max-w-[42ch] text-small text-ink-3">{aiAct.compareHint[locale]}</p>

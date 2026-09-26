@@ -1,12 +1,13 @@
 import { aiAct } from "@/content/ai-act";
 import type { Locale } from "@/lib/i18n";
 
-export type SourceKind = "law" | "guidance" | "interpretation";
+export type SourceKind = "law" | "guidance" | "engineering" | "interpretation";
 export type ToolKind = "retrieval" | "reference" | "catalogue";
 
 export type PublicSource = {
   title: string;
   article: string | null;
+  annex: string | null;
   locator: string;
   authority: string;
   version: string;
@@ -45,7 +46,7 @@ type SourceDraft = PublicSource;
 
 function toolKind(name: string): ToolKind | null {
   if (name === "search_ai_act_knowledge") return "retrieval";
-  if (name === "get_ai_act_article" || name === "get_ai_act_reference") return "reference";
+  if (name === "get_ai_act_article" || name === "get_ai_act_annex" || name === "get_ai_act_reference") return "reference";
   if (name === "list_ai_act_sources") return "catalogue";
   return null;
 }
@@ -63,13 +64,15 @@ function sourceDraft(record: Record<string, unknown>): SourceDraft[] {
   const kind = kindOf(record.kind);
   if (!title || !kind) return [];
   const article = text(record.article) || null;
+  const annex = text(record.annex) || null;
   const point = text(record.point);
   const heading = text(record.heading);
-  const locator = point && article ? `Article ${article}(${point})` : heading || (article ? `Article ${article}` : "");
+  const locator = annex ? `Приложение ${annex}` : point && article ? `Член ${article}, точка ${point}` : article ? `Член ${article}` : heading;
   return [
     {
       title,
       article,
+      annex,
       locator,
       authority: authorityLabel(kind, text(record.authority)),
       version: text(record.version),
@@ -82,9 +85,10 @@ function sourceDraft(record: Record<string, unknown>): SourceDraft[] {
 function groupSources(drafts: SourceDraft[]): PublicSource[] {
   const groups = new Map<string, PublicSource>();
   for (const draft of drafts) {
-    const key = [draft.title, draft.article ?? "", draft.kind].join("|");
+    const key = [draft.title, draft.article ?? "", draft.annex ?? "", draft.kind].join("|");
     const current = groups.get(key) ?? { ...draft, locator: "" };
-    if (draft.locator && !current.locator.split(" · ").includes(draft.locator)) {
+    const pieces = current.locator ? current.locator.split(" · ") : [];
+    if (draft.locator && !pieces.includes(draft.locator) && pieces.length < 4) {
       current.locator = current.locator ? `${current.locator} · ${draft.locator}` : draft.locator;
     }
     if (!current.url && draft.url) current.url = draft.url;
@@ -94,13 +98,13 @@ function groupSources(drafts: SourceDraft[]): PublicSource[] {
 }
 
 function authorityLabel(kind: SourceKind, authority: string): string {
-  if (kind === "interpretation") return "ITT note";
+  if (kind === "engineering" || kind === "interpretation" || authority === "itt") return "ITT Digital Hub";
   if (kind === "guidance" || authority === "european-commission") return "European Commission";
   return "EUR-Lex";
 }
 
 function kindOf(value: unknown): SourceKind | null {
-  if (value === "law" || value === "guidance" || value === "interpretation") return value;
+  if (value === "law" || value === "guidance" || value === "engineering" || value === "interpretation") return value;
   return null;
 }
 
