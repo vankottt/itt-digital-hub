@@ -132,6 +132,74 @@ describe("comparison fairness", () => {
       calculationInputRejected: false,
     });
     expect(JSON.stringify(result)).not.toMatch(/winner|score|9\/10/i);
+    if (result.expert.ok) {
+      expect(result.expert.sources).toEqual([]);
+      expect(result.expert.calculations[0]?.results[0]).toEqual({ key: "diameter_mm", value: "123.6", unit: "mm" });
+    }
+  });
+
+  it("keeps source and calculation metadata on the tool output, not the model prose", async () => {
+    const prose = "Наредба № 9999, чл. 9999 изисква DN 500.";
+    const result = await runComparison(prompt, {
+      env,
+      fetchImpl: async (_url, init) => {
+        const body = JSON.parse(String(init?.body)) as { model: string; tools?: unknown };
+        return Response.json({
+          model: body.model,
+          output_text: prose,
+          output: body.tools
+            ? [
+                {
+                  type: "mcp_call",
+                  name: "search_vik_knowledge",
+                  output: JSON.stringify({
+                    results: [
+                      {
+                        documentId: "rd-02-20-2-2024",
+                        title: "Наредба № РД-02-20-2 от 3 юли 2024 г.",
+                        number: "РД-02-20-2",
+                        year: 2024,
+                        dvReference: "ДВ, бр. 61 от 2024 г.",
+                        article: "1",
+                        section: "Общи положения",
+                      },
+                      {
+                        documentId: "rd-02-20-2-2024",
+                        title: "Наредба № РД-02-20-2 от 3 юли 2024 г.",
+                        number: "РД-02-20-2",
+                        year: 2024,
+                        dvReference: "ДВ, бр. 61 от 2024 г.",
+                        article: "2",
+                        section: "Общи положения",
+                      },
+                    ],
+                  }),
+                },
+                {
+                  type: "mcp_call",
+                  name: "calculate_pipe_diameter",
+                  output: JSON.stringify({
+                    operation: "calculate_pipe_diameter",
+                    inputs: { flow: 4.8, flow_unit: "L/s", velocity_m_s: 1 },
+                    result: { diameter_mm: 78.2 },
+                    units: { diameter_mm: "mm" },
+                  }),
+                },
+              ]
+            : [],
+        });
+      },
+    });
+    expect(result.control.ok && result.control.text).toBe(prose);
+    expect(result.expert.ok && result.expert.text).toBe(prose);
+    if (!result.expert.ok) return;
+    expect(result.expert.sources).toHaveLength(1);
+    expect(result.expert.sources[0]?.title).toContain("РД-02-20-2");
+    expect(result.expert.sources[0]?.locators).toEqual(["чл. 1 · Общи положения", "чл. 2 · Общи положения"]);
+    expect(JSON.stringify(result.expert.sources)).not.toContain("9999");
+    expect(result.expert.calculations[0]?.inputs[0]).toEqual({ key: "flow", value: "4.8 L/s" });
+    expect(result.expert.calculations[0]?.results[0]?.value).toBe("78.2");
+    expect(JSON.stringify(result.expert.calculations)).not.toContain("500");
   });
 });
 

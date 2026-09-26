@@ -59,21 +59,25 @@ export async function POST(request: Request): Promise<Response> {
   return Response.json({
     requestId,
     fair: result.fair,
-    control: publicSide(result.control),
-    expert: publicSide(result.expert),
+    control: publicSide(result.control, false),
+    expert: publicSide(result.expert, true),
     summary: result.summary,
   });
 }
 
-function publicSide(side: Awaited<ReturnType<typeof runComparison>>["control"]) {
+function publicSide(side: Awaited<ReturnType<typeof runComparison>>["control"], revealExecution: boolean) {
   if (!side.ok) return { ok: false as const, error: side.error };
+  if (!revealExecution) return { ok: true as const, text: side.text };
   return {
     ok: true as const,
     text: side.text,
-    sourceCount: side.sourceCount,
+    sourceCount: side.sources.length,
     retrievalUsed: side.retrievalCount > 0,
     calculationPerformed: side.calculationPerformed,
     calculationInputRejected: side.calculationInputRejected,
+    sources: side.sources,
+    calculations: side.calculations,
+    toolKinds: side.toolKinds,
   };
 }
 

@@ -1,3 +1,5 @@
+import type { PublicCalculation, PublicSource, ToolKind } from "./presentation";
+
 export type SideName = "control" | "expert";
 
 export type SideSuccess = {
@@ -10,6 +12,9 @@ export type SideSuccess = {
   calculationPerformed: boolean;
   calculationInputRejected: boolean;
   toolNames: string[];
+  sources: PublicSource[];
+  calculations: PublicCalculation[];
+  toolKinds: ToolKind[];
 };
 
 export type SideFailure = {

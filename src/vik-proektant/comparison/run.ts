@@ -1,5 +1,6 @@
 import { COMPARISON_TIMEOUT_MS } from "./config";
 import type { ComparisonSummary, SideFailure, SideSuccess } from "./observe";
+import { collectExecution } from "./presentation";
 import { buildComparisonRequests } from "./requests";
 
 type FetchLike = typeof fetch;
@@ -116,33 +117,20 @@ function readText(payload: unknown): string {
   return parts.join("\n");
 }
 
-function readTools(payload: unknown): Pick<SideSuccess, "retrievalCount" | "sourceCount" | "calculationPerformed" | "calculationInputRejected" | "toolNames"> {
+function readTools(payload: unknown): Pick<SideSuccess, "retrievalCount" | "sourceCount" | "calculationPerformed" | "calculationInputRejected" | "toolNames" | "sources" | "calculations" | "toolKinds"> {
   const names: string[] = [];
   const outputs: string[] = [];
   walk(payload, names, outputs);
-  const sourceIds = new Set<string>();
-  let retrievalCount = 0;
-  let calculationPerformed = false;
-  let calculationInputRejected = false;
-  for (const [index, name] of names.entries()) {
-    const output = outputs[index] ?? "";
-    if (name === "search_vik_knowledge" || name === "get_vik_reference") {
-      retrievalCount += 1;
-      for (const match of output.matchAll(/"documentId"\s*:\s*"([^"]+)"/g)) {
-        if (match[1]) sourceIds.add(match[1]);
-      }
-    }
-    if (name.startsWith("calculate_")) {
-      if (/"code"\s*:\s*"invalid_input"/.test(output)) calculationInputRejected = true;
-      else calculationPerformed = true;
-    }
-  }
+  const execution = collectExecution(names.map((name, index) => ({ name, output: outputs[index] ?? "" })));
   return {
     toolNames: names,
-    retrievalCount,
-    sourceCount: sourceIds.size,
-    calculationPerformed,
-    calculationInputRejected,
+    retrievalCount: execution.retrievalCount,
+    sourceCount: execution.sourceIds.size,
+    calculationPerformed: execution.calculationPerformed,
+    calculationInputRejected: execution.calculationInputRejected,
+    sources: execution.sources,
+    calculations: execution.calculations,
+    toolKinds: execution.toolKinds,
   };
 }
 
