@@ -25,6 +25,7 @@ type ExpertResult =
   | { ok: false; error: ErrorCode };
 
 type Payload = {
+  retryAfterMs?: number;
   fair: boolean;
   control: ControlResult;
   expert: ExpertResult;
@@ -43,12 +44,14 @@ export function CompareLab({ locale }: { locale: Locale }) {
   const [exampleId, setExampleId] = useState<ExampleId | null>(comparisonExamples[0]?.id ?? null);
   const [pending, setPending] = useState(false);
   const [formError, setFormError] = useState<ErrorCode | null>(null);
+  const [retryAfterMs, setRetryAfterMs] = useState<number | null>(null);
   const [result, setResult] = useState<Payload | null>(null);
 
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
     setPending(true);
     setFormError(null);
+    setRetryAfterMs(null);
     setResult(null);
     const selected = exampleId && comparisonExamples.some((item) => item.id === exampleId && item.prompt[locale] === prompt) ? exampleId : null;
     track(selected ? "selected_example_prompt" : "custom_prompt_used", selected ? { example: selected } : {});
@@ -62,6 +65,7 @@ export function CompareLab({ locale }: { locale: Locale }) {
       const body = (await response.json()) as Payload;
       if (!response.ok) {
         setFormError(body.error ?? "upstream");
+        setRetryAfterMs(typeof body.retryAfterMs === "number" ? body.retryAfterMs : null);
         track(response.status === 429 ? "comparison_completed" : "comparison_completed", { status: "rejected" });
         return;
       }
@@ -122,7 +126,7 @@ export function CompareLab({ locale }: { locale: Locale }) {
         >
           {pending ? text.pending[locale] : text.submit[locale]}
         </button>
-        {formError ? <p className="mt-3 text-small text-ink-2">{text.errors[formError][locale]}</p> : null}
+        {formError ? <p className="mt-3 text-small text-ink-2">{formMessage(locale, formError, retryAfterMs)}</p> : null}
       </form>
 
       {result && !result.fair ? <p className="mt-4 text-small text-ink-2">{text.unfair[locale]}</p> : null}
@@ -207,28 +211,29 @@ function expertMeta(locale: Locale, result: Extract<ExpertResult, { ok: true }>,
   return parts.join(" · ");
 }
 
+function formMessage(locale: Locale, error: ErrorCode, retryAfterMs: number | null): string {
+  const text = copy.compare;
+  if (error !== "rate_limited" || !retryAfterMs) return text.errors[error][locale];
+  const seconds = Math.max(1, Math.ceil(retryAfterMs / 1000));
+  if (locale === "bg") {
+    return seconds < 60
+      ? `${text.errors.rate_limited.bg} Опитайте отново след ${seconds} сек.`
+      : `${text.errors.rate_limited.bg} Опитайте отново след ${Math.ceil(seconds / 60)} мин.`;
+  }
+  return seconds < 60
+    ? `${text.errors.rate_limited.en} Try again in ${seconds} sec.`
+    : `${text.errors.rate_limited.en} Try again in ${Math.ceil(seconds / 60)} min.`;
+}
+
 function SourceBlock({ locale, sources }: { locale: Locale; sources: PublicSource[] }) {
   const text = copy.compare;
-  const heading = sources.length >= 3 ? `${text.sourcesTitle[locale]} (${sources.length})` : text.sourcesTitle[locale];
-  const body = <SourceList sources={sources} />;
-  if (sources.length < 3) {
-    return (
-      <section className="mt-6 border-t border-line pt-4">
-        <h3 className="flex items-center gap-2 text-small font-medium text-ink">
-          <DocumentIcon />
-          {heading}
-        </h3>
-        {body}
-      </section>
-    );
-  }
   return (
-    <details open className="mt-6 border-t border-line pt-4">
+    <details className="mt-6 border-t border-line pt-4">
       <summary className="flex cursor-pointer items-center gap-2 text-small font-medium text-ink">
         <DocumentIcon />
-        {heading}
+        {text.sourcesTitle[locale]} ({sources.length})
       </summary>
-      {body}
+      <SourceList sources={sources} />
     </details>
   );
 }

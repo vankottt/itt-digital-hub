@@ -4,7 +4,9 @@ type Bucket = { tokens: number; updated: number };
 
 const buckets = new Map<string, Bucket>();
 
-export function takeToken(key: string, limit: number, windowMs: number, now = Date.now()): boolean {
+export type TokenResult = { ok: true } | { ok: false; retryAfterMs: number };
+
+export function takeToken(key: string, limit: number, windowMs: number, now = Date.now()): TokenResult {
   if (buckets.size > 5000) {
     const oldest = buckets.keys().next().value;
     if (oldest) buckets.delete(oldest);
@@ -12,11 +14,11 @@ export function takeToken(key: string, limit: number, windowMs: number, now = Da
   const current = buckets.get(key);
   if (!current || now - current.updated >= windowMs) {
     buckets.set(key, { tokens: limit - 1, updated: now });
-    return true;
+    return { ok: true };
   }
-  if (current.tokens <= 0) return false;
+  if (current.tokens <= 0) return { ok: false, retryAfterMs: Math.max(1, windowMs - (now - current.updated)) };
   current.tokens -= 1;
-  return true;
+  return { ok: true };
 }
 
 export function resetRateLimits(): void {

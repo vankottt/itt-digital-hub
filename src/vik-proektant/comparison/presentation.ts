@@ -64,8 +64,8 @@ export function collectExecution(calls: Array<{ name: string; output: string }>)
     const kind = toolKind(call.name);
     if (kind && !toolKinds.includes(kind)) toolKinds.push(kind);
     const payload = unwrap(call.output);
-    if (kind === "retrieval" || kind === "reference") {
-      retrievalCount += 1;
+    if (kind === "retrieval") retrievalCount += 1;
+    if (kind === "reference") {
       for (const draft of sourceDrafts(payload)) {
         if (draft.documentId) sourceIds.add(draft.documentId);
         if (draft.title) drafts.push(draft);

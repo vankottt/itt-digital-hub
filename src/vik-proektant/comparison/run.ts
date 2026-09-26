@@ -125,7 +125,7 @@ function readTools(payload: unknown): Pick<SideSuccess, "retrievalCount" | "sour
   return {
     toolNames: names,
     retrievalCount: execution.retrievalCount,
-    sourceCount: execution.sourceIds.size,
+    sourceCount: execution.sources.length,
     calculationPerformed: execution.calculationPerformed,
     calculationInputRejected: execution.calculationInputRejected,
     sources: execution.sources,

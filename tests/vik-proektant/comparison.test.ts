@@ -6,7 +6,8 @@ import { buildComparisonRequests, loadExpertInstructions } from "../../src/vik-p
 import { runComparison } from "../../src/vik-proektant/comparison/run";
 import { chatGptDestination } from "../../src/vik-proektant/publication";
 import { POST as comparePost } from "../../src/app/api/vik-proektant/compare/route";
-import { resetRateLimits } from "../../src/vik-proektant/comparison/limits";
+import { resetRateLimits, takeToken } from "../../src/vik-proektant/comparison/limits";
+import { COMPARE_LIMIT, COMPARE_WINDOW_MS } from "../../src/app/api/vik-proektant/compare/route";
 
 const env = { VIK_COMPARISON_MODEL: "gpt-5.6", OPENAI_API_KEY: "test-key", NEXT_PUBLIC_SITE_URL: "https://ittdigitalhub.org" };
 
@@ -126,7 +127,7 @@ describe("comparison fairness", () => {
       },
     });
     expect(result.summary).toEqual({
-      sourceCount: 1,
+      sourceCount: 0,
       retrievalUsed: true,
       calculationPerformed: true,
       calculationInputRejected: false,
@@ -177,6 +178,22 @@ describe("comparison fairness", () => {
                 },
                 {
                   type: "mcp_call",
+                  name: "get_vik_reference",
+                  output: JSON.stringify({
+                    referenceId: "vk1_rd-02-20-2-2024_a1_p1",
+                    source: {
+                      documentId: "rd-02-20-2-2024",
+                      title: "Наредба № РД-02-20-2 от 3 юли 2024 г.",
+                      number: "РД-02-20-2",
+                      year: 2024,
+                      dvReference: "ДВ, бр. 61 от 2024 г.",
+                    },
+                    article: "1",
+                    section: "Общи положения",
+                  }),
+                },
+                {
+                  type: "mcp_call",
                   name: "calculate_pipe_diameter",
                   output: JSON.stringify({
                     operation: "calculate_pipe_diameter",
@@ -195,7 +212,8 @@ describe("comparison fairness", () => {
     if (!result.expert.ok) return;
     expect(result.expert.sources).toHaveLength(1);
     expect(result.expert.sources[0]?.title).toContain("РД-02-20-2");
-    expect(result.expert.sources[0]?.locators).toEqual(["чл. 1 · Общи положения", "чл. 2 · Общи положения"]);
+    expect(result.expert.sources[0]?.locators).toEqual(["чл. 1 · Общи положения"]);
+    expect(result.summary.sourceCount).toBe(1);
     expect(JSON.stringify(result.expert.sources)).not.toContain("9999");
     expect(result.expert.calculations[0]?.inputs[0]).toEqual({ key: "flow", value: "4.8 L/s" });
     expect(result.expert.calculations[0]?.results[0]?.value).toBe("78.2");
@@ -232,6 +250,58 @@ describe("comparison route", () => {
       expect(payload.expert.text).toBe("ok");
       expect(seen[0]).toBe(seen[1]);
       expect(JSON.stringify(payload)).not.toContain("test-key");
+      expect(payload.control).not.toHaveProperty("sources");
+    } finally {
+      globalThis.fetch = original;
+      delete process.env.OPENAI_API_KEY;
+      delete process.env.VIK_COMPARISON_MODEL;
+      resetRateLimits();
+    }
+  });
+});
+
+describe("comparison rate limit", () => {
+  it("counts one user comparison for both sides and tells the caller when to retry", async () => {
+    resetRateLimits();
+    const original = globalThis.fetch;
+    let calls = 0;
+    process.env.OPENAI_API_KEY = "test-key";
+    process.env.VIK_COMPARISON_MODEL = "gpt-5.6";
+    globalThis.fetch = async () => {
+      calls += 1;
+      return Response.json({ model: "gpt-5.6", output_text: "ok" });
+    };
+    try {
+      const skipped = await comparePost(new Request("http://local/api", { method: "POST", body: JSON.stringify({ prompt: "а" }) }));
+      expect(skipped.status).toBe(400);
+      expect(calls).toBe(0);
+      for (let index = 0; index < COMPARE_LIMIT; index += 1) {
+        const response = await comparePost(
+          new Request("http://local/api", {
+            method: "POST",
+            headers: { "content-type": "application/json", "x-forwarded-for": "203.0.113.10" },
+            body: JSON.stringify({ prompt: "Какъв диаметър да избера?" }),
+          }),
+        );
+        expect(response.status).toBe(200);
+      }
+      expect(calls).toBe(COMPARE_LIMIT * 2);
+      const blocked = await comparePost(
+        new Request("http://local/api", {
+          method: "POST",
+          headers: { "content-type": "application/json", "x-forwarded-for": "203.0.113.10" },
+          body: JSON.stringify({ prompt: "Какъв диаметър да избера?" }),
+        }),
+      );
+      expect(blocked.status).toBe(429);
+      expect(calls).toBe(COMPARE_LIMIT * 2);
+      const body = (await blocked.json()) as { error: string; retryAfterMs: number };
+      expect(body.error).toBe("rate_limited");
+      expect(body.retryAfterMs).toBeGreaterThan(0);
+      expect(body.retryAfterMs).toBeLessThanOrEqual(COMPARE_WINDOW_MS);
+      expect(blocked.headers.get("retry-after")).toBe(String(Math.ceil(body.retryAfterMs / 1000)));
+      const direct = takeToken("compare:demo", COMPARE_LIMIT, COMPARE_WINDOW_MS, 1_000);
+      expect(direct.ok).toBe(true);
     } finally {
       globalThis.fetch = original;
       delete process.env.OPENAI_API_KEY;

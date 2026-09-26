@@ -5,8 +5,9 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(request: Request): Promise<Response> {
-  if (!takeToken(`mcp:${clientKey(request)}`, 600, 60_000)) {
-    return Response.json({ error: "rate_limited" }, { status: 429 });
+  const slot = takeToken(`mcp:${clientKey(request)}`, 600, 60_000);
+  if (!slot.ok) {
+    return Response.json({ error: "rate_limited" }, { status: 429, headers: { "retry-after": String(Math.max(1, Math.ceil(slot.retryAfterMs / 1000))) } });
   }
   return handleMcpHttp(request);
 }

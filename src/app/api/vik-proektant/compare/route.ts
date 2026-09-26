@@ -9,12 +9,11 @@ export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
 const MAX_PROMPT = 4000;
+export const COMPARE_LIMIT = 20;
+export const COMPARE_WINDOW_MS = 10 * 60_000;
 
 export async function POST(request: Request): Promise<Response> {
   const requestId = crypto.randomUUID();
-  if (!takeToken(`compare:${clientKey(request)}`, 8, 10 * 60_000)) {
-    return Response.json({ error: "rate_limited", requestId }, { status: 429 });
-  }
   let body: unknown;
   try {
     body = await request.json();
@@ -30,6 +29,14 @@ export async function POST(request: Request): Promise<Response> {
   }
   const exampleId = typeof body.exampleId === "string" && exampleById(body.exampleId) ? body.exampleId : null;
   const locale = body.locale === "en" ? "en" : "bg";
+  const slot = takeToken(`compare:${clientKey(request)}`, COMPARE_LIMIT, COMPARE_WINDOW_MS);
+  if (!slot.ok) {
+    const retryAfterSeconds = Math.max(1, Math.ceil(slot.retryAfterMs / 1000));
+    return Response.json(
+      { error: "rate_limited", retryAfterMs: slot.retryAfterMs, requestId },
+      { status: 429, headers: { "retry-after": String(retryAfterSeconds) } },
+    );
+  }
   const started = Date.now();
   const result = await runComparison(prompt);
   const deployment = process.env.VERCEL_GIT_COMMIT_SHA ?? "local";

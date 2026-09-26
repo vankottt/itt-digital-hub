@@ -14,8 +14,40 @@ describe("execution presentation", () => {
       },
     ]);
     expect(execution.sources).toEqual([]);
-    expect(execution.sourceIds.has("only-id")).toBe(true);
+    expect(execution.sourceIds.size).toBe(0);
+    expect(execution.retrievalCount).toBe(1);
     expect(execution.toolKinds).toEqual(["retrieval"]);
+  });
+
+  it("lists only references fetched with get_vik_reference, not the search candidates", () => {
+    const execution = collectExecution([
+      {
+        name: "search_vik_knowledge",
+        output: JSON.stringify({
+          results: [1, 2, 3, 4, 5].map((article) => ({
+            documentId: "rd-02-20-2-2024",
+            title: "Наредба № РД-02-20-2 от 3 юли 2024 г.",
+            article: String(article),
+            section: "Кандидат",
+          })),
+        }),
+      },
+      {
+        name: "get_vik_reference",
+        output: JSON.stringify({
+          source: {
+            documentId: "rd-02-20-2-2024",
+            title: "Наредба № РД-02-20-2 от 3 юли 2024 г.",
+            dvReference: "ДВ, бр. 61 от 2024 г.",
+          },
+          article: "1",
+          section: "Общи положения",
+        }),
+      },
+    ]);
+    expect(execution.sources).toHaveLength(1);
+    expect(execution.sources[0]?.locators).toEqual(["чл. 1 · Общи положения"]);
+    expect(JSON.stringify(execution.sources)).not.toContain("Кандидат");
   });
 
   it("keeps a rejected calculation out of the result values", () => {
