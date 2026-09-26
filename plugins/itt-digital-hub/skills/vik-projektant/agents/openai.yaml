@@ -1,0 +1,13 @@
+interface:
+  display_name: "ВиК Проектант"
+  short_description: "ВиК workflow, sources and calculations"
+  default_prompt: "Use ВиК Проектант to check a water or sewerage design question against the available sources before answering."
+policy:
+  allow_implicit_invocation: true
+dependencies:
+  tools:
+    - type: mcp
+      value: vik
+      description: "ViK knowledge retrieval and deterministic calculations"
+      transport: streamable_http
+      url: "https://ittdigitalhub.org/api/mcp/vik"

@@ -1,0 +1,20 @@
+{
+  "name": "itt-digital-hub",
+  "interface": {
+    "displayName": "ITT Digital Hub"
+  },
+  "plugins": [
+    {
+      "name": "itt-digital-hub",
+      "source": {
+        "source": "local",
+        "path": "./plugins/itt-digital-hub"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

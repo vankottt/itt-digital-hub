@@ -9,7 +9,7 @@ type ToolSource = {
   description: L;
   image: L;
   imageAlt: L;
-  hrefKey?: "ai-act-agent" | "settlement-analyzer" | "pipe-thermal-analysis" | "vik-designer";
+  hrefKey?: "ai-act-agent" | "settlement-analyzer" | "pipe-thermal-analysis" | "vik-designer" | "vik-proektant";
   status?: L;
   external?: boolean;
 };
@@ -86,6 +86,21 @@ const catalog: ToolSource[] = [
       en: "Technical drawing of a water network: mains, branches and nodes.",
     },
     hrefKey: "vik-designer",
+  },
+  {
+    id: "vik-proektant",
+    title: { bg: "ВиК Проектант V2", en: "ViK Projektant V2" },
+    category: { bg: "ВиК · Работен процес", en: "WSS · Workflow" },
+    description: {
+      bg: "Специализиран ход за ВиК проектиране върху общ AI модел: източници, проверки и изчисления. Съществуващата нормативна справка остава отделно.",
+      en: "A specialized water and sewerage workflow on a general AI model: sources, checks and calculations. The existing normative lookup stays separate.",
+    },
+    image: { bg: "/tools/vik-proektant-card.jpg", en: "/tools/vik-proektant-card.jpg" },
+    imageAlt: {
+      bg: "Илюстрация на ВиК Проектант: нормативна уредба, водопровод и канализационна шахта.",
+      en: "ViK Projektant illustration: a regulation, water pipes and a sewer manhole.",
+    },
+    hrefKey: "vik-proektant",
   },
 ];
 

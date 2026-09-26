@@ -6,8 +6,30 @@ const REFUSAL: Record<Locale, string> = {
   en: "The available sources do not contain enough normative basis for this question. Name an ordinance or article, or ask about water supply, sewerage, connections, drinking water or wastewater.",
 };
 
+const HELP: Record<Locale, string> = {
+  bg: "Мога да направя бърза справка в наличната нормативна база за ВиК проектиране: водоснабдяване, канализация, присъединяване, питейни и отпадъчни води. Посочете наредба, член или конкретен въпрос от тези теми. Това е демонстрационна справка и не замества проектантска проверка.",
+  en: "I can look up the available Bulgarian rules for water and sewerage design: supply, sewerage, connections, drinking water and wastewater. Name an ordinance, an article, or ask a specific question on those topics. This is a demonstration lookup and does not replace a design check.",
+};
+
+const OUTSIDE: Record<Locale, string> = {
+  bg: "Отговарям само на въпроси по ВиК нормативната база: водоснабдяване, канализация, присъединяване, питейни и отпадъчни води. За този въпрос нямам данни.",
+  en: "I only answer questions about the Bulgarian water and sewerage rules: supply, sewerage, connections, drinking water and wastewater. I do not have an answer for this question.",
+};
+
+const NORMATIVE = /наредба|чл\.|член|вик|водоснаб|канализац|присъедин|питейн|отпадъч|водопровод|зут|бдс|рд-|стандарт/i;
+const HELP_ASK = /как можеш да( ми)? помогнеш|какво можеш|с какво можеш|какво правиш|кой си|здравей|здрасти|how can you help|what can you do|^hello\b|^hi\b/i;
+const OUTSIDE_ASK = /времето|време навън|weather|forecast|шега|рецепта|футбол|новини/i;
+
 export function refusalFor(locale: Locale): string {
   return REFUSAL[locale];
+}
+
+export function guidedReply(locale: Locale, message: string): string | null {
+  const text = message.trim();
+  if (!text || NORMATIVE.test(text)) return null;
+  if (HELP_ASK.test(text)) return HELP[locale];
+  if (OUTSIDE_ASK.test(text)) return OUTSIDE[locale];
+  return null;
 }
 
 export function systemPrompt(locale: Locale, retrieved: RetrievalResult): string {

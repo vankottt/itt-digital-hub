@@ -15,7 +15,8 @@ export type RouteKey =
   | "tools"
   | "settlement-analyzer"
   | "pipe-thermal-analysis"
-  | "vik-designer";
+  | "vik-designer"
+  | "vik-proektant";
 
 const segments: Record<RouteKey, string> = {
   home: "",
@@ -32,6 +33,7 @@ const segments: Record<RouteKey, string> = {
   "settlement-analyzer": "settlement-analyzer",
   "pipe-thermal-analysis": "pipe-thermal-analysis",
   "vik-designer": "vik-designer",
+  "vik-proektant": "vik-proektant",
 };
 
 export function href(locale: Locale, key: RouteKey, slug?: string): string {
@@ -71,6 +73,10 @@ export function isPipeThermalAnalysisPath(pathname: string): boolean {
 
 export function isVikDesignerPath(pathname: string): boolean {
   return /^\/(bg|en)\/vik-designer(?:\/.*)?$/.test(pathname);
+}
+
+export function isVikProektantPath(pathname: string): boolean {
+  return /^\/(bg|en)\/vik-proektant(?:\/.*)?$/.test(pathname);
 }
 
 /** Dark first-viewport overlay, same header treatment as the homepage. */

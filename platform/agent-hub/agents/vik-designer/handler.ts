@@ -12,7 +12,7 @@ import { ProviderCallError, ProviderNotEnabledError } from "../../src/providers/
 import { GEMINI_DEFAULT_MODEL } from "../../src/providers/gemini";
 import { OPENROUTER_PINNED_MODEL, openRouterModel } from "../../src/providers/openrouter";
 import type { ModelRequest } from "../../src/providers/types";
-import { refusalFor, systemPrompt } from "./prompt";
+import { guidedReply, refusalFor, systemPrompt } from "./prompt";
 import { retrieveVikContext, type RetrievalResult } from "./retrieval";
 
 const manifest = parseManifest(
@@ -23,6 +23,8 @@ export function createVikDesignerAgent(): Agent {
   return {
     manifest,
     async handle(request, context): Promise<AgentResponse> {
+      const guided = guidedReply(request.locale, request.message);
+      if (guided) return { answer: guided };
       const priorUserText = [...request.history].reverse().find((turn) => turn.role === "user")?.content ?? "";
       const retrieved = retrieveVikContext(request.message, priorUserText);
       logRetrieval(context, retrieved);

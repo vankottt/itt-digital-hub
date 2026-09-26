@@ -1,0 +1,354 @@
+{
+  "knowledgeFiles": 18,
+  "formats": [
+    "md"
+  ],
+  "totalBytes": 7210256,
+  "documents": 18,
+  "chunks": 4401,
+  "uniqueChunks": 4401,
+  "duplicateChunkGroups": 0,
+  "duplicateChunkCopies": 0,
+  "missingTitle": [],
+  "replacementCharacters": 0,
+  "formulaMarkerChunks": 14,
+  "numericCautionDocuments": [
+    "naredba-4-2005-sgradni-vik",
+    "rd-02-20-2-2024",
+    "rd-02-20-8-2013",
+    "naredba-8-1999",
+    "naredba-iz-1971-2009",
+    "naredba-3-2000-soz"
+  ],
+  "manualVerificationDocuments": [
+    "naredba-4-2005-sgradni-vik",
+    "rd-02-20-2-2024",
+    "naredba-8-1999",
+    "rd-02-20-1-2020",
+    "naredba-4-2004-prisaedinyavane",
+    "naredba-4-2001-investicionni-proekti",
+    "naredba-1-2003-nomenklatura-stroeji",
+    "naredba-3-2003-aktove-protokoli",
+    "naredba-3-2000-soz",
+    "naredba-2-2011-razreshitelni-zaustvane",
+    "naredba-6-2000",
+    "naredba-7-2000",
+    "naredba-1-2007-podzemni-vodi"
+  ],
+  "domains": [
+    "building_drainage",
+    "building_water",
+    "connections",
+    "construction",
+    "discharge",
+    "drinking_water",
+    "easements",
+    "external_sewer",
+    "external_water",
+    "fire_water",
+    "groundwater",
+    "investment_design",
+    "permits",
+    "pumping",
+    "reservoirs",
+    "sanitary_protection",
+    "stormwater",
+    "utility_layout",
+    "wastewater",
+    "water_sources",
+    "water_supply"
+  ],
+  "documentCount": 18,
+  "documentRecords": [
+    {
+      "documentId": "naredba-4-2005-sgradni-vik",
+      "title": "Наредба № 4 от 17 юни 2005 г. за проектиране, изграждане и експлоатация на сградни водопроводни и канализационни инсталации",
+      "year": 2005,
+      "number": "4",
+      "domains": [
+        "building_water",
+        "building_drainage"
+      ],
+      "safeForNumeric": false,
+      "contentCompleteness": "partial",
+      "missingContentTypes": [
+        "equation",
+        "table"
+      ],
+      "requiresManualVerification": true,
+      "knowledgeFile": "knowledge/01_sgradni_vik/naredba-4-2005-sgradni-vodoprovodni-kanalizacionni-instalacii.md"
+    },
+    {
+      "documentId": "rd-02-20-2-2024",
+      "title": "Наредба № РД-02-20-2 от 3 юли 2024 г. за проектиране, изграждане и експлоатация на водоснабдителни системи",
+      "year": 2024,
+      "number": "РД-02-20-2",
+      "domains": [
+        "external_water",
+        "water_supply",
+        "water_sources",
+        "pumping",
+        "reservoirs"
+      ],
+      "safeForNumeric": false,
+      "contentCompleteness": "partial",
+      "missingContentTypes": [
+        "diagram"
+      ],
+      "requiresManualVerification": true,
+      "knowledgeFile": "knowledge/02_vodosnabdyavane/rd-02-20-2-2024-vodosnabditelni-sistemi.md"
+    },
+    {
+      "documentId": "rd-02-20-8-2013",
+      "title": "Наредба № РД-02-20-8 от 17 май 2013 г. за проектиране, изграждане и експлоатация на канализационни системи",
+      "year": 2013,
+      "number": "РД-02-20-8",
+      "domains": [
+        "external_sewer",
+        "wastewater",
+        "stormwater"
+      ],
+      "safeForNumeric": false,
+      "contentCompleteness": "partial",
+      "missingContentTypes": [
+        "figure"
+      ],
+      "requiresManualVerification": false,
+      "knowledgeFile": "knowledge/03_kanalizatsiya/rd-02-20-8-2013-kanalizacionni-sistemi.md"
+    },
+    {
+      "documentId": "naredba-8-1999",
+      "title": "Наредба № 8 от 28 юли 1999 г. за правила и норми за разполагане на технически проводи и съоръжения в населени места",
+      "year": 1999,
+      "number": "8",
+      "domains": [
+        "utility_layout"
+      ],
+      "safeForNumeric": false,
+      "contentCompleteness": "partial",
+      "missingContentTypes": [
+        "diagram"
+      ],
+      "requiresManualVerification": true,
+      "knowledgeFile": "knowledge/04_tehnicheska_infrastruktura/naredba-8-1999-tehnicheski-provodi.md"
+    },
+    {
+      "documentId": "rd-02-20-1-2020",
+      "title": "Наредба № РД-02-20-1 от 5 март 2020 г. за условията и реда за определяне на размерите и разположението на сервитутните ивици и на специалния режим за упражняване на сервитутите на водоснабдителните и канализационните проводи (мрежи) и съоръжения извън населените места и селищните образувания",
+      "year": 2020,
+      "number": "РД-02-20-1",
+      "domains": [
+        "easements",
+        "external_water",
+        "external_sewer"
+      ],
+      "safeForNumeric": true,
+      "contentCompleteness": "complete",
+      "missingContentTypes": [],
+      "requiresManualVerification": true,
+      "knowledgeFile": "knowledge/04_tehnicheska_infrastruktura/rd-02-20-1-2020-servitutni-ivici.md"
+    },
+    {
+      "documentId": "naredba-4-2004-prisaedinyavane",
+      "title": "Наредба № 4 от 14 септември 2004 г. за условията и реда за присъединяване на потребителите и за ползване на водоснабдителните и канализационните системи",
+      "year": 2004,
+      "number": "4",
+      "domains": [
+        "connections"
+      ],
+      "safeForNumeric": true,
+      "contentCompleteness": "complete",
+      "missingContentTypes": [],
+      "requiresManualVerification": true,
+      "knowledgeFile": "knowledge/05_prisaedinyavane/naredba-4-2004-prisaedinyavane-vik.md"
+    },
+    {
+      "documentId": "naredba-4-2001-investicionni-proekti",
+      "title": "Наредба № 4 от 21 май 2001 г. за обхвата и съдържанието на инвестиционните проекти",
+      "year": 2001,
+      "number": "4",
+      "domains": [
+        "investment_design",
+        "construction"
+      ],
+      "safeForNumeric": true,
+      "contentCompleteness": "complete",
+      "missingContentTypes": [],
+      "requiresManualVerification": true,
+      "knowledgeFile": "knowledge/06_investitsionno_proektirane/naredba-4-2001-investicionni-proekti.md"
+    },
+    {
+      "documentId": "naredba-1-2003-nomenklatura-stroeji",
+      "title": "Наредба № 1 от 30 юли 2003 г. за номенклатурата на видовете строежи",
+      "year": 2003,
+      "number": "1",
+      "domains": [
+        "construction"
+      ],
+      "safeForNumeric": true,
+      "contentCompleteness": "complete",
+      "missingContentTypes": [],
+      "requiresManualVerification": true,
+      "knowledgeFile": "knowledge/07_zut_i_stroitelstvo/naredba-1-2003-nomenklatura-vidove-stroeji.md"
+    },
+    {
+      "documentId": "naredba-3-2003-aktove-protokoli",
+      "title": "Наредба № 3 от 31 юли 2003 г. за съставяне на актове и протоколи по време на строителството",
+      "year": 2003,
+      "number": "3",
+      "domains": [
+        "construction"
+      ],
+      "safeForNumeric": true,
+      "contentCompleteness": "complete",
+      "missingContentTypes": [],
+      "requiresManualVerification": true,
+      "knowledgeFile": "knowledge/07_zut_i_stroitelstvo/naredba-3-2003-aktove-i-protokoli.md"
+    },
+    {
+      "documentId": "zut",
+      "title": "Закон за устройство на територията",
+      "year": 2001,
+      "number": "",
+      "domains": [
+        "construction",
+        "investment_design",
+        "permits"
+      ],
+      "safeForNumeric": true,
+      "contentCompleteness": "complete",
+      "missingContentTypes": [],
+      "requiresManualVerification": false,
+      "knowledgeFile": "knowledge/07_zut_i_stroitelstvo/zut.md"
+    },
+    {
+      "documentId": "zakon-za-vodite",
+      "title": "Закон за водите",
+      "year": 1999,
+      "number": "",
+      "domains": [
+        "permits",
+        "water_sources",
+        "groundwater",
+        "drinking_water",
+        "wastewater",
+        "discharge"
+      ],
+      "safeForNumeric": true,
+      "contentCompleteness": "complete",
+      "missingContentTypes": [],
+      "requiresManualVerification": false,
+      "knowledgeFile": "knowledge/08_vodi_i_razreshitelni/zakon-za-vodite.md"
+    },
+    {
+      "documentId": "naredba-iz-1971-2009",
+      "title": "Наредба № Iз-1971 от 29 октомври 2009 г. за строително-технически правила и норми за осигуряване на безопасност при пожар",
+      "year": 2009,
+      "number": "Iз-1971",
+      "domains": [
+        "fire_water",
+        "construction"
+      ],
+      "safeForNumeric": false,
+      "contentCompleteness": "partial",
+      "missingContentTypes": [
+        "figure"
+      ],
+      "requiresManualVerification": false,
+      "knowledgeFile": "knowledge/09_pozharna_bezopasnost/naredba-iz-1971-2009-pojarna-bezopasnost.md"
+    },
+    {
+      "documentId": "naredba-3-2000-soz",
+      "title": "Наредба № 3 от 16.10.2000 г. за условията и реда за проучване, проектиране, утвърждаване и експлоатация на санитарно-охранителните зони около водоизточниците и съоръженията за питейно-битово водоснабдяване и около водоизточниците на минерални води, използвани за лечебни, профилактични, питейни и хигиенни нужди",
+      "year": 2000,
+      "number": "3",
+      "domains": [
+        "sanitary_protection",
+        "drinking_water",
+        "water_sources",
+        "groundwater"
+      ],
+      "safeForNumeric": false,
+      "contentCompleteness": "partial",
+      "missingContentTypes": [
+        "diagram"
+      ],
+      "requiresManualVerification": true,
+      "knowledgeFile": "knowledge/10_piteyna_voda_i_soz/naredba-3-2000-sanitarno-ohranitelni-zoni.md"
+    },
+    {
+      "documentId": "naredba-9-2001",
+      "title": "Наредба № 9 от 16 март 2001 г. за качеството на водата, предназначена за питейно-битови цели",
+      "year": 2001,
+      "number": "9",
+      "domains": [
+        "drinking_water"
+      ],
+      "safeForNumeric": true,
+      "contentCompleteness": "complete",
+      "missingContentTypes": [],
+      "requiresManualVerification": false,
+      "knowledgeFile": "knowledge/10_piteyna_voda_i_soz/naredba-9-2001-kachestvo-piteyna-voda.md"
+    },
+    {
+      "documentId": "naredba-2-2011-razreshitelni-zaustvane",
+      "title": "Наредба № 2 от 8 юни 2011 г. за издаване на разрешителни за заустване на отпадъчни води във водни обекти и определяне на индивидуалните емисионни ограничения на точкови източници на замърсяване",
+      "year": 2011,
+      "number": "2",
+      "domains": [
+        "discharge",
+        "permits",
+        "wastewater"
+      ],
+      "safeForNumeric": true,
+      "contentCompleteness": "complete",
+      "missingContentTypes": [],
+      "requiresManualVerification": true,
+      "knowledgeFile": "knowledge/11_otpadachni_vodi/naredba-2-2011-razreshitelni-zaustvane.md"
+    },
+    {
+      "documentId": "naredba-6-2000",
+      "title": "Наредба № 6 от 9 ноември 2000 г. за емисионни норми за допустимото съдържание на вредни и опасни вещества в отпадъчните води, зауствани във водни обекти",
+      "year": 2000,
+      "number": "6",
+      "domains": [
+        "wastewater",
+        "discharge"
+      ],
+      "safeForNumeric": true,
+      "contentCompleteness": "complete",
+      "missingContentTypes": [],
+      "requiresManualVerification": true,
+      "knowledgeFile": "knowledge/11_otpadachni_vodi/naredba-6-2000-emisii-otpadachni-vodi.md"
+    },
+    {
+      "documentId": "naredba-7-2000",
+      "title": "Наредба № 7 от 14 ноември 2000 г. за условията и реда за заустване на производствени отпадъчни води в канализационните системи на населените места",
+      "year": 2000,
+      "number": "7",
+      "domains": [
+        "wastewater"
+      ],
+      "safeForNumeric": true,
+      "contentCompleteness": "complete",
+      "missingContentTypes": [],
+      "requiresManualVerification": true,
+      "knowledgeFile": "knowledge/11_otpadachni_vodi/naredba-7-2000-zastavane-v-kanalizatsiya.md"
+    },
+    {
+      "documentId": "naredba-1-2007-podzemni-vodi",
+      "title": "Наредба № 1 от 10 октомври 2007 г. за проучване, ползване и опазване на подземните води",
+      "year": 2007,
+      "number": "1",
+      "domains": [
+        "groundwater",
+        "water_sources"
+      ],
+      "safeForNumeric": true,
+      "contentCompleteness": "complete",
+      "missingContentTypes": [],
+      "requiresManualVerification": true,
+      "knowledgeFile": "knowledge/12_podzemni_vodi/naredba-1-2007-podzemni-vodi.md"
+    }
+  ]
+}

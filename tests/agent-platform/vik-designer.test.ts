@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { createVikDesignerAgent } from "../../platform/agent-hub/agents/vik-designer/handler";
-import { systemPrompt } from "../../platform/agent-hub/agents/vik-designer/prompt";
+import { guidedReply, systemPrompt } from "../../platform/agent-hub/agents/vik-designer/prompt";
 import { retrieveVikContext } from "../../platform/agent-hub/agents/vik-designer/retrieval";
 import { createMockProvider } from "../../platform/agent-hub/src/providers/mock";
 import { createModelRouter } from "../../platform/agent-hub/src/providers/router";
@@ -69,6 +69,13 @@ describe("vik-designer", () => {
     expect(result.standardGuard).toBe(true);
     expect(prompt).toContain("Пълният текст на такъв стандарт не е в базата");
     expect(prompt.length).toBeLessThan(40_000);
+  });
+
+  it("explains its scope instead of a missing-source refusal", () => {
+    expect(guidedReply("bg", "как можеш да ми помогнеш")).toContain("бърза справка");
+    expect(guidedReply("bg", "какво е времето навън")).toContain("само на въпроси по ВиК");
+    expect(guidedReply("bg", "Коя наредба урежда външните водоснабдителни системи?")).toBeNull();
+    expect(guidedReply("bg", "какво е времето за присъединяване")).toBeNull();
   });
 
   it("does not use the AI Act lead gate", async () => {

@@ -16,6 +16,8 @@
     "agent-gateway:types": "wrangler types platform/gateway/worker-configuration.d.ts --config platform/gateway/wrangler.jsonc --include-runtime false",
     "agent-gateway:deploy": "wrangler deploy --config platform/gateway/wrangler.jsonc",
     "agent-platform:test": "vitest run tests/agent-platform",
+    "vik-mcp": "tsx src/vik-proektant/mcp-cli.ts",
+    "vik-proektant:audit": "tsx scripts/vik-proektant-audit.ts",
     "ai-act:eval": "tsx scripts/ai-act-model-eval.ts",
     "seed": "tsx scripts/seed-cms.ts",
     "build:registry": "tsx scripts/build-settlement-registry.ts",

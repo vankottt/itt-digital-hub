@@ -1,0 +1,197 @@
+import { readFileSync } from "node:fs";
+import { describe, expect, it } from "vitest";
+import { comparisonExamples } from "../../src/content/vik-proektant";
+import { CONTROL_INSTRUCTIONS, comparisonModel } from "../../src/vik-proektant/comparison/config";
+import { buildComparisonRequests, loadExpertInstructions } from "../../src/vik-proektant/comparison/requests";
+import { runComparison } from "../../src/vik-proektant/comparison/run";
+import { chatGptDestination } from "../../src/vik-proektant/publication";
+import { POST as comparePost } from "../../src/app/api/vik-proektant/compare/route";
+import { resetRateLimits } from "../../src/vik-proektant/comparison/limits";
+
+const env = { VIK_COMPARISON_MODEL: "gpt-5.6", OPENAI_API_KEY: "test-key", NEXT_PUBLIC_SITE_URL: "https://ittdigitalhub.org" };
+
+describe("comparison fairness", () => {
+  const prompt = "Имам 20 къщи. Каква тръба да сложа?";
+  const requests = buildComparisonRequests(prompt, env);
+
+  it("sends the same model and the same user prompt", () => {
+    expect(requests.control.model).toBe(requests.expert.model);
+    expect(requests.control.model).toBe(comparisonModel(env));
+    expect(requests.control.input).toBe(prompt);
+    expect(requests.expert.input).toBe(prompt);
+    expect(requests.control.max_output_tokens).toBe(requests.expert.max_output_tokens);
+    expect(requests.control.store).toBe(false);
+    expect(requests.expert.store).toBe(false);
+    expect(requests.control).not.toHaveProperty("temperature");
+    expect(requests.expert).not.toHaveProperty("temperature");
+    expect(requests.control).not.toHaveProperty("tools");
+  });
+
+  it("keeps ViK tools and the skill off the control path", () => {
+    const control = JSON.stringify(requests.control);
+    const expert = JSON.stringify(requests.expert);
+    expect(control).not.toContain("search_vik_knowledge");
+    expect(control).not.toContain("calculate_pipe_diameter");
+    expect(control).not.toContain("/api/mcp/vik");
+    expect(requests.control.instructions).toBe(CONTROL_INSTRUCTIONS);
+    expect(expert).toContain("search_vik_knowledge");
+    expect(requests.expert.tools?.[0]?.server_url).toBe("https://ittdigitalhub.org/api/mcp/vik");
+    expect(requests.expert.tools?.[0]?.allowed_tools).toContain("get_vik_reference");
+    expect(requests.expert.instructions).toBe(loadExpertInstructions());
+    expect(requests.expert.instructions).toContain("Имам 20 къщи");
+  });
+
+  it("does not instruct the control model to answer poorly", () => {
+    const source = readFileSync("src/vik-proektant/comparison/config.ts", "utf8") + readFileSync("src/vik-proektant/comparison/requests.ts", "utf8");
+    expect(source.toLowerCase()).not.toContain("generic answer");
+    expect(source.toLowerCase()).not.toContain("not an expert");
+    expect(source.toLowerCase()).not.toContain("be vague");
+    expect(CONTROL_INSTRUCTIONS.toLowerCase()).not.toContain("worse");
+  });
+
+  it("handles independent failures and hides a model mismatch", async () => {
+    const calls: unknown[] = [];
+    const result = await runComparison(prompt, {
+      env,
+      fetchImpl: async (_url, init) => {
+        const body = JSON.parse(String(init?.body)) as { model: string; tools?: unknown; input: string };
+        calls.push(body);
+        if (body.tools) return new Response("no", { status: 500 });
+        return Response.json({ model: body.model, output_text: "control answer" });
+      },
+    });
+    expect(calls).toHaveLength(2);
+    expect((calls[0] as { input: string }).input).toBe((calls[1] as { input: string }).input);
+    expect((calls[0] as { model: string }).model).toBe((calls[1] as { model: string }).model);
+    expect(result.control.ok).toBe(true);
+    expect(result.expert.ok).toBe(false);
+    if (result.control.ok) expect(result.control.text).toBe("control answer");
+    if (!result.expert.ok) expect(result.expert.error).toBe("upstream");
+
+    const drifted = await runComparison(prompt, {
+      env,
+      fetchImpl: async (_url, init) => {
+        const body = JSON.parse(String(init?.body)) as { tools?: unknown };
+        return Response.json({ model: body.tools ? "gpt-other" : "gpt-5.6", output_text: "hidden" });
+      },
+    });
+    expect(drifted.fair).toBe(false);
+    expect(drifted.expert.ok).toBe(false);
+    if (!drifted.expert.ok) expect(drifted.expert.error).toBe("model_mismatch");
+  });
+
+  it("times out one side without replacing it with the other", async () => {
+    const result = await runComparison(prompt, {
+      env,
+      timeoutMs: 30,
+      fetchImpl: (_url, init) =>
+        new Promise((resolve, reject) => {
+          const body = JSON.parse(String(init?.body)) as { model: string; tools?: unknown };
+          if (!body.tools) {
+            resolve(Response.json({ model: body.model, output_text: "control answer" }));
+            return;
+          }
+          init?.signal?.addEventListener("abort", () => {
+            const error = new Error("aborted");
+            error.name = "AbortError";
+            reject(error);
+          });
+        }),
+    });
+    expect(result.control.ok).toBe(true);
+    expect(result.expert.ok).toBe(false);
+    if (result.control.ok) expect(result.control.text).toBe("control answer");
+    if (!result.expert.ok) expect(result.expert.error).toBe("timeout");
+  });
+
+  it("counts real tool metadata and does not invent a winner", async () => {
+    const result = await runComparison(prompt, {
+      env,
+      fetchImpl: async (_url, init) => {
+        const body = JSON.parse(String(init?.body)) as { model: string; tools?: unknown };
+        return Response.json({
+          model: body.model,
+          output_text: body.tools ? "expert answer" : "control answer",
+          output: body.tools
+            ? [
+                {
+                  type: "mcp_call",
+                  name: "search_vik_knowledge",
+                  output: JSON.stringify({ results: [{ documentId: "rd-02-20-2-2024" }, { documentId: "rd-02-20-2-2024" }] }),
+                },
+                { type: "mcp_call", name: "calculate_pipe_diameter", output: JSON.stringify({ result: { diameter_mm: 123.6 } }) },
+              ]
+            : [],
+        });
+      },
+    });
+    expect(result.summary).toEqual({
+      sourceCount: 1,
+      retrievalUsed: true,
+      calculationPerformed: true,
+      calculationInputRejected: false,
+    });
+    expect(JSON.stringify(result)).not.toMatch(/winner|score|9\/10/i);
+  });
+});
+
+describe("comparison route", () => {
+  it("validates prompts and preserves one prompt for both sides", async () => {
+    resetRateLimits();
+    const original = globalThis.fetch;
+    const seen: string[] = [];
+    process.env.OPENAI_API_KEY = "test-key";
+    process.env.VIK_COMPARISON_MODEL = "gpt-5.6";
+    globalThis.fetch = async (_url, init) => {
+      const body = JSON.parse(String(init?.body)) as { input: string; model: string };
+      seen.push(`${body.model}:${body.input}`);
+      return Response.json({ model: body.model, output_text: "ok" });
+    };
+    try {
+      const rejected = await comparePost(new Request("http://local/api", { method: "POST", body: JSON.stringify({ prompt: "а" }) }));
+      expect(rejected.status).toBe(400);
+      const accepted = await comparePost(
+        new Request("http://local/api", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ prompt: "Какъв наклон да заложа на тръбата?", locale: "bg", exampleId: "ambiguous" }),
+        }),
+      );
+      expect(accepted.status).toBe(200);
+      const payload = (await accepted.json()) as { control: { text?: string }; expert: { text?: string }; fair: boolean };
+      expect(payload.fair).toBe(true);
+      expect(payload.control.text).toBe("ok");
+      expect(payload.expert.text).toBe("ok");
+      expect(seen[0]).toBe(seen[1]);
+      expect(JSON.stringify(payload)).not.toContain("test-key");
+    } finally {
+      globalThis.fetch = original;
+      delete process.env.OPENAI_API_KEY;
+      delete process.env.VIK_COMPARISON_MODEL;
+      resetRateLimits();
+    }
+  });
+});
+
+describe("publication and examples", () => {
+  it("does not invent a ChatGPT URL", () => {
+    expect(chatGptDestination({}).state).toBe("awaiting_publication");
+    expect(chatGptDestination({ VIK_CHATGPT_DESTINATION_URL: "http://example.com" }).state).toBe("awaiting_publication");
+    expect(chatGptDestination({ VIK_CHATGPT_DESTINATION_URL: "https://chatgpt.com/example" }).url).toBe("https://chatgpt.com/example");
+  });
+
+  it("has the six demonstration prompts in both languages", () => {
+    expect(comparisonExamples.map((item) => item.id)).toEqual([
+      "missing-information",
+      "source-requirement",
+      "calculation",
+      "design-reasoning",
+      "ambiguous",
+      "unsupported-rule",
+    ]);
+    for (const example of comparisonExamples) {
+      expect(example.prompt.bg.length).toBeGreaterThan(8);
+      expect(example.prompt.en.length).toBeGreaterThan(8);
+    }
+  });
+});

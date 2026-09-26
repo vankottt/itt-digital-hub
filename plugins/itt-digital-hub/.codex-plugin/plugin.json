@@ -1,0 +1,25 @@
+{
+  "name": "itt-digital-hub",
+  "version": "1.0.0",
+  "description": "ITT Digital Hub professional workflows. ViK Projektant adds source-grounded water and sewerage design support.",
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "ITT Digital Hub",
+    "shortDescription": "Domain workflows for ChatGPT",
+    "longDescription": "Professional workflows for specialized work in ChatGPT. ViK Projektant supports water-supply and sewerage designers with source-backed requirements and deterministic calculations.",
+    "developerName": "ITT Digital Hub",
+    "category": "Productivity",
+    "capabilities": ["Knowledge search", "Engineering calculations"],
+    "websiteURL": "https://ittdigitalhub.org",
+    "privacyPolicyURL": "https://ittdigitalhub.org/bg/privacy",
+    "defaultPrompt": [
+      "Имам 20 къщи. Каква тръба да сложа за водопровода?",
+      "Коя наредба урежда проектирането на външни водоснабдителни системи и какъв е обхватът ѝ?",
+      "Изчисли вътрешния диаметър при дебит 12 L/s и скорост 1.0 m/s."
+    ],
+    "brandColor": "#040E31",
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/logo.png"
+  }
+}

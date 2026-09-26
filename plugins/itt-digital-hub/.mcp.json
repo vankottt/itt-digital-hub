@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "vik": {
+      "type": "http",
+      "url": "https://ittdigitalhub.org/api/mcp/vik"
+    }
+  }
+}
